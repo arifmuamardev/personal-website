@@ -1,536 +1,229 @@
 ---
-import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import { profile } from '../data/profile';
 import PublicationAuthors from '../components/PublicationAuthors.astro';
+import { getCollection } from 'astro:content';
+import { localPath } from '../lib/urls';
+import { profile } from '../data/profile';
 import { softwareProjects } from '../data/software-projects';
 
-// Query collections
-const allPosts = await getCollection('blog');
-const allPubs = await getCollection('publications');
-const allProjects = await getCollection('projects');
+const publications = await getCollection('publications');
+const researchProjects = await getCollection('projects');
+const posts = await getCollection('blog');
 
-// Filter and sort
-const recentPosts = allPosts
-  .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
-  .slice(0, 3);
-
-const featuredPubs = allPubs
+const featuredPublications = publications
   .filter(pub => pub.data.featured)
   .sort((a, b) => (a.data.featuredOrder ?? 999) - (b.data.featuredOrder ?? 999) || b.data.year - a.data.year)
   .slice(0, 3);
 
-const featuredProjects = allProjects
+const selectedResearch = researchProjects
   .filter(project => project.data.featured)
   .slice(0, 3);
 
-const featuredSoftware = softwareProjects[0];
+const recentWriting = posts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
+  .slice(0, 3);
 ---
-
-<Layout title="Home" description="Academic website of Arif Mu'amar Wahid, a PhD student at Kanazawa University and lecturer at Universitas Amikom Purwokerto researching plant bioelectric signals and machine learning.">
-  <!-- Hero Section -->
-  <section class="section hero-section">
-    <div class="container hero-grid">
-      <div class="hero-text">
-        <p class="hero-eyebrow">Research · Education · Software Engineering</p>
-        <h1 class="hero-title">{profile.displayName}</h1>
-        <p class="hero-subtitle">
-          {profile.phd.role} at {profile.phd.institution}, Japan &amp; {profile.lecturer.role} at {profile.lecturer.institution}, Indonesia
-        </p>
-        <p class="hero-intro">
-          I research how signals and data reveal patterns, and build software that turns complex workflows into practical tools. My doctoral work focuses on plant bioelectric signals and machine learning.
-        </p>
-        <div class="hero-ctas">
-          <a href={localPath('/research/')} class="btn btn-primary">
-            <span>Explore My Research</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </a>
-          <a href={localPath('/portfolio/')} class="btn btn-secondary">Explore Software Portfolio &rarr;</a>
-          <a href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-tertiary" download>
-            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-left"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            <span>Download CV (PDF)</span>
-          </a>
-        </div>
-        <div class="hero-secondary-links">
-          <span class="hero-link-label">Research outputs:</span>
-          <a href={localPath('/publications/')} class="hero-text-link">Browse {allPubs.length} Publications &rarr;</a>
-        </div>
-      </div>
-      
-      <div class="hero-visual">
-        <div class="hero-signature" aria-label="Personal monogram illustration. Research, data, and software engineering.">
-          <div class="signature-topline"><span>ARIF / PROFILE</span><span>JAPAN · INDONESIA</span></div>
-          <div class="signature-monogram" aria-hidden="true">AMW<span>.</span></div>
-          <div class="signature-track" aria-hidden="true"><span></span><span></span><span></span></div>
-          <p class="signature-caption">Signals <span aria-hidden="true">→</span> Models <span aria-hidden="true">→</span> Software</p>
-          <div class="signature-bottomline"><span>Research &amp; engineering</span><span>2026</span></div>
-        </div>
-      </div>
+<Layout title="Home" description="Arif Mu'amar Wahid: PhD student at Kanazawa University, lecturer at Universitas Amikom Purwokerto, and developer working on plant bioelectric signals, machine learning, and software.">
+  <section class="intro container" aria-labelledby="home-name">
+    <div class="identity-portrait" role="img" aria-label="AMW monogram placeholder; not a photograph">
+      <span aria-hidden="true">AMW</span>
+      <small>PORTRAIT OPTIONAL</small>
     </div>
-  </section>
-
-  <!-- Overview Section -->
-  <section class="section bg-alt">
-    <div class="container">
-      <h2 class="section-title">Academic &amp; Research Profile</h2>
-      <p class="lead-text">
-        My current doctoral research focuses on machine-learning methods for plant bioelectric potential signals, with supporting work in biological time-series analysis, multisensor sensing, and applied artificial intelligence.
+    <div class="identity-copy">
+      <p class="identity-eyebrow">Researcher · Educator · Software developer</p>
+      <h1 id="home-name">{profile.displayName}</h1>
+      <p class="identity-affiliations">
+        {profile.phd.role}, {profile.phd.institution}, Japan
+        <span class="identity-break" aria-hidden="true"> · </span>
+        {profile.lecturer.role}, {profile.lecturer.institution}, Indonesia
       </p>
-      
-      <div class="research-pillars-grid">
-        <div class="pillar-card">
-          <div class="pillar-icon" aria-hidden="true">🌱</div>
-          <h3>Plant Electrophysiology</h3>
-          <p>Analyzing bioelectric potential variations in plants to understand signaling mechanisms and environmental responses.</p>
-        </div>
-        <div class="pillar-card">
-          <div class="pillar-icon" aria-hidden="true">📈</div>
-          <h3>Time-Series Machine Learning</h3>
-          <p>Applying deep learning and statistical models to biological time-series data characterized by high noise and drift.</p>
-        </div>
-        <div class="pillar-card">
-          <div class="pillar-icon" aria-hidden="true">🧠</div>
-          <h3>Applied Intelligent Systems</h3>
-          <p>Deploying classification and decision-support systems for medical imaging (malaria classification), agriculture, and education.</p>
-        </div>
+      <p class="identity-bio">{profile.researchSummary} I also develop web applications and software tools for practical workflows.</p>
+      <nav class="identity-links" aria-label="Key profile links">
+        <a href={localPath('/research/')}>Research</a>
+        <a href={localPath('/publications/')}>Publications</a>
+        <a href={localPath('/portfolio/')}>Software</a>
+        <a href={localPath('/blog/')}>Writing</a>
+        <a href={localPath('/cv/')}>CV</a>
+        <a href={localPath('/contact/')}>Contact</a>
+      </nav>
+      <div class="identity-external" aria-label="Academic and development profiles">
+        <a href={profile.profiles.scholar} target="_blank" rel="noopener noreferrer">Google Scholar ↗</a>
+        <a href={profile.profiles.orcid} target="_blank" rel="noopener noreferrer">ORCID ↗</a>
+        <a href={profile.profiles.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
       </div>
     </div>
   </section>
 
-  <!-- Software Portfolio: separate from academic research projects -->
-  <section class="section software-spotlight">
-    <div class="container">
-      <div class="section-header">
-        <h2>Software Portfolio</h2>
-        <a href={localPath('/portfolio/')} class="view-all">View Software Projects &rarr;</a>
+  <div class="container homepage-content">
+    <section class="academic-section" aria-labelledby="selected-publications">
+      <div class="section-heading">
+        <h2 id="selected-publications">Selected publications</h2>
+        <a href={localPath('/publications/')}>Full publication list →</a>
       </div>
-      <article class="software-spotlight-card">
-        <div class="software-spotlight-copy">
-          <div class="software-meta"><span>FEATURED BUILD / 01</span><span>Development · demo offline</span></div>
-          <h3>{featuredSoftware.title} <span class="project-dash" aria-hidden="true">—</span> School Election Application</h3>
-          <p>{featuredSoftware.summary}</p>
-          <div class="spotlight-tech" aria-label="Technology stack">{featuredSoftware.technologies.map(tech => <span>{tech}</span>)}</div>
-          <a href={localPath(featuredSoftware.caseStudy)} class="btn btn-primary">Explore case study <span aria-hidden="true">→</span></a>
-          <p class="demo-note">Live voting demo unavailable; case study and source are public.</p>
-        </div>
-        <div class="software-spotlight-visual" aria-label="Illustrative project workflow; not a screenshot">
-          <p class="visual-label">SYSTEM MAP <span>ILLUSTRATION</span></p>
-          <ol>{featuredSoftware.workflow.map((step, i) => <li><span>{String(i + 1).padStart(2,'0')}</span><strong>{step}</strong></li>)}</ol>
-          <p class="visual-footnote">Separate interfaces · one structured workflow</p>
-        </div>
-      </article>
-    </div>
-  </section>
+      {featuredPublications.length > 0 ? (
+        <ol class="editorial-list publication-list">
+          {featuredPublications.map(pub => (
+            <li class="publication-row">
+              <span class="row-year">{pub.data.year}</span>
+              <div>
+                <h3><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
+                <p class="row-authors"><PublicationAuthors authors={pub.data.authors} /></p>
+                <p class="row-details">{pub.data.venue}</p>
+                {pub.data.doi && <a class="row-extra" href={`https://doi.org/${pub.data.doi}`} target="_blank" rel="noopener noreferrer">DOI ↗</a>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p>Publication details are available in the <a href={localPath('/publications/')}>complete bibliography</a>.</p>
+      )}
+    </section>
 
-  <!-- Featured Publications -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>Selected Publications</h2>
-        <a href={localPath('/publications/')} class="view-all">View All Publications &rarr;</a>
+    <section class="academic-section" aria-labelledby="research-areas">
+      <div class="section-heading">
+        <h2 id="research-areas">Research interests</h2>
+        <a href={localPath('/research/')}>Research overview →</a>
       </div>
-      
-      <div class="pubs-list">
-        {featuredPubs.map(pub => (
-          <div class="pub-card card">
-            <span class="pub-type badge">{pub.data.type}</span>
-            <span class="pub-year badge">{pub.data.year}</span>
-            <h3><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
-            <p class="pub-authors"><PublicationAuthors authors={pub.data.authors} /></p>
-            <p class="pub-venue">{pub.data.venue}</p>
-            {pub.data.doi && (
-              <a href={`https://doi.org/${pub.data.doi}`} class="pub-doi" target="_blank" rel="noopener">
-                DOI: {pub.data.doi}
-              </a>
-            )}
-          </div>
-        ))}
+      <p class="section-intro">My work focuses on data-driven analysis of biological and other complex signals, with particular attention to how measurements and models can be validated.</p>
+      <div class="interest-list">
+        <div class="interest-row"><strong>Plant bioelectric signals</strong><p>Plant electrophysiology, potential variations, and responses to environmental stimuli.</p></div>
+        <div class="interest-row"><strong>Machine learning for time series</strong><p>Classification, sequence modeling, and reproducible evaluation of biological signal data.</p></div>
+        <div class="interest-row"><strong>Applied intelligent systems</strong><p>Multisensor measurement, data mining, and useful computational tools.</p></div>
       </div>
-    </div>
-  </section>
+      {selectedResearch.length > 0 && (
+        <div class="research-projects">
+          <h3>Selected research projects</h3>
+          <ul>
+            {selectedResearch.map(project => (
+              <li>
+                <strong>{project.data.title}</strong>
+                <span>{project.data.summary}</span>
+              </li>
+            ))}
+          </ul>
+          <a href={localPath('/projects/')}>Explore all research projects →</a>
+        </div>
+      )}
+    </section>
 
-  <!-- Featured Projects -->
-  <section class="section bg-alt">
-    <div class="container">
-      <div class="section-header">
-        <h2>Featured Projects</h2>
-        <a href={localPath('/projects/')} class="view-all">View All Projects &rarr;</a>
+    <section class="academic-section" aria-labelledby="software-heading">
+      <div class="section-heading">
+        <h2 id="software-heading">Software projects</h2>
+        <a href={localPath('/portfolio/')}>Software portfolio →</a>
       </div>
-      
-      <div class="projects-grid grid grid-cols-2">
-        {featuredProjects.map(project => (
-          <div class="project-card card">
-            <span class="project-status badge">{project.data.status}</span>
-            <h3>{project.data.title}</h3>
-            <p class="project-role">{project.data.role} ({project.data.institution})</p>
-            <p class="project-summary">{project.data.summary}</p>
-            <div class="project-tags">
-              {project.data.technologies.slice(0, 3).map(tech => (
-                <span class="tech-tag badge">{tech}</span>
-              ))}
+      <p class="section-intro">Alongside academic research, I build practical web applications. Case studies distinguish implemented source code from features that have not yet been independently verified.</p>
+      <ul class="editorial-list">
+        {softwareProjects.map(project => (
+          <li class="software-row">
+            <div>
+              <h3><a href={localPath(project.caseStudy)}>{project.title} — {project.subtitle}</a></h3>
+              <p>{project.summary}</p>
+              <p class="row-details">{project.technologies.join(' · ')} · {project.status}</p>
+              <p class="row-caution">Public live demo not currently enabled.</p>
             </div>
-          </div>
+            <a class="row-extra" href={project.repository} target="_blank" rel="noopener noreferrer">Source ↗</a>
+          </li>
         ))}
-      </div>
-      <p class="research-footer-link"><a href={localPath('/projects/')}>See all research projects &rarr;</a></p>
-    </div>
-  </section>
+      </ul>
+    </section>
 
-  <!-- Recent Writing -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>Recent Writing</h2>
-        <a href={localPath('/blog/')} class="view-all">View Blog Archive &rarr;</a>
+    <section class="academic-section" aria-labelledby="writing-heading">
+      <div class="section-heading">
+        <h2 id="writing-heading">Recent writing</h2>
+        <a href={localPath('/blog/')}>All articles →</a>
       </div>
-      
-      <div class="posts-list">
-        {recentPosts.map(post => (
-          <article class="post-card card">
-            <time datetime={post.data.publishedDate.toISOString()}>
-              {post.data.publishedDate.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </time>
-            <h3><a href={localPath(`/${post.id}/`)}>{post.data.title}</a></h3>
-            <p class="post-desc">{post.data.description}</p>
-            <a href={localPath(`/${post.id}/`)} class="read-more" aria-label={`Read article: ${post.data.title}`}>Read Article &rarr;</a>
-          </article>
+      <ul class="editorial-list">
+        {recentWriting.map(post => (
+          <li class="writing-row">
+            <time datetime={post.data.publishedDate.toISOString()}>{post.data.publishedDate.toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'})}</time>
+            <div>
+              <h3><a href={localPath(`/${post.id}/`)}>{post.data.title}</a></h3>
+              {post.data.description && <p>{post.data.description}</p>}
+            </div>
+          </li>
         ))}
-      </div>
-    </div>
-  </section>
+      </ul>
+    </section>
+  </div>
 </Layout>
 
 <style>
-  .hero-section {
-    padding: clamp(4rem, 7vw, 6rem) 0;
-    background:
-      radial-gradient(ellipse at 88% 25%, var(--accent-light), transparent 46%),
-      var(--bg-primary);
-    border-bottom: 1px solid var(--border-color);
+  .intro {
+    display: grid;
+    grid-template-columns: 174px minmax(0,1fr);
+    gap: clamp(26px, 5vw, 52px);
+    align-items: start;
+    padding-top: clamp(3rem, 6vw, 5rem);
+    padding-bottom: clamp(3rem, 6vw, 4.5rem);
   }
-
-  .hero-section .container, .software-spotlight .container { max-width: 1100px; }
-
-  .hero-eyebrow {
-    color: var(--accent-color);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-
-  .btn-tertiary {
-    color: var(--accent-color);
-    background: transparent;
+  .identity-portrait {
+    aspect-ratio: 4 / 5;
+    padding: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     border: 1px solid var(--border-color);
-  }
-
-  .btn-tertiary:hover {
     background: var(--accent-light);
-    border-color: var(--accent-color);
+    color: var(--accent-hover);
   }
-  
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
-    gap: clamp(2rem, 5vw, 5rem);
-    align-items: center;
+  .identity-portrait span { font-family: var(--font-serif); font-size: 3.15rem; font-weight: 700; line-height: 1; letter-spacing: -.07em; }
+  .identity-portrait small { font-size: .57rem; font-weight: 700; letter-spacing: .08em; color: var(--text-muted); }
+  .identity-copy { min-width: 0; }
+  .identity-eyebrow { color: var(--text-muted); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 650; margin: 0 0 .65rem; }
+  .identity-copy h1 { font-size: clamp(2.3rem, 4.4vw, 3.6rem); letter-spacing: -.04em; line-height: 1.13; margin: 0 0 .75rem; }
+  .identity-affiliations { font-size: .98rem; color: var(--text-primary); font-weight: 550; line-height: 1.75; margin: 0 0 1.1rem; }
+  .identity-bio { font-size: 1.04rem; line-height: 1.78; max-width: 70ch; margin-bottom: 1.2rem; }
+  .identity-links, .identity-external { display:flex; flex-wrap:wrap; column-gap: 1.25rem; row-gap: .35rem; }
+  .identity-links { margin-bottom: .9rem; }
+  .identity-links a { font-size: .88rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .identity-external a { font-size: .81rem; color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; }
+  .identity-external a:hover { color: var(--accent-color); }
+  .homepage-content { border-top: 1px solid var(--border-color); }
+  .academic-section { padding-block: clamp(2.65rem, 5vw, 3.8rem); border-bottom: 1px solid var(--border-color); }
+  .academic-section:last-child { border-bottom: 0; }
+  .section-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; margin-bottom: 1.4rem; }
+  .section-heading h2 { margin: 0; font-size: clamp(1.55rem, 2.5vw, 1.9rem); }
+  .section-heading > a { flex: 0 0 auto; font-size: .84rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .section-intro { max-width: 72ch; font-size: .98rem; line-height: 1.75; margin: 0 0 1.35rem; }
+  .editorial-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border-color); }
+  .editorial-list > li { padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
+  .editorial-list h3 { margin: 0 0 .4rem; font-size: 1.07rem; font-family: var(--font-sans); font-weight: 650; line-height: 1.45; }
+  .editorial-list h3 a { color: var(--text-primary); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; }
+  .editorial-list h3 a:hover, .editorial-list h3 a:focus-visible { color: var(--accent-color); text-decoration-color: currentColor; }
+  .editorial-list p { font-size: .88rem; line-height: 1.68; margin: .25rem 0; }
+  .publication-row { display: grid; grid-template-columns: 66px minmax(0,1fr); gap: 20px; }
+  .row-year { padding-top: .15rem; font-size: .82rem; font-weight: 700; color: var(--text-muted); }
+  .row-authors { color: var(--text-secondary); }
+  .row-details { color: var(--text-muted); font-size: .83rem!important; }
+  .row-extra { font-size: .8rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .interest-list { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(13px,2vw,25px); padding: 1rem 0 1.35rem; }
+  .interest-row { border-top: 2px solid var(--border-color); padding-top: .8rem; }
+  .interest-row strong { font-size: .95rem; font-weight: 700; }
+  .interest-row p { font-size: .88rem; line-height: 1.7; margin: .5rem 0 0; }
+  .research-projects { border-top: 1px solid var(--border-color); padding-top: 1.4rem; margin-top: 1.2rem; }
+  .research-projects h3 { font-size: 1.09rem; font-family: var(--font-sans); margin: 0 0 .6rem; }
+  .research-projects ul { list-style: none; padding: 0; margin: 0 0 .8rem; }
+  .research-projects li { padding: .65rem 0; }
+  .research-projects li strong { font-size: .9rem; display: block; }
+  .research-projects li span { font-size: .87rem; color: var(--text-secondary); display: block; margin-top: .15rem; }
+  .research-projects > a { font-size: .86rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .software-row { display:flex; gap: 1rem; align-items: flex-start; justify-content: space-between; }
+  .software-row > div { max-width: 78ch; }
+  .row-caution { font-size: .82rem!important; color: var(--text-muted); }
+  .writing-row { display:grid;grid-template-columns: 128px minmax(0,1fr);gap:22px; }
+  .writing-row time { font-size: .81rem; color: var(--text-muted); padding-top: .16rem; }
+  @media(max-width:700px){
+    .intro { grid-template-columns: 1fr; gap: 1.2rem; padding-top: 2.4rem; }
+    .identity-portrait { width: 112px; aspect-ratio: 1; padding: .7rem; }
+    .identity-portrait span { font-size: 2.2rem; }
+    .identity-portrait small { font-size: .49rem; }
+    .identity-break { display: block; font-size: 0; height: 0; }
+    .identity-copy h1 { font-size: clamp(2.15rem, 9vw, 2.8rem); }
+    .section-heading { align-items: flex-start; flex-wrap: wrap; gap: .5rem; }
+    .section-heading > a { width: 100%; }
+    .interest-list { grid-template-columns: 1fr; gap: .9rem; }
+    .publication-row { grid-template-columns: 1fr; gap: .2rem; }
+    .writing-row { grid-template-columns: 1fr; gap: .3rem; }
   }
-  
-  .hero-title {
-    font-size: clamp(2.8rem, 4.6vw, 4.5rem);
-    margin-bottom: 0.75rem;
-    background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    line-height: 1.4;
-  }
-  
-  .hero-intro {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-  }
-  
-  .hero-ctas {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .hero-visual {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .btn-icon-right {
-    margin-left: 0.5rem;
-  }
-  
-  .btn-icon-left {
-    margin-right: 0.5rem;
-  }
-  
-  .hero-secondary-links {
-    margin-top: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.95rem;
-    flex-wrap: wrap;
-  }
-  
-  .hero-link-label {
-    color: var(--text-muted);
-  }
-  
-  .hero-text-link {
-    font-weight: 600;
-    color: var(--accent-color);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  
-  .hero-signature {
-    width: min(100%, 410px);
-    min-height: 330px;
-    padding: clamp(1.5rem, 3vw, 2rem);
-    border-radius: 22px;
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-    background: var(--bg-secondary);
-    box-shadow: var(--shadow-lg);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-signature::before {
-    content: '';
-    position: absolute;
-    inset: auto -40% -75% 0;
-    height: 280px;
-    border: 1px solid var(--accent-color);
-    border-radius: 50%;
-    opacity: .25;
-    pointer-events: none;
-  }
-  .signature-topline, .signature-bottomline {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    text-transform: uppercase;
-    letter-spacing: .11em;
-    color: var(--text-muted);
-    font-size: .64rem;
-    font-weight: 700;
-  }
-  .signature-topline { position: relative; z-index: 1; }
-  .signature-monogram {
-    margin: 1.5rem 0 0;
-    font-size: clamp(4rem, 9vw, 6.3rem);
-    font-family: var(--font-serif);
-    letter-spacing: -.085em;
-    font-weight: 700;
-    line-height: 1;
-  }
-  .signature-monogram span { color: var(--accent-color); }
-  .signature-track { display: flex; gap: .5rem; margin: .5rem 0 1rem; }
-  .signature-track span { height: 3px; border-radius: 10px; background: var(--accent-color); }
-  .signature-track span:nth-child(1) { width: 20%; }
-  .signature-track span:nth-child(2) { width: 36%; opacity: .55; }
-  .signature-track span:nth-child(3) { width: 12%; opacity: .3; }
-  .signature-caption { font-size: 1rem; color: var(--text-primary); font-weight: 650; margin: 0 0 2rem; }
-  .signature-caption span { color: var(--accent-color); }
-  .signature-bottomline { padding-top: 1rem; border-top: 1px solid var(--border-color); }
-
-  
-  .bg-alt {
-    background-color: var(--bg-secondary);
-  }
-  
-  .section-title {
-    text-align: center;
-    margin-bottom: 1.5rem;
-  }
-  
-  .lead-text {
-    font-size: 1.15rem;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 3rem auto;
-    color: var(--text-secondary);
-  }
-  
-  .research-pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-  }
-  
-  .pillar-card {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    padding: 2rem;
-    text-align: center;
-    transition: var(--transition-smooth);
-  }
-  
-  .pillar-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent-color);
-    box-shadow: var(--shadow-md);
-  }
-  
-  .pillar-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .pillar-card h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1.2rem;
-  }
-  
-  .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 2.5rem;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.75rem;
-  }
-  
-  .view-all {
-    font-weight: 500;
-    font-size: 0.95rem;
-  }
-  
-  .pub-authors {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.25rem;
-  }
-  
-  .pub-venue {
-    font-size: 0.9rem;
-    font-style: italic;
-    color: var(--text-muted);
-    margin-bottom: 0.75rem;
-  }
-  
-  .pub-doi {
-    font-size: 0.85rem;
-    color: var(--accent-color);
-  }
-  
-  .project-role {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 0.75rem;
-  }
-  
-  .project-summary {
-    font-size: 0.95rem;
-    margin-bottom: 1.25rem;
-  }
-  
-  .posts-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .post-card time {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  
-  .post-card h3 {
-    margin-top: 0.25rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .post-card h3 a {
-    color: var(--text-primary);
-  }
-  
-  .post-card h3 a:hover {
-    color: var(--accent-color);
-  }
-  
-  .read-more {
-    font-weight: 500;
-    font-size: 0.9rem;
-  }
-  
-  @media (max-width: 768px) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-      text-align: center;
-      gap: 2rem;
-    }
-    
-    .hero-title {
-      font-size: 2.5rem;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.72rem;
-    }
-    
-    .hero-ctas {
-      justify-content: center;
-    }
-    
-    .hero-signature {
-      max-width: 440px;
-      min-height: 280px;
-    }
-    
-    .research-pillars-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  .research-footer-link { margin-top: 1.3rem; text-align: right; font-weight: 600; }
-  .software-spotlight-card { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr); overflow:hidden; border:1px solid var(--border-color); border-radius:20px; background:var(--bg-secondary); }
-  .software-spotlight-copy { padding:clamp(1.5rem,3.5vw,2.5rem); }
-  .software-meta { display:flex; gap:.5rem; justify-content:space-between; flex-wrap:wrap; font-size:.71rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-color); }
-  .software-meta span:last-child { color:var(--text-muted); }
-  .software-spotlight-card h3 { margin:1.5rem 0 1rem; font-size:clamp(1.7rem,2.7vw,2.3rem); }
-  .software-spotlight-card p { font-size:.95rem; }
-  .project-dash { color:var(--accent-color); }
-  .spotlight-tech { display:flex;flex-wrap:wrap;gap:.45rem;margin:1.3rem 0 1.7rem; }
-  .spotlight-tech span { border:1px solid var(--border-color);padding:.2rem .65rem;border-radius:50px;font-size:.77rem;color:var(--text-secondary);background:var(--bg-primary); }
-  .software-spotlight-card .demo-note { margin:1rem 0 0;font-size:.8rem;color:var(--text-muted); }
-  .software-spotlight-visual { background:var(--bg-primary); padding:2rem; border-left:1px solid var(--border-color);display:flex;flex-direction:column;justify-content:center; }
-  .visual-label { display:flex;justify-content:space-between;font-size:.72rem!important;letter-spacing:.11em;font-weight:700;color:var(--accent-color); }
-  .visual-label span { color:var(--text-muted); }
-  .software-spotlight-visual ol { display:grid;gap:.7rem;list-style:none;margin:1rem 0; }
-  .software-spotlight-visual li { border:1px solid var(--border-color);border-radius:11px;background:var(--bg-secondary);padding:.8rem .9rem;display:flex;gap:1rem;align-items:center; }
-  .software-spotlight-visual li span { color:var(--accent-color);font-size:.75rem;font-weight:700; }
-  .software-spotlight-visual li strong { font-size:.86rem; }
-  .software-spotlight-visual .visual-footnote { font-size:.73rem;color:var(--text-muted);margin:0; }
-  @media(max-width:780px) { .software-spotlight-card { grid-template-columns:1fr; } .software-spotlight-visual { border-left:0;border-top:1px solid var(--border-color);padding:1.5rem; } }
-  @media (max-width:860px) { .hero-grid { grid-template-columns:1fr; } .hero-visual { justify-content:center; } }
 </style>

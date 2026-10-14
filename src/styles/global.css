@@ -1,23 +1,24 @@
-/* System font stack: no third-party font requests. */
+/* Approved Academic Minimal: source of truth docs/design/ADR-001-ACADEMIC-MINIMAL.md. */
+/* Local system fonts only: no external Google Fonts requests in production. */
 
 :root {
-  /* HSL tailored color palette - High-contrast academic theme */
-  --bg-primary: hsl(220, 25%, 98%);
-  --bg-secondary: hsl(220, 20%, 94%);
-  --bg-tertiary: hsl(220, 16%, 89%);
+  /* Light paper, quiet neutral surfaces and a single restrained link accent. */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f9f8;
+  --bg-tertiary: #edf2f1;
   
-  --text-primary: hsl(224, 75%, 11%);
-  --text-secondary: hsl(224, 24%, 30%);
-  --text-muted: hsl(224, 15%, 48%);
+  --text-primary: #192e35;
+  --text-secondary: #334c53;
+  --text-muted: #52686c;
   
-  --accent-color: hsl(186, 100%, 24%);
-  --accent-hover: hsl(186, 100%, 19%);
-  --accent-light: hsl(186, 40%, 92%);
-  --accent-foreground: hsl(0, 0%, 100%);
+  --accent-color: #195d68;
+  --accent-hover: #124750;
+  --accent-light: #e7f2f0;
+  --accent-foreground: #ffffff;
   
-  --border-color: hsl(220, 20%, 87%);
-  --glass-bg: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(210, 215, 225, 0.6);
+  --border-color: #dce5e4;
+  --glass-bg: #ffffff;
+  --glass-border: #dce5e4;
   
   /* Typography Scale */
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -37,29 +38,29 @@
   --shadow-md: 0 8px 20px -2px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 16px 36px -4px rgba(15, 23, 42, 0.12);
   
-  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --border-radius: 14px;
+  --transition-smooth: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  --border-radius: 9px;
   --reading-width: 72ch;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-primary: hsl(224, 25%, 8%);
-    --bg-secondary: hsl(224, 20%, 12%);
-    --bg-tertiary: hsl(224, 15%, 16%);
+    --bg-primary: #141c20;
+    --bg-secondary: #1b282d;
+    --bg-tertiary: #25363b;
     
-    --text-primary: hsl(210, 40%, 98%);
-    --text-secondary: hsl(215, 20%, 80%);
-    --text-muted: hsl(215, 12%, 60%);
+    --text-primary: #f0f7f5;
+    --text-secondary: #cad9d6;
+    --text-muted: #aabbba;
     
-    --accent-color: hsl(186, 75%, 68%);
-    --accent-hover: hsl(186, 75%, 75%);
-    --accent-light: hsl(186, 30%, 15%);
-    --accent-foreground: hsl(224, 75%, 8%);
+    --accent-color: #91d9d3;
+    --accent-hover: #b9ebe3;
+    --accent-light: #253f42;
+    --accent-foreground: #102326;
     
-    --border-color: hsl(224, 20%, 18%);
-    --glass-bg: rgba(13, 17, 24, 0.7);
-    --glass-border: rgba(45, 55, 72, 0.5);
+    --border-color: #3b4d50;
+    --glass-bg: #141c20;
+    --glass-border: #3b4d50;
     
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
@@ -147,13 +148,13 @@ main p a:not(.btn), main li a:not(.btn) {
 /* Layout helpers */
 .container {
   width: 100%;
-  max-width: 1040px;
+  max-width: 980px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
 .section {
-  padding: clamp(3.5rem, 6vw, 5.25rem) 0;
+  padding: clamp(3rem, 5vw, 4rem) 0;
 }
 
 /* Keep editorial text readable even on wider layouts. */
@@ -169,14 +170,12 @@ main :is(.lead-text, .portfolio-lead, .portfolio-note) {
   will-change: auto;
 }
 
-/* Header & navigation glassmorphism (only the site header, not article headers) */
+/* Simple academic header: solid surface, fine rule, no glass/blur effect. */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: var(--bg-primary);
   border-bottom: 1px solid var(--glass-border);
   transition: var(--transition-smooth);
 }
@@ -188,7 +187,7 @@ main :is(.lead-text, .portfolio-lead, .portfolio-note) {
   justify-content: center;
   padding: 0.75rem 1.5rem;
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 600;
   border-radius: var(--border-radius);
   border: none;
   cursor: pointer;
@@ -204,8 +203,7 @@ main :is(.lead-text, .portfolio-lead, .portfolio-note) {
 .btn-primary:hover {
   background-color: var(--accent-hover);
   color: var(--accent-foreground);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--accent-light);
+  box-shadow: none;
 }
 
 .btn-secondary {
@@ -216,26 +214,22 @@ main :is(.lead-text, .portfolio-lead, .portfolio-note) {
 
 .btn-secondary:hover {
   background-color: var(--bg-tertiary);
-  transform: translateY(-2px);
 }
 
 /* Card components */
 .card {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-primary);
   border: 1px solid var(--border-color);
-  border-left: 3px solid transparent;
   border-radius: var(--border-radius);
   padding: 1.85rem;
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: border-color 160ms ease, background-color 160ms ease;
   margin-bottom: 1.5rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-color);
-  border-left-color: var(--accent-color);
-  box-shadow: var(--shadow-md);
+  border-color: var(--accent-color);
+  box-shadow: none;
 }
 
 /* Badges for tags */
@@ -254,16 +248,16 @@ main :is(.lead-text, .portfolio-lead, .portfolio-note) {
 
 /* Focus styles for accessibility */
 a:focus-visible, button:focus-visible, :is(input, textarea, select):focus-visible {
-  outline: 2px solid var(--accent-color);
+  outline: 3px solid var(--accent-color);
   outline-offset: 4px;
 }
 
 /* Footer layout */
 footer {
-  background-color: var(--bg-secondary);
+  background-color: var(--bg-primary);
   border-top: 1px solid var(--border-color);
-  padding: 3rem 0;
-  margin-top: 5rem;
+  padding: 2.5rem 0;
+  margin-top: 3rem;
   text-align: center;
   color: var(--text-muted);
   font-size: 0.9rem;

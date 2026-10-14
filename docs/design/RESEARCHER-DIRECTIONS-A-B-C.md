@@ -1,4 +1,4 @@
-# Researcher Website — Three Design Directions (A/B/C)
+> **Historical design study — superseded.** Academic Minimal (A) was selected on 14 October 2026. The active design authority is [ADR-001](./ADR-001-ACADEMIC-MINIMAL.md) and the [Academic Minimal Guide](./ACADEMIC-MINIMAL-GUIDE.md). Do not treat the earlier PPI-inspired C proposal or the undecided A/B/C comparison as the active website design.\n\n# Researcher Website — Three Design Directions (A/B/C)
 
 **Date:** 14 October 2026
 **State:** design exploration, **not final production policy**.
