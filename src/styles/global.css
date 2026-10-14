@@ -38,7 +38,8 @@
   --shadow-lg: 0 16px 36px -4px rgba(15, 23, 42, 0.12);
   
   --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --border-radius: 12px;
+  --border-radius: 14px;
+  --reading-width: 72ch;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -146,13 +147,26 @@ main p a:not(.btn), main li a:not(.btn) {
 /* Layout helpers */
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
 .section {
-  padding: 4.5rem 0;
+  padding: clamp(3.5rem, 6vw, 5.25rem) 0;
+}
+
+/* Keep editorial text readable even on wider layouts. */
+main :is(.lead-text, .portfolio-lead, .portfolio-note) {
+  max-width: var(--reading-width);
+}
+
+.site-header .container {
+  max-width: 1180px;
+}
+
+:where(.card, .btn) {
+  will-change: auto;
 }
 
 /* Header & navigation glassmorphism (only the site header, not article headers) */
@@ -212,13 +226,13 @@ main p a:not(.btn), main li a:not(.btn) {
   border-left: 3px solid transparent;
   border-radius: var(--border-radius);
   padding: 1.85rem;
-  transition: var(--transition-smooth);
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
   margin-bottom: 1.5rem;
   box-shadow: var(--shadow-sm);
 }
 
 .card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   border-color: var(--border-color);
   border-left-color: var(--accent-color);
   box-shadow: var(--shadow-md);
@@ -239,7 +253,7 @@ main p a:not(.btn), main li a:not(.btn) {
 }
 
 /* Focus styles for accessibility */
-a:focus-visible, button:focus-visible {
+a:focus-visible, button:focus-visible, :is(input, textarea, select):focus-visible {
   outline: 2px solid var(--accent-color);
   outline-offset: 4px;
 }
@@ -299,6 +313,14 @@ code {
 @media (max-width: 768px) {
   .grid-cols-2 {
     grid-template-columns: 1fr;
+  }
+
+  .container {
+    padding-inline: 1.125rem;
+  }
+
+  .section {
+    padding-block: 3.5rem;
   }
   
   h1 {
