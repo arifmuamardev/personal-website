@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { profile } from '../data/profile';
 import PublicationAuthors from '../components/PublicationAuthors.astro';
+import { softwareProjects } from '../data/software-projects';
 
 // Query collections
 const allPosts = await getCollection('blog');
@@ -24,6 +25,8 @@ const featuredPubs = allPubs
 const featuredProjects = allProjects
   .filter(project => project.data.featured)
   .slice(0, 3);
+
+const featuredSoftware = softwareProjects[0];
 ---
 
 <Layout title="Home" description="Academic website of Arif Mu'amar Wahid, a PhD student at Kanazawa University and lecturer at Universitas Amikom Purwokerto researching plant bioelectric signals and machine learning.">
@@ -37,7 +40,7 @@ const featuredProjects = allProjects
           {profile.phd.role} at {profile.phd.institution}, Japan &amp; {profile.lecturer.role} at {profile.lecturer.institution}, Indonesia
         </p>
         <p class="hero-intro">
-          {profile.researchSummary}
+          I research how signals and data reveal patterns, and build software that turns complex workflows into practical tools. My doctoral work focuses on plant bioelectric signals and machine learning.
         </p>
         <div class="hero-ctas">
           <a href={localPath('/research/')} class="btn btn-primary">
@@ -57,11 +60,12 @@ const featuredProjects = allProjects
       </div>
       
       <div class="hero-visual">
-        <div class="avatar-frame">
-          <div class="avatar-placeholder">
-            <span class="avatar-initials">AMW</span>
-            <span class="avatar-caption">Kanazawa Univ.</span>
-          </div>
+        <div class="hero-signature" aria-label="Personal monogram illustration. Research, data, and software engineering.">
+          <div class="signature-topline"><span>ARIF / PROFILE</span><span>JAPAN · INDONESIA</span></div>
+          <div class="signature-monogram" aria-hidden="true">AMW<span>.</span></div>
+          <div class="signature-track" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="signature-caption">Signals <span aria-hidden="true">→</span> Models <span aria-hidden="true">→</span> Software</p>
+          <div class="signature-bottomline"><span>Research &amp; engineering</span><span>2026</span></div>
         </div>
       </div>
     </div>
@@ -102,15 +106,21 @@ const featuredProjects = allProjects
         <h2>Software Portfolio</h2>
         <a href={localPath('/portfolio/')} class="view-all">View Software Projects &rarr;</a>
       </div>
-      <div class="software-spotlight-card card">
-        <div>
-          <span class="badge">React · Vite · Supabase</span>
-          <h3>Pilketos — School Election Application</h3>
-          <p>Separate election management, polling-station workflows, and reporting interfaces, documented as an engineering case study.</p>
-          <p class="demo-note">Project in development; live voting demo is not currently enabled.</p>
+      <article class="software-spotlight-card">
+        <div class="software-spotlight-copy">
+          <div class="software-meta"><span>FEATURED BUILD / 01</span><span>Development · demo offline</span></div>
+          <h3>{featuredSoftware.title} <span class="project-dash" aria-hidden="true">—</span> School Election Application</h3>
+          <p>{featuredSoftware.summary}</p>
+          <div class="spotlight-tech" aria-label="Technology stack">{featuredSoftware.technologies.map(tech => <span>{tech}</span>)}</div>
+          <a href={localPath(featuredSoftware.caseStudy)} class="btn btn-primary">Explore case study <span aria-hidden="true">→</span></a>
+          <p class="demo-note">Live voting demo unavailable; case study and source are public.</p>
         </div>
-        <a href={localPath('/portfolio/pilketos/')} class="btn btn-primary">Explore case study &rarr;</a>
-      </div>
+        <div class="software-spotlight-visual" aria-label="Illustrative project workflow; not a screenshot">
+          <p class="visual-label">SYSTEM MAP <span>ILLUSTRATION</span></p>
+          <ol>{featuredSoftware.workflow.map((step, i) => <li><span>{String(i + 1).padStart(2,'0')}</span><strong>{step}</strong></li>)}</ol>
+          <p class="visual-footnote">Separate interfaces · one structured workflow</p>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -198,8 +208,14 @@ const featuredProjects = allProjects
 
 <style>
   .hero-section {
-    padding: 5.5rem 0;
+    padding: clamp(4rem, 7vw, 6rem) 0;
+    background:
+      radial-gradient(ellipse at 88% 25%, var(--accent-light), transparent 46%),
+      var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
   }
+
+  .hero-section .container, .software-spotlight .container { max-width: 1100px; }
 
   .hero-eyebrow {
     color: var(--accent-color);
@@ -223,13 +239,13 @@ const featuredProjects = allProjects
   
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 3rem;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
+    gap: clamp(2rem, 5vw, 5rem);
     align-items: center;
   }
   
   .hero-title {
-    font-size: 3.5rem;
+    font-size: clamp(2.8rem, 4.6vw, 4.5rem);
     margin-bottom: 0.75rem;
     background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-color));
     -webkit-background-clip: text;
@@ -289,42 +305,59 @@ const featuredProjects = allProjects
     text-underline-offset: 3px;
   }
   
-  .avatar-frame {
-    padding: 8px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-color), #3b82f6);
+  .hero-signature {
+    width: min(100%, 410px);
+    min-height: 330px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: 22px;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    background: var(--bg-secondary);
     box-shadow: var(--shadow-lg);
-  }
-  
-  .avatar-placeholder {
-    width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, hsl(224, 30%, 14%), hsl(224, 25%, 8%));
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
   }
-  
-  .avatar-initials {
-    font-family: var(--font-serif);
-    font-size: 3.75rem;
-    font-weight: 700;
-    color: white;
-    letter-spacing: 0.05em;
-    line-height: 1;
-    margin-bottom: 0.5rem;
+  .hero-signature::before {
+    content: '';
+    position: absolute;
+    inset: auto -40% -75% 0;
+    height: 280px;
+    border: 1px solid var(--accent-color);
+    border-radius: 50%;
+    opacity: .25;
+    pointer-events: none;
   }
-  
-  .avatar-caption {
-    font-size: 0.75rem;
+  .signature-topline, .signature-bottomline {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent-color);
-    font-weight: 600;
+    letter-spacing: .11em;
+    color: var(--text-muted);
+    font-size: .64rem;
+    font-weight: 700;
   }
+  .signature-topline { position: relative; z-index: 1; }
+  .signature-monogram {
+    margin: 1.5rem 0 0;
+    font-size: clamp(4rem, 9vw, 6.3rem);
+    font-family: var(--font-serif);
+    letter-spacing: -.085em;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .signature-monogram span { color: var(--accent-color); }
+  .signature-track { display: flex; gap: .5rem; margin: .5rem 0 1rem; }
+  .signature-track span { height: 3px; border-radius: 10px; background: var(--accent-color); }
+  .signature-track span:nth-child(1) { width: 20%; }
+  .signature-track span:nth-child(2) { width: 36%; opacity: .55; }
+  .signature-track span:nth-child(3) { width: 12%; opacity: .3; }
+  .signature-caption { font-size: 1rem; color: var(--text-primary); font-weight: 650; margin: 0 0 2rem; }
+  .signature-caption span { color: var(--accent-color); }
+  .signature-bottomline { padding-top: 1rem; border-top: 1px solid var(--border-color); }
 
   
   .bg-alt {
@@ -470,9 +503,9 @@ const featuredProjects = allProjects
       justify-content: center;
     }
     
-    .avatar-placeholder {
-      width: 200px;
-      height: 200px;
+    .hero-signature {
+      max-width: 440px;
+      min-height: 280px;
     }
     
     .research-pillars-grid {
@@ -480,11 +513,24 @@ const featuredProjects = allProjects
     }
   }
   .research-footer-link { margin-top: 1.3rem; text-align: right; font-weight: 600; }
-  .software-spotlight-card { padding: 2rem; display: flex; gap: 2rem; justify-content: space-between; align-items:center; }
-  .software-spotlight-card > div { max-width: 560px; }
-  .software-spotlight-card h3 { margin-top:.6rem; }
-  .software-spotlight-card p { margin-bottom:.5rem; }
-  .software-spotlight-card .demo-note { font-size:.85rem; color:var(--text-muted); }
-  .software-spotlight-card .btn { white-space:nowrap; }
-  @media(max-width:650px) { .software-spotlight-card { flex-direction:column;align-items:stretch; } }
+  .software-spotlight-card { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr); overflow:hidden; border:1px solid var(--border-color); border-radius:20px; background:var(--bg-secondary); }
+  .software-spotlight-copy { padding:clamp(1.5rem,3.5vw,2.5rem); }
+  .software-meta { display:flex; gap:.5rem; justify-content:space-between; flex-wrap:wrap; font-size:.71rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent-color); }
+  .software-meta span:last-child { color:var(--text-muted); }
+  .software-spotlight-card h3 { margin:1.5rem 0 1rem; font-size:clamp(1.7rem,2.7vw,2.3rem); }
+  .software-spotlight-card p { font-size:.95rem; }
+  .project-dash { color:var(--accent-color); }
+  .spotlight-tech { display:flex;flex-wrap:wrap;gap:.45rem;margin:1.3rem 0 1.7rem; }
+  .spotlight-tech span { border:1px solid var(--border-color);padding:.2rem .65rem;border-radius:50px;font-size:.77rem;color:var(--text-secondary);background:var(--bg-primary); }
+  .software-spotlight-card .demo-note { margin:1rem 0 0;font-size:.8rem;color:var(--text-muted); }
+  .software-spotlight-visual { background:var(--bg-primary); padding:2rem; border-left:1px solid var(--border-color);display:flex;flex-direction:column;justify-content:center; }
+  .visual-label { display:flex;justify-content:space-between;font-size:.72rem!important;letter-spacing:.11em;font-weight:700;color:var(--accent-color); }
+  .visual-label span { color:var(--text-muted); }
+  .software-spotlight-visual ol { display:grid;gap:.7rem;list-style:none;margin:1rem 0; }
+  .software-spotlight-visual li { border:1px solid var(--border-color);border-radius:11px;background:var(--bg-secondary);padding:.8rem .9rem;display:flex;gap:1rem;align-items:center; }
+  .software-spotlight-visual li span { color:var(--accent-color);font-size:.75rem;font-weight:700; }
+  .software-spotlight-visual li strong { font-size:.86rem; }
+  .software-spotlight-visual .visual-footnote { font-size:.73rem;color:var(--text-muted);margin:0; }
+  @media(max-width:780px) { .software-spotlight-card { grid-template-columns:1fr; } .software-spotlight-visual { border-left:0;border-top:1px solid var(--border-color);padding:1.5rem; } }
+  @media (max-width:860px) { .hero-grid { grid-template-columns:1fr; } .hero-visual { justify-content:center; } }
 </style>
