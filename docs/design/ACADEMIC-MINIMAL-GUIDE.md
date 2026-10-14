@@ -80,6 +80,16 @@ variables may remain until all pages are migrated.
 
 No invented citation counts, download counts, performance numbers, awards or screenshots. Do not automatically label an item peer-reviewed without metadata/source verification.
 
+## Light/dark theme interaction
+
+- Header contains a compact **Light / Dark** switch with sun/moon pictograms and a written label. On very small screens the icons remain visible while the text can be hidden; an updated ARIA label still names the action.
+- On first visit, the theme follows the operating system setting (`prefers-color-scheme`). An early inline bootstrap applies it before painting.
+- Clicking the switch saves `light` or `dark` as `amw-color-theme` in browser localStorage, restoring that choice on subsequent pages and future visits. This setting is local to the browser and never sent to a database.
+- If no manual preference is stored, later OS preference changes are honored; manual choice wins once saved. A blocked localStorage falls back to the system theme without errors.
+- **All shared colors** depend on semantic variables from `src/styles/global.css` under `html[data-theme="dark"]`; per-page status indicators must also respect this selector instead of relying directly on a dark OS media query.
+- `theme-color` metadata and the active theme button state are synchronized when switching. The switch is accessible by keyboard, is at least 44px high, exposes `aria-pressed` and a descriptive changing `aria-label`.
+- `node scripts/check-theme-switch.mjs` exercises saved preferences, OS defaults, invalid/blocked storage and control contracts. `test:quality` checks that normal output pages include the switch and prepaint initializer.
+
 ## Accessibility / SEO / review
 
 - Exactly one H1 per real page.
