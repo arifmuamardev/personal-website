@@ -36,6 +36,7 @@ const homepage = readFileSync('src/pages/index.astro', 'utf8');
 const about = readFileSync('src/pages/about.astro', 'utf8');
 for (const [name, source] of [['homepage', homepage], ['about', about]]) {
   check(source.includes("localPath('/images/arif-profile.webp')"), name + ' not showing optimized owner-provided portrait');
+  check(source.includes('profile-photo'), name + ' missing shared circular portrait class');
   check(/alt="Profile portrait supplied for this personal website"/.test(source), name + ' lacks appropriate portrait alt text');
 }
 const photo = 'public/images/arif-profile.webp';
@@ -47,6 +48,7 @@ if (existsSync(photo)) {
 }
 const css = readFileSync('src/styles/global.css', 'utf8');
 check(css.includes('.academic-index .card'), 'overview cards lack centralized design rule');
+check(/\.profile-photo\s*\{[^}]*aspect-ratio:\s*1\s*\/\s*1\s*;[^}]*border-radius:\s*50%\s*;/s.test(css), 'profile-photo is not cropped to a circle in shared CSS');
 const guide = readFileSync('docs/design/ACADEMIC-PAGE-TEMPLATES.md', 'utf8');
 check(guide.includes('PageIntro') && guide.includes('PageBreadcrumb'), 'page template contract is incomplete');
 
