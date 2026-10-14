@@ -88,6 +88,7 @@ const verifiedCases = [
   ['analysis-of-factors-determining-student-satisfaction-using-decision-tree-random-.md','5(4), 187–196'],
   ['analyzing-customer-spending-based-on-transactional-data-using-the-random-forest-.md','5(2), 111–124'],
   ['empirical-analysis-of-social-media-interaction-metrics-and-their-impact-on-start.md','8(3), 161–174'],
+  ['implementasi-pelatihan-kesiapsiagaan-bencana-gempa-bumi-berbasis-kerangka-sfdrr-.md','6(4), 2121–2130'],
   ['enhancing-collaboration-data-management-through-data-warehouse-design-meeting-ba.md','5(6), 1517–1527'],
   ['exploring-the-impact-of-discount-strategies-on-consumer-ratings-an-analytical-st.md','5(1), 158–172'],
   ['exploring-the-role-of-ai-in-marketing-and-technology-readiness-in-enhancing-cust.md','29(1), Article e258998'],
