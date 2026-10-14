@@ -34,6 +34,14 @@ for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
   const canonical = [...html.matchAll(/<link\b[^>]*>/gi)].map(m => attributes(m[0])).find(a => a.rel === 'canonical')?.href;
   const bridge = /<meta\b[^>]*http-equiv=["']refresh["']/i.test(html);
   inspected++;
+  // Self-contained design labs are public noindex mockups, not deployable site templates.
+  // Enforce their safe preview label but do not require production canonical/OG metadata.
+  if (rel.startsWith(`design-lab${path.sep}`)) {
+    if (!meta('robots')?.includes('noindex')) fail(rel, 'design lab must remain noindex');
+    if (!/<title\b[^>]*>\s*[^<\s]/i.test(html)) fail(rel, 'design lab missing page title');
+    if (!/<main\b[^>]*id=["']content["']/.test(html)) fail(rel, 'design lab missing main landmark');
+    continue;
+  }
   if (!/<html\b[^>]*\blang=["']en["']/i.test(html)) fail(rel, 'missing HTML language');
   if (!canonical?.startsWith(`${origin}${base}`)) fail(rel, `canonical does not use ${origin}${base}`);
   if (!/<meta\b[^>]*name=["']viewport["']/i.test(html)) fail(rel, 'missing responsive viewport');
