@@ -7,7 +7,8 @@ authors:
 - Novita Eka Ramadhani
 - Lughri Wijaya Pamungkas
 year: 2025
-venue: JURPIKAT (Jurnal Pengabdian Kepada Masyarakat)
+venue: "JURPIKAT (Jurnal Pengabdian kepada Masyarakat), 6(4), 2084–2092"
+publisherUrl: https://www.jurnal.politeknik-kebumen.ac.id/jurpikat/article/view/2629
 type: Journal Article
 status: Published
 doi: 10.37339/jurpikat.v6i4.2629
