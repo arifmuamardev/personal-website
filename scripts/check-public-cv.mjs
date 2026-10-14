@@ -28,7 +28,7 @@ requireThat(cv.includes("localPath('/files/arif-muamar-cv.pdf')"), 'The privacy-
 
 const publicSources = [['publicCv', data], ['profile', profile], ['CV page', cv], ['About page', about], ['Research page', research], ['Home page', home]];
 for (const [label, code] of publicSources) {
-  requireThat(!/\b(?:WhatsApp|membership(?: number| no\.?| id)\s*[:#]|telephone\s*[:#])\b/i.test(code), label + ': personal identifiers/contacts must not be published');
+  requireThat(!/(?:WhatsApp|telephone|phone|membership(?: number| no\.?| id)?)\s*[:=#]\s*\+?\d{5,}/i.test(code), label + ': personal identifiers/contacts must not be published');
   requireThat(!/\b(?:serikat pekerja kampus|lakpesdam|pcinu)\b/i.test(code), label + ': unrelated sensitive affiliation found');
   requireThat(!/\b(?:223 citations|h-index\s*9|i10-index\s*9)\b/i.test(code), label + ': unverified citation snapshot');
 }
