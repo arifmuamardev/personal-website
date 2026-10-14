@@ -1,6 +1,5 @@
 ---
-title: 'ENHANCING COLLABORATION DATA MANAGEMENT THROUGH DATA WAREHOUSE DESIGN: MEETING BAN-PT ACCREDITATION AND KERMA REPORTING
-  REQUIREMENTS IN HIGHER EDUCATION'
+title: 'Enhancing Collaboration Data Management Through Data Warehouse Design: Meeting BAN-PT Accreditation and KERMA Reporting Requirements in Higher Education'
 authors:
 - Arif Mu'amar Wahid
 - Lasmedi Afuan
