@@ -18,6 +18,8 @@ checks = {
     "verified DIMA publication": "Optimalisasi Pembelajaran melalui Workshop" in body,
     "verified IJAIM 2026 publication": "Dynamic Knowledge Intelligence for Human AI Collaborative" in body,
     "verified JMM 2026 publication": "Transnational Academic-Community Partnerships" in body,
+    "verified Smart Agricultural Technology BEP scoping review": "Transformer Adaptation for Plant Bioelectric Potential Classification" in body,
+    "verified Solidaritas 2026 community training paper": "Pelatihan Pengelolaan Keuangan dan Pemasaran Digital" in body,
     "ICCRAIDS 2026 paper": "A Systematic Review of Plant Bioelectrical Potential" in body,
     "data-mining award": "Indoneris National IT Competition" in body,
     "academic memberships": "Japanese Society for Artificial Intelligence" in body,
