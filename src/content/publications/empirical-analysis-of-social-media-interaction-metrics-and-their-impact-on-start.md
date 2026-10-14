@@ -2,6 +2,7 @@
 title: Empirical Analysis of Social Media Interaction Metrics and Their Impact on Startup Engagement
 authors:
 - Arif Mu'amar Wahid
+- Ika Maulita
 year: 2025
 venue: 'IJIIS: International Journal of Informatics and Information Systems'
 type: Journal Article
