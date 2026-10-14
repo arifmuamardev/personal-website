@@ -6,7 +6,8 @@ authors:
 - Dyah Ayu Widyaningsih
 - Khanivia Yuniska Putri
 year: 2025
-venue: JURPIKAT (Jurnal Pengabdian Kepada Masyarakat)
+venue: "JURPIKAT (Jurnal Pengabdian kepada Masyarakat), 6(3), 1666–1675"
+publisherUrl: https://jurnal.politeknik-kebumen.ac.id/jurpikat/article/view/2531
 type: Journal Article
 status: Published
 doi: 10.37339/jurpikat.v6i3.2531
