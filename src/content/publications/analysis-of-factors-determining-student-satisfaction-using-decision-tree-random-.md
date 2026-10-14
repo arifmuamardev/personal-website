@@ -1,6 +1,5 @@
 ---
-title: 'ANALYSIS OF FACTORS DETERMINING STUDENT SATISFACTION USING DECISION TREE, RANDOM FOREST, SVM, AND NEURAL NETWORKS:
-  A COMPARATIVE STUDY'
+title: 'Analysis of Factors Determining Student Satisfaction Using Decision Tree, Random Forest, SVM, and Neural Networks: A Comparative Study'
 authors:
 - Andi Dwi Riyanto
 - Arif Mu'amar Wahid
