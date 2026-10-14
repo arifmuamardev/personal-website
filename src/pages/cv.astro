@@ -1,0 +1,105 @@
+---
+import { localPath } from '../lib/urls';
+import Layout from '../layouts/Layout.astro';
+import { profile } from '../data/profile';
+---
+
+<Layout
+  title="Curriculum Vitae"
+  description="Academic curriculum vitae of Arif Mu'amar Wahid, including education, current appointments, research interests, experience, and selected awards."
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="cv-header-row">
+        <h1 class="page-title">Curriculum Vitae</h1>
+        <a href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-primary" download>
+          <span aria-hidden="true">↓</span>
+          Download Public PDF
+        </a>
+      </div>
+      <p class="lead-text">A concise web version of my academic CV. The downloadable public PDF omits phone and WhatsApp numbers.</p>
+
+      <div class="cv-content">
+        <section class="cv-section" aria-labelledby="cv-profile">
+          <h2 id="cv-profile">{profile.displayName}</h2>
+          <p>
+            {profile.phd.role} at {profile.phd.institution}, Japan · {profile.lecturer.role} at {profile.lecturer.institution}, Indonesia<br />
+            Email: <a href={`mailto:${profile.emails.primary}`}>{profile.emails.primary}</a>
+          </p>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-research">
+          <h2 id="cv-research">Research Interests</h2>
+          <ul class="styled-list">{profile.researchAreas.map(area => <li>{area}</li>)}</ul>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-education">
+          <h2 id="cv-education">Education</h2>
+          <div class="cv-timeline">
+            {profile.education.map(item => (
+              <div class="cv-entry">
+                <span class="cv-entry-date">{item.period}</span>
+                <div class="cv-entry-detail">
+                  <h3>{item.degree}</h3>
+                  <p>{item.institution}</p>
+                  <p>{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-experience">
+          <h2 id="cv-experience">Academic &amp; Professional Experience</h2>
+          <div class="cv-timeline">
+            {profile.experience.map(item => (
+              <div class="cv-entry">
+                <span class="cv-entry-date">{item.period}</span>
+                <div class="cv-entry-detail">
+                  <h3>{item.role}</h3>
+                  <p>{item.institution}</p>
+                  <p>{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-awards">
+          <h2 id="cv-awards">Awards &amp; Scholarships</h2>
+          <ul class="styled-list">{profile.awards.map(award => <li>{award}</li>)}</ul>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-links">
+          <h2 id="cv-links">Academic Profiles</h2>
+          <p class="profile-links">
+            <a href={profile.profiles.scholar} target="_blank" rel="noopener">Google Scholar</a>
+            <span aria-hidden="true"> · </span>
+            <a href={profile.profiles.orcid} target="_blank" rel="noopener">ORCID</a>
+            <span aria-hidden="true"> · </span>
+            <a href={profile.profiles.researchGate} target="_blank" rel="noopener">ResearchGate</a>
+          </p>
+        </section>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .container-narrow { max-width: 800px; }
+  .cv-header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 1.5rem; }
+  .page-title { margin-bottom: 0; }
+  .lead-text { font-size: 1.05rem; color: var(--text-secondary); margin: 1rem 0 3rem; }
+  .cv-content { display: flex; flex-direction: column; gap: 2.75rem; }
+  .cv-section h2 { font-size: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.25rem; color: var(--accent-color); }
+  .cv-timeline { border-left: 2px solid var(--border-color); padding-left: 1.5rem; }
+  .cv-entry { position: relative; margin-bottom: 1.75rem; }
+  .cv-entry::before { content: ''; position: absolute; left: calc(-1.5rem - 6px); top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-color); border: 2px solid var(--bg-primary); }
+  .cv-entry-date { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.2rem; }
+  .cv-entry-detail h3 { font-size: 1.15rem; margin-bottom: 0.25rem; }
+  .cv-entry-detail p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.4rem; }
+  .styled-list { padding-left: 1.2rem; }
+  .styled-list li { margin-bottom: 0.65rem; color: var(--text-secondary); }
+  .profile-links { margin-bottom: 0; }
+  @media (max-width: 600px) { .cv-header-row { align-items: flex-start; } }
+</style>

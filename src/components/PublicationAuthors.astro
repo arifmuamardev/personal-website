@@ -1,0 +1,17 @@
+---
+interface Props {
+  authors: string[];
+}
+
+const { authors } = Astro.props;
+const selfPattern = /(^|\b)(arif|a\.?\s*m\.?\s*wahid|am\s*wahid|a\s*mu[’']?amar)(\b|$)/i;
+---
+
+<span class="publication-authors">
+  {authors.map((author, index) => (
+    <>
+      {selfPattern.test(author) ? <strong>{author}</strong> : author}
+      {index < authors.length - 1 ? ', ' : ''}
+    </>
+  ))}
+</span>

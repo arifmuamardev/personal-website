@@ -1,0 +1,461 @@
+---
+import { localPath } from '../lib/urls';
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { profile } from '../data/profile';
+import PublicationAuthors from '../components/PublicationAuthors.astro';
+
+// Query collections
+const allPosts = await getCollection('blog');
+const allPubs = await getCollection('publications');
+const allProjects = await getCollection('projects');
+
+// Filter and sort
+const recentPosts = allPosts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
+  .slice(0, 3);
+
+const featuredPubs = allPubs
+  .filter(pub => pub.data.featured)
+  .sort((a, b) => (a.data.featuredOrder ?? 999) - (b.data.featuredOrder ?? 999) || b.data.year - a.data.year)
+  .slice(0, 3);
+
+const featuredProjects = allProjects
+  .filter(project => project.data.featured)
+  .slice(0, 3);
+---
+
+<Layout title="Home" description="Academic website of Arif Mu'amar Wahid, a PhD student at Kanazawa University and lecturer at Universitas Amikom Purwokerto researching plant bioelectric signals and machine learning.">
+  <!-- Hero Section -->
+  <section class="section hero-section">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1 class="hero-title">{profile.displayName}</h1>
+        <p class="hero-subtitle">
+          {profile.phd.role} at {profile.phd.institution}, Japan &amp; {profile.lecturer.role} at {profile.lecturer.institution}, Indonesia
+        </p>
+        <p class="hero-intro">
+          {profile.researchSummary}
+        </p>
+        <div class="hero-ctas">
+          <a href={localPath('/research/')} class="btn btn-primary">
+            <span>Explore My Research</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+          <a href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-secondary" download>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-left"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Download CV (PDF)</span>
+          </a>
+        </div>
+        <div class="hero-secondary-links">
+          <span class="hero-link-label">Academic Portfolio:</span>
+          <a href={localPath('/publications/')} class="hero-text-link">Browse {allPubs.length} Publications &rarr;</a>
+        </div>
+      </div>
+      
+      <div class="hero-visual">
+        <div class="avatar-frame">
+          <div class="avatar-placeholder">
+            <span class="avatar-initials">AMW</span>
+            <span class="avatar-caption">Kanazawa Univ.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Overview Section -->
+  <section class="section bg-alt">
+    <div class="container">
+      <h2 class="section-title">Academic &amp; Research Profile</h2>
+      <p class="lead-text">
+        My current doctoral research focuses on machine-learning methods for plant bioelectric potential signals, with supporting work in biological time-series analysis, multisensor sensing, and applied artificial intelligence.
+      </p>
+      
+      <div class="research-pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon" aria-hidden="true">🌱</div>
+          <h3>Plant Electrophysiology</h3>
+          <p>Analyzing bioelectric potential variations in plants to understand signaling mechanisms and environmental responses.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon" aria-hidden="true">📈</div>
+          <h3>Time-Series Machine Learning</h3>
+          <p>Applying deep learning and statistical models to biological time-series data characterized by high noise and drift.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon" aria-hidden="true">🧠</div>
+          <h3>Applied Intelligent Systems</h3>
+          <p>Deploying classification and decision-support systems for medical imaging (malaria classification), agriculture, and education.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Publications -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Selected Publications</h2>
+        <a href={localPath('/publications/')} class="view-all">View All Publications &rarr;</a>
+      </div>
+      
+      <div class="pubs-list">
+        {featuredPubs.map(pub => (
+          <div class="pub-card card">
+            <span class="pub-type badge">{pub.data.type}</span>
+            <span class="pub-year badge">{pub.data.year}</span>
+            <h3><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
+            <p class="pub-authors"><PublicationAuthors authors={pub.data.authors} /></p>
+            <p class="pub-venue">{pub.data.venue}</p>
+            {pub.data.doi && (
+              <a href={`https://doi.org/${pub.data.doi}`} class="pub-doi" target="_blank" rel="noopener">
+                DOI: {pub.data.doi}
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  <section class="section bg-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>Featured Projects</h2>
+        <a href={localPath('/projects/')} class="view-all">View All Projects &rarr;</a>
+      </div>
+      
+      <div class="projects-grid grid grid-cols-2">
+        {featuredProjects.map(project => (
+          <div class="project-card card">
+            <span class="project-status badge">{project.data.status}</span>
+            <h3>{project.data.title}</h3>
+            <p class="project-role">{project.data.role} ({project.data.institution})</p>
+            <p class="project-summary">{project.data.summary}</p>
+            <div class="project-tags">
+              {project.data.technologies.slice(0, 3).map(tech => (
+                <span class="tech-tag badge">{tech}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Software Portfolio: separate from academic research projects -->
+  <section class="section software-spotlight">
+    <div class="container">
+      <div class="section-header">
+        <h2>Software Portfolio</h2>
+        <a href={localPath('/portfolio/')} class="view-all">View Software Projects &rarr;</a>
+      </div>
+      <div class="software-spotlight-card card">
+        <div>
+          <span class="badge">React · Vite · Supabase</span>
+          <h3>Pilketos — School Election Application</h3>
+          <p>Separate election management, polling-station workflows, and reporting interfaces, documented as an engineering case study.</p>
+          <p class="demo-note">Project in development; live voting demo is not currently enabled.</p>
+        </div>
+        <a href={localPath('/portfolio/pilketos/')} class="btn btn-primary">Explore case study &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Writing -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Recent Writing</h2>
+        <a href={localPath('/blog/')} class="view-all">View Blog Archive &rarr;</a>
+      </div>
+      
+      <div class="posts-list">
+        {recentPosts.map(post => (
+          <article class="post-card card">
+            <time datetime={post.data.publishedDate.toISOString()}>
+              {post.data.publishedDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </time>
+            <h3><a href={localPath(`/${post.id}/`)}>{post.data.title}</a></h3>
+            <p class="post-desc">{post.data.description}</p>
+            <a href={localPath(`/${post.id}/`)} class="read-more" aria-label={`Read article: ${post.data.title}`}>Read Article &rarr;</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero-section {
+    padding: 6rem 0;
+  }
+  
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  
+  .hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+  }
+  
+  .hero-intro {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+  
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .btn-icon-right {
+    margin-left: 0.5rem;
+  }
+  
+  .btn-icon-left {
+    margin-right: 0.5rem;
+  }
+  
+  .hero-secondary-links {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+  }
+  
+  .hero-link-label {
+    color: var(--text-muted);
+  }
+  
+  .hero-text-link {
+    font-weight: 600;
+    color: var(--accent-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  
+  .avatar-frame {
+    padding: 8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color), #3b82f6);
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .avatar-placeholder {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, hsl(224, 30%, 14%), hsl(224, 25%, 8%));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .avatar-initials {
+    font-family: var(--font-serif);
+    font-size: 3.75rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  
+  .avatar-caption {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+
+  
+  .bg-alt {
+    background-color: var(--bg-secondary);
+  }
+  
+  .section-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .lead-text {
+    font-size: 1.15rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    color: var(--text-secondary);
+  }
+  
+  .research-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  
+  .pillar-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    transition: var(--transition-smooth);
+  }
+  
+  .pillar-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .pillar-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pillar-card h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.75rem;
+  }
+  
+  .view-all {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+  
+  .pub-authors {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+  }
+  
+  .pub-venue {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  
+  .pub-doi {
+    font-size: 0.85rem;
+    color: var(--accent-color);
+  }
+  
+  .project-role {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+  }
+  
+  .project-summary {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .post-card time {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .post-card h3 {
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .post-card h3 a {
+    color: var(--text-primary);
+  }
+  
+  .post-card h3 a:hover {
+    color: var(--accent-color);
+  }
+  
+  .read-more {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: 2rem;
+    }
+    
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .hero-ctas {
+      justify-content: center;
+    }
+    
+    .avatar-placeholder {
+      width: 200px;
+      height: 200px;
+    }
+    
+    .research-pillars-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .software-spotlight-card { padding: 2rem; display: flex; gap: 2rem; justify-content: space-between; align-items:center; }
+  .software-spotlight-card > div { max-width: 560px; }
+  .software-spotlight-card h3 { margin-top:.6rem; }
+  .software-spotlight-card p { margin-bottom:.5rem; }
+  .software-spotlight-card .demo-note { font-size:.85rem; color:var(--text-muted); }
+  .software-spotlight-card .btn { white-space:nowrap; }
+  @media(max-width:650px) { .software-spotlight-card { flex-direction:column;align-items:stretch; } }
+</style>

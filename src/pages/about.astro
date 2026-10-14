@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { profile } from '../data/profile';
+---
+
+<Layout
+  title="About"
+  description="Biography, academic background, current positions, and research focus of Arif Mu'amar Wahid."
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">About {profile.displayName}</h1>
+      <p class="lead-text">{profile.phd.role} at {profile.phd.institution} and {profile.lecturer.role} at {profile.lecturer.institution}.</p>
+
+      <div class="about-grid">
+        <div class="about-content">
+          <h2>Professional Biography</h2>
+          <p>
+            I am a computer science researcher, lecturer, and doctoral student working across machine learning, data mining, and applied artificial intelligence. My current doctoral research centers on plant bioelectric potential signals and machine-learning methods for biological time-series data.
+          </p>
+          <p>
+            At {profile.phd.institution}, I study within the {profile.phd.school}, {profile.phd.division}. Alongside my doctoral study, I serve as a lecturer in the {profile.lecturer.department}, {profile.lecturer.faculty}, {profile.lecturer.institution}.
+          </p>
+          <p>
+            My broader academic experience includes research, teaching, curriculum and accreditation support, institutional quality assurance, and data-driven higher-education development.
+          </p>
+
+          <h2>Education</h2>
+          <div class="timeline">
+            {profile.education.map(item => (
+              <div class="timeline-item">
+                <span class="timeline-year">{item.period}</span>
+                <div class="timeline-detail">
+                  <h3>{item.degree}</h3>
+                  <p>{item.institution}</p>
+                  <p>{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <h2>Academic &amp; Professional Experience</h2>
+          <div class="timeline">
+            {profile.experience.map(item => (
+              <div class="timeline-item">
+                <span class="timeline-year">{item.period}</span>
+                <div class="timeline-detail">
+                  <h3>{item.role}</h3>
+                  <p>{item.institution}</p>
+                  <p>{item.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <aside class="about-sidebar" aria-label="Academic profile summary">
+          <div class="sidebar-block card">
+            <h2>Current Research Areas</h2>
+            <ul class="styled-list">
+              {profile.researchAreas.map(area => <li>{area}</li>)}
+            </ul>
+          </div>
+
+          <div class="sidebar-block card">
+            <h2>Selected Academic Strengths</h2>
+            <ul class="styled-list">
+              <li>Machine learning and data mining</li>
+              <li>Biological time-series analysis</li>
+              <li>Computer vision and transfer learning</li>
+              <li>Academic quality assurance and curriculum support</li>
+            </ul>
+          </div>
+
+          <div class="sidebar-block card">
+            <h2>Awards &amp; Scholarships</h2>
+            <ul class="styled-list">
+              {profile.awards.map(award => <li>{award}</li>)}
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title { text-align: center; margin-bottom: 0.5rem; }
+  .lead-text { font-size: 1.15rem; text-align: center; max-width: 800px; margin: 0 auto 3.5rem; color: var(--text-secondary); }
+  .about-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 3rem; }
+  .about-content h2 { margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+  .about-content h2:first-child { margin-top: 0; }
+  .about-content p { font-size: 1.05rem; margin-bottom: 1.25rem; }
+  .timeline { position: relative; border-left: 2px solid var(--border-color); padding-left: 1.5rem; margin: 1.5rem 0 2rem; }
+  .timeline-item { position: relative; margin-bottom: 2rem; }
+  .timeline-item::before { content: ''; position: absolute; left: calc(-1.5rem - 6px); top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-color); border: 2px solid var(--bg-primary); }
+  .timeline-year { font-size: 0.85rem; font-weight: 700; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 0.25rem; }
+  .timeline-detail h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+  .timeline-detail p { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--text-secondary); }
+  .about-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+  .sidebar-block h2 { font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+  .styled-list { list-style: none; }
+  .styled-list li { font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-secondary); position: relative; padding-left: 1.25rem; }
+  .styled-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent-color); }
+  @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+</style>

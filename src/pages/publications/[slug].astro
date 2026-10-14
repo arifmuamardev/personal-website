@@ -1,0 +1,102 @@
+---
+import { localPath } from '../../lib/urls';
+import Layout from '../../layouts/Layout.astro';
+import PublicationAuthors from '../../components/PublicationAuthors.astro';
+import { getCollection } from 'astro:content';
+import { profile } from '../../data/profile';
+
+export async function getStaticPaths() {
+  const publications = await getCollection('publications');
+  return publications.map(publication => ({
+    params: { slug: publication.id },
+    props: { publication },
+  }));
+}
+
+const { publication } = Astro.props;
+const data = publication.data;
+const pageUrl = new URL(Astro.url.pathname, Astro.site || 'https://arifmuamardev.github.io').toString();
+const creativeType = data.type === 'Book' ? 'Book' : data.type === 'Book Chapter' ? 'Chapter' : 'ScholarlyArticle';
+const publicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': creativeType,
+  name: data.title,
+  headline: data.title,
+  author: data.authors.map((name: string) => ({ '@type': 'Person', name })),
+  datePublished: String(data.year),
+  isPartOf: data.venue ? { '@type': 'CreativeWork', name: data.venue } : undefined,
+  description: data.abstract || `${data.type} by ${profile.name}, published in ${data.year}.`,
+  identifier: data.doi ? `https://doi.org/${data.doi}` : undefined,
+  sameAs: data.doi ? `https://doi.org/${data.doi}` : data.publisherUrl,
+  url: pageUrl,
+};
+---
+
+<Layout
+  title={data.title}
+  description={data.abstract || `${data.type} by ${profile.name}, ${data.year}. ${data.venue}`}
+>
+  <script type="application/ld+json" is:raw set:html={JSON.stringify(publicationSchema)} />
+  <article class="section publication-detail">
+    <div class="container container-narrow">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href={localPath('/publications/')}>Publications</a><span aria-hidden="true"> / </span><span>{data.year}</span>
+      </nav>
+
+      <header class="publication-header">
+        <div class="badges">
+          <span class="badge">{data.type}</span>
+          <span class="badge">{data.year}</span>
+          {data.status !== 'Published' && <span class="badge">{data.status}</span>}
+        </div>
+        <h1>{data.title}</h1>
+        <p class="authors"><PublicationAuthors authors={data.authors} /></p>
+        <p class="venue">{data.venue}</p>
+      </header>
+
+      {data.abstract && (
+        <section class="detail-section" aria-labelledby="abstract-heading">
+          <h2 id="abstract-heading">Abstract</h2>
+          <p>{data.abstract}</p>
+        </section>
+      )}
+
+      <section class="detail-section" aria-labelledby="links-heading">
+        <h2 id="links-heading">Publication Links</h2>
+        <div class="links">
+          {data.doi && <a class="btn btn-primary" href={`https://doi.org/${data.doi}`} target="_blank" rel="noopener">Open DOI</a>}
+          {data.publisherUrl && <a class="btn btn-secondary" href={data.publisherUrl} target="_blank" rel="noopener">Publisher</a>}
+          {data.scholarUrl && <a class="btn btn-secondary" href={data.scholarUrl} target="_blank" rel="noopener">Google Scholar</a>}
+          {data.pdf && <a class="btn btn-secondary" href={data.pdf} target="_blank" rel="noopener">PDF</a>}
+          {data.code && <a class="btn btn-secondary" href={data.code} target="_blank" rel="noopener">Code</a>}
+          {data.dataset && <a class="btn btn-secondary" href={data.dataset} target="_blank" rel="noopener">Dataset</a>}
+        </div>
+      </section>
+
+      {data.doi && (
+        <section class="detail-section citation-box" aria-labelledby="doi-heading">
+          <h2 id="doi-heading">DOI</h2>
+          <code>{data.doi}</code>
+        </section>
+      )}
+
+      <p class="back-link"><a href={localPath('/publications/')}>← Back to all publications</a></p>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .container-narrow { max-width: 760px; }
+  .breadcrumb { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; }
+  .publication-header { border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; margin-bottom: 2.5rem; }
+  .badges { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.75rem; }
+  .publication-header h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
+  .authors { font-size: 1.05rem; margin: 1rem 0 0.4rem; }
+  .venue { font-style: italic; color: var(--text-muted); margin-bottom: 0; }
+  .detail-section { margin: 2.5rem 0; }
+  .detail-section h2 { font-size: 1.4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.45rem; }
+  .links { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .citation-box { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius); padding: 1.25rem; }
+  .citation-box code { overflow-wrap: anywhere; }
+  .back-link { margin-top: 3rem; }
+</style>

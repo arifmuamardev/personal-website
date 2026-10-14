@@ -1,0 +1,266 @@
+---
+import { localPath } from '../lib/urls';
+import '../styles/global.css';
+import { profile, personJsonLd } from '../data/profile';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const { 
+  title, 
+  description = "Academic website of Arif Mu'amar Wahid: PhD student at Kanazawa University and lecturer at Universitas Amikom Purwokerto, researching plant bioelectric signals and machine learning.",
+  image = "/og-image.png",
+  type = 'website'
+} = Astro.props;
+
+const imageURL = new URL(/^https?:\/\//.test(image) ? image : localPath(image), Astro.site || 'https://arifmuamardev.github.io');
+
+// Determine current URL (with trailing slash)
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://arifmuamardev.github.io');
+
+const siteRoot = Astro.site || new URL('https://arifmuamardev.github.io');
+const personSchema = { ...personJsonLd, url: new URL(localPath('/'), siteRoot).toString() };
+const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Favicons & Manifest -->
+    <link rel="icon" type="image/svg+xml" href={localPath('/favicon.svg')} />
+    <link rel="icon" href={localPath('/favicon.ico')} />
+    <link rel="manifest" href={localPath('/site.webmanifest')} />
+    <meta name="theme-color" content="#0d1117" />
+    
+    <!-- Primary Meta Tags -->
+    <title>{title} — Arif Mu'amar Wahid</title>
+    <meta name="title" content={`${title} — Arif Mu'amar Wahid`} />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" type="application/rss+xml" title="Arif Muamar Blog" href={localPath('/rss.xml')} />
+    
+    <!-- Temporary Indexing Restrictions (Offline Review/Staging Mode) -->
+    <meta name="robots" content={isProduction ? 'index, follow' : 'noindex, nofollow'} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={`${title} — Arif Mu'amar Wahid`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:alt" content="Arif Mu'amar Wahid Academic Profile" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={`${title} — Arif Mu'amar Wahid`} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={imageURL} />
+    <meta property="twitter:image:alt" content="Arif Mu'amar Wahid Academic Profile" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" is:raw set:html={JSON.stringify(personSchema)} />
+  </head>
+  <body>
+    <!-- Accessibility: Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to content</a>
+
+    <!-- Header / Navigation -->
+    <header class="site-header">
+      <div class="container nav-wrapper">
+        <a href={localPath('/')} class="logo">
+          <span class="logo-name">{profile.displayName}</span>
+          <span class="logo-subtitle">Research &amp; Software</span>
+        </a>
+        
+        <!-- Accessible mobile menu toggle -->
+        <button id="menu-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false" aria-controls="main-nav">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="12" x2="20" y2="12" class="line-mid"></line>
+            <line x1="4" y1="6" x2="20" y2="6" class="line-top"></line>
+            <line x1="4" y1="18" x2="20" y2="18" class="line-bot"></line>
+          </svg>
+        </button>
+        
+        <nav id="main-nav" aria-label="Main Navigation">
+          <ul>
+            <li><a href={localPath('/')} class={(Astro.url.pathname === localPath('/')) ? 'active' : ''} aria-current={(Astro.url.pathname === localPath('/')) ? 'page' : undefined}>Home</a></li>
+            <li><a href={localPath('/about/')} class={Astro.url.pathname.startsWith(localPath('/about/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/about/')) ? 'page' : undefined}>About</a></li>
+            <li><a href={localPath('/research/')} class={Astro.url.pathname.startsWith(localPath('/research/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/research/')) ? 'page' : undefined}>Research</a></li>
+            <li><a href={localPath('/publications/')} class={Astro.url.pathname.startsWith(localPath('/publications/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/publications/')) ? 'page' : undefined}>Publications</a></li>
+            <li><a href={localPath('/projects/')} class={Astro.url.pathname.startsWith(localPath('/projects/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/projects/')) ? 'page' : undefined}>Projects</a></li>
+            <li><a href={localPath('/portfolio/')} class={Astro.url.pathname.includes('/portfolio/') ? 'active' : ''} aria-current={Astro.url.pathname.includes('/portfolio/') ? 'page' : undefined}>Portfolio</a></li>
+            <li><a href={localPath('/blog/')} class={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'page' : undefined}>Blog</a></li>
+            <li><a href={localPath('/cv/')} class={Astro.url.pathname.startsWith(localPath('/cv/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/cv/')) ? 'page' : undefined}>CV</a></li>
+            <li><a href={localPath('/contact/')} class={Astro.url.pathname.startsWith(localPath('/contact/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/contact/')) ? 'page' : undefined}>Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container footer-content">
+        <p>&copy; {new Date().getFullYear()} {profile.displayName}. All rights reserved.</p>
+        <p class="footer-sub">
+          {profile.phd.role}, {profile.phd.institution} &amp; {profile.lecturer.role}, {profile.lecturer.institution}.
+        </p>
+        <div class="footer-links">
+          <a href={profile.profiles.scholar} target="_blank" rel="noopener" aria-label="Google Scholar Profile">Scholar</a>
+          <span class="sep">&bull;</span>
+          <a href={profile.profiles.orcid} target="_blank" rel="noopener" aria-label="ORCID Profile">ORCID</a>
+          <span class="sep">&bull;</span>
+          <a href={profile.profiles.researchGate} target="_blank" rel="noopener" aria-label="ResearchGate Profile">ResearchGate</a>
+          <span class="sep">&bull;</span>
+          <a href={profile.profiles.github} target="_blank" rel="noopener" aria-label="GitHub Profile">GitHub</a>
+          <span class="sep">&bull;</span>
+          <a href={localPath('/privacy/')}>Privacy</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Client-side navigation toggle -->
+    <script>
+      const toggle = document.getElementById('menu-toggle');
+      const nav = document.getElementById('main-nav');
+      
+      if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', !expanded);
+          nav.classList.toggle('nav-open');
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  
+  .logo {
+    display: flex;
+    flex-direction: column;
+    color: var(--text-primary);
+  }
+  
+  .logo-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  
+  .logo-subtitle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  #menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+  
+  #main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+  }
+  
+  #main-nav a {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+    border-bottom: 2px solid transparent;
+  }
+  
+  #main-nav a:hover, #main-nav a.active {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .footer-sub {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  
+  .sep {
+    color: var(--border-color);
+  }
+  
+  main {
+    outline: none;
+  }
+  
+  @media (max-width: 1080px) {
+    #menu-toggle {
+      display: block;
+    }
+    
+    #main-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+    
+    #main-nav.nav-open {
+      display: block;
+    }
+    
+    #main-nav ul {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+  }
+</style>

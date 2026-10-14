@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#141d2f" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1050" cy="150" r="300" fill="#2563eb" opacity="0.15" />
+  <circle cx="150" cy="500" r="250" fill="#0284c7" opacity="0.1" />
+  
+  <g transform="translate(100, 180)">
+    <rect x="0" y="0" width="160" height="34" rx="17" fill="#1e293b" stroke="#334155" />
+    <text x="80" y="22" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" fill="#38bdf8" text-anchor="middle" letter-spacing="1">ACADEMIC PROFILE</text>
+    
+    <text x="0" y="110" font-family="'Playfair Display', Georgia, serif" font-size="68" font-weight="700" fill="url(#textGrad)">Arif Mu’amar Wahid</text>
+    <text x="0" y="170" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" fill="#94a3b8">PhD Student, Kanazawa University · Lecturer, Universitas Amikom Purwokerto</text>
+    <text x="0" y="240" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" fill="#64748b">Researching Plant Bioelectric Signals, Machine Learning &amp; Time-Series Analytics</text>
+    
+    <line x1="0" y1="290" x2="1000" y2="290" stroke="#334155" stroke-width="1" />
+    <text x="0" y="335" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="500" fill="#38bdf8">arifmuamar.com</text>
+  </g>
+</svg>

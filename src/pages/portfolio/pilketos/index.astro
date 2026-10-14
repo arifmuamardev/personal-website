@@ -1,0 +1,66 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { localPath } from '../../../lib/urls';
+import { softwareProjects } from '../../../data/software-projects';
+const project = softwareProjects.find(p => p.id === 'pilketos')!;
+---
+<Layout title="Pilketos — Software Case Study" description="Architecture and engineering overview of Pilketos, a school election application using React, Vite, and Supabase.">
+  <article class="section case-study">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href={localPath('/portfolio/')}>Portfolio</a> <span aria-hidden="true">/</span> <span>Pilketos</span></nav>
+      <p class="eyebrow">Case Study · Web Application</p>
+      <h1>Pilketos</h1>
+      <p class="intro">A web application exploring how election administration, polling-station operations, and result reporting can be organized for a student-council election.</p>
+      <div class="project-facts">
+        <div><span>Current phase</span><strong>Development / demonstration</strong></div>
+        <div><span>Frontend</span><strong>React + Vite</strong></div>
+        <div><span>Backend</span><strong>Supabase Auth + PostgreSQL</strong></div>
+        <div><span>Repository</span><strong><a href={project.repository} target="_blank" rel="noopener noreferrer">Open on GitHub ↗</a></strong></div>
+      </div>
+      <section class="case-section">
+        <h2>The problem</h2>
+        <p>Student elections involve more than displaying candidates. Administrators also need to manage voters, polling-station assignments, operational staff, the election flow, and results. These concerns benefit from a consistent system rather than disconnected spreadsheets.</p>
+      </section>
+      <section class="case-section">
+        <h2>Application structure</h2>
+        <p>The source repository contains separate routes and views for election setup, candidates, voters, staff, polling stations (TPS), voting, dashboard, and results. Authentication is implemented using Supabase with an application-level user role profile.</p>
+        <div class="feature-grid">
+          <div class="feature"><strong>Election setup</strong><p>Manage the organizational structure of the election.</p></div>
+          <div class="feature"><strong>TPS workflow</strong><p>Separate polling-station and staff interfaces.</p></div>
+          <div class="feature"><strong>Voter administration</strong><p>Dedicated voter and participant management views.</p></div>
+          <div class="feature"><strong>Results</strong><p>Dedicated results view and monitoring dashboard.</p></div>
+        </div>
+      </section>
+      <section class="case-section">
+        <h2>Deployment and responsible demonstration</h2>
+        <p>This project's source is hosted on GitHub and includes GitHub Pages deployment automation. Its Supabase project was inactive when this case study was prepared, so a functional live voting demo is <strong>not claimed</strong>. A future public demo should run on synthetic voters and a separate database from any real election.</p>
+      </section>
+      <section class="case-section">
+        <h2>Technology</h2>
+        <div class="tags">{project.technologies.map(tech => <span class="badge">{tech}</span>)}</div>
+        <p>Future improvements will be documented with reproducible evidence instead of claims about security, throughput, or reliability that have not been tested.</p>
+      </section>
+      <a href={localPath('/portfolio/')} class="back-link">← All software projects</a>
+    </div>
+  </article>
+</Layout>
+<style>
+  .case-study .container { max-width: 850px; }
+  .breadcrumb { font-size:.9rem; color:var(--text-muted); margin-bottom:2.2rem; }
+  .eyebrow { text-transform:uppercase; font-size:.78rem; letter-spacing:.11em; font-weight:700; color:var(--accent-color); }
+  h1 { font-size:clamp(3rem,8vw,4.6rem); }
+  .intro { font-size:1.23rem; max-width:730px; }
+  .project-facts { display:grid; grid-template-columns: repeat(2,1fr); border:1px solid var(--border-color); border-radius:var(--border-radius); margin:2.7rem 0 3.2rem; overflow:hidden; }
+  .project-facts > div { padding:1.2rem; border-bottom:1px solid var(--border-color); }
+  .project-facts span { display:block; font-size:.8rem; color:var(--text-muted); }
+  .project-facts strong { display:block; font-size:.98rem; margin-top:.2rem; }
+  .case-section { margin:2.8rem 0; }
+  .case-section h2 { padding-bottom:.7rem; border-bottom:1px solid var(--border-color); }
+  .feature-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+  .feature { background:var(--bg-secondary); padding:1.2rem; border:1px solid var(--border-color); border-radius:var(--border-radius); }
+  .feature p { font-size:.91rem; margin-top:.4rem; margin-bottom:0; }
+  .tags { display:flex; gap:.5rem; flex-wrap:wrap; }
+  .tags .badge { border:1px solid var(--border-color); background:var(--accent-light); }
+  .back-link { display:inline-flex; margin-top:1rem; }
+  @media(max-width:640px) { .project-facts,.feature-grid {grid-template-columns:1fr;} }
+</style>

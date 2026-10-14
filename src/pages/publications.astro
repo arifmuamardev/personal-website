@@ -1,0 +1,142 @@
+---
+import { localPath } from '../lib/urls';
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import PublicationAuthors from '../components/PublicationAuthors.astro';
+
+const allPubs = await getCollection('publications');
+const sortedPubs = allPubs.sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
+const years = [...new Set(sortedPubs.map(pub => pub.data.year))].sort((a, b) => b - a);
+
+const typeGroup = (type: string) => {
+  if (type === 'Journal Article') return 'journal';
+  if (type === 'Conference Paper') return 'conference';
+  if (type === 'Book' || type === 'Book Chapter') return 'book';
+  return 'other';
+};
+
+const counts = {
+  all: sortedPubs.length,
+  journal: sortedPubs.filter(p => typeGroup(p.data.type) === 'journal').length,
+  conference: sortedPubs.filter(p => typeGroup(p.data.type) === 'conference').length,
+  book: sortedPubs.filter(p => typeGroup(p.data.type) === 'book').length,
+};
+---
+
+<Layout
+  title="Publications"
+  description="Publications by Arif Mu'amar Wahid, including journal articles, conference papers, books, and book chapters in machine learning, plant bioelectric signals, and applied AI."
+>
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Publications</h1>
+      <p class="lead-text">
+        A structured publication list with DOI, publisher, Scholar, code, and dataset links where available.
+      </p>
+
+      <div class="filter-container" aria-label="Publication filters">
+        <span class="filter-label">Filter:</span>
+        <div class="filter-buttons" role="group" aria-label="Filter publications by type">
+          <button class="filter-btn active" data-filter="all" type="button" aria-pressed="true">All ({counts.all})</button>
+          <button class="filter-btn" data-filter="journal" type="button" aria-pressed="false">Journals ({counts.journal})</button>
+          <button class="filter-btn" data-filter="conference" type="button" aria-pressed="false">Conferences ({counts.conference})</button>
+          <button class="filter-btn" data-filter="book" type="button" aria-pressed="false">Books &amp; Chapters ({counts.book})</button>
+        </div>
+      </div>
+      <p id="filter-status" class="sr-only" aria-live="polite"></p>
+
+      <div class="publications-list">
+        {years.map(year => {
+          const yearPubs = sortedPubs.filter(pub => pub.data.year === year);
+          return (
+            <section class="year-group" data-year={year} aria-labelledby={`year-${year}`}>
+              <h2 class="year-heading" id={`year-${year}`}>{year}</h2>
+              <div class="pubs-grid">
+                {yearPubs.map(pub => (
+                  <article class="pub-card card" data-type={typeGroup(pub.data.type)}>
+                    <div class="pub-meta">
+                      <span class="badge">{pub.data.type}</span>
+                      {pub.data.status !== 'Published' && <span class="badge">{pub.data.status}</span>}
+                      {pub.data.researchArea && <span class="badge">{pub.data.researchArea}</span>}
+                    </div>
+                    <h3 class="pub-title"><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
+                    <p class="pub-authors"><PublicationAuthors authors={pub.data.authors} /></p>
+                    <p class="pub-venue">{pub.data.venue}</p>
+                    <div class="pub-links" aria-label={`Links for ${pub.data.title}`}>
+                      <a class="pub-link-btn" href={localPath(`/publications/${pub.id}/`)} aria-label={`View details for ${pub.data.title}`}>Details</a>
+                      {pub.data.doi && <a class="pub-link-btn" href={`https://doi.org/${pub.data.doi}`} target="_blank" rel="noopener" aria-label={`View DOI for ${pub.data.title}`}>DOI</a>}
+                      {pub.data.publisherUrl && <a class="pub-link-btn" href={pub.data.publisherUrl} target="_blank" rel="noopener" aria-label={`Publisher article link for ${pub.data.title}`}>Publisher</a>}
+                      {pub.data.scholarUrl && <a class="pub-link-btn" href={pub.data.scholarUrl} target="_blank" rel="noopener" aria-label={`Google Scholar link for ${pub.data.title}`}>Scholar</a>}
+                      {pub.data.pdf && <a class="pub-link-btn" href={pub.data.pdf} target="_blank" rel="noopener" aria-label={`PDF download for ${pub.data.title}`}>PDF</a>}
+                      {pub.data.code && <a class="pub-link-btn" href={pub.data.code} target="_blank" rel="noopener" aria-label={`Source code for ${pub.data.title}`}>Code</a>}
+                      {pub.data.dataset && <a class="pub-link-btn" href={pub.data.dataset} target="_blank" rel="noopener" aria-label={`Dataset for ${pub.data.title}`}>Dataset</a>}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-btn'));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.pub-card'));
+  const yearGroups = Array.from(document.querySelectorAll<HTMLElement>('.year-group'));
+  const status = document.getElementById('filter-status');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter || 'all';
+      buttons.forEach(item => {
+        const active = item === button;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-pressed', String(active));
+      });
+
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const visible = filter === 'all' || card.dataset.type === filter;
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      yearGroups.forEach(group => {
+        const visibleCards = Array.from(group.querySelectorAll<HTMLElement>('.pub-card')).some(card => !card.hidden);
+        group.hidden = !visibleCards;
+      });
+
+      if (status) status.textContent = `${visibleCount} publications shown.`;
+    });
+  });
+</script>
+
+<style>
+  .page-title { text-align: center; margin-bottom: 0.5rem; }
+  .lead-text { font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3rem; color: var(--text-secondary); }
+  .filter-container { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
+  .filter-label { font-weight: 600; color: var(--text-secondary); font-size: 0.95rem; }
+  .filter-buttons { display: flex; gap: 0.4rem; background: var(--bg-secondary); padding: 0.35rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); flex-wrap: wrap; }
+  .filter-btn { border: 0; background: transparent; padding: 0.5rem 0.8rem; border-radius: calc(var(--border-radius) - 4px); cursor: pointer; font: inherit; font-size: 0.88rem; font-weight: 600; color: var(--text-secondary); }
+  .filter-btn:hover { color: var(--text-primary); }
+  .filter-btn.active { background: var(--bg-primary); color: var(--accent-color); box-shadow: var(--shadow-sm); }
+  .year-group { margin-bottom: 3.5rem; }
+  .year-heading { font-size: 1.75rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 0.25rem; margin-bottom: 1.5rem; color: var(--accent-color); width: fit-content; }
+  .pubs-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+  .pub-card { margin-bottom: 0; }
+  .pub-meta { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.4rem; }
+  .pub-title { font-size: 1.22rem; line-height: 1.35; margin-bottom: 0.5rem; }
+  .pub-title a { color: var(--text-primary); }
+  .pub-title a:hover { color: var(--accent-color); }
+  .pub-authors { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+  .pub-venue { font-size: 0.9rem; font-style: italic; color: var(--text-muted); margin-bottom: 1rem; }
+  .pub-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .pub-link-btn { display: inline-flex; align-items: center; padding: 0.4rem 0.7rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.8rem; font-weight: 650; color: var(--text-secondary); }
+  .pub-link-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  [hidden] { display: none !important; }
+  @media (max-width: 600px) { .filter-container { align-items: flex-start; } .filter-buttons { width: 100%; } .filter-btn { flex: 1 1 45%; } }
+</style>

@@ -1,0 +1,16 @@
+---
+import { localPath } from '../../../lib/urls';
+const destination = localPath('/about/');
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${destination}`} />
+    <title>Moved — About</title>
+    <link rel="canonical" href={new URL(destination, Astro.site)} />
+  </head>
+  <body><main><p>This page has moved. <a href={destination}>Continue to About</a>.</p></main></body>
+</html>

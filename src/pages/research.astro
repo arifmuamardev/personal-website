@@ -1,0 +1,241 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Research" description="Current doctoral research and supporting research themes of Arif Mu'amar Wahid, centered on plant bioelectric signals and machine learning.">
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Research Activities</h1>
+      <p class="lead-text">
+        Bridging machine learning and plant electrophysiology to decipher biological signaling and create applied intelligent systems.
+      </p>
+
+      <div class="research-layout">
+        <!-- Main Research Areas -->
+        <div class="research-section">
+          <h2>Primary PhD Research</h2>
+          <div class="research-theme card primary-highlight">
+            <span class="theme-label badge">PhD Thesis Project</span>
+            <h3>Decoding Plant Bioelectric Potentials &amp; Electrophysiology</h3>
+            <p>
+              Plants generate electrical signals (bioelectric potentials) in response to environmental stimuli like temperature shifts, light changes, mechanical wounding, and moisture stress. My primary PhD research focuses on developing and evaluating acquisition, signal-processing, and machine-learning approaches to model and classify these signals.
+            </p>
+            <p>
+              This involves:
+            </p>
+            <ul class="styled-list">
+              <li><strong>Noise and Drift Management:</strong> Evaluating preprocessing, filtering, and baseline-drift handling for slow, low-voltage biological signals.</li>
+              <li><strong>Multivariate Representation:</strong> Modeling spatial-temporal electrical patterns across multiple measurement sites using multisensor fusion.</li>
+              <li><strong>Time-Series Classification:</strong> Evaluating machine-learning and deep-learning approaches, including Transformer-based models, for noisy biological time-series data.</li>
+            </ul>
+          </div>
+
+          <h2>Core Research Themes</h2>
+          
+          <div class="research-theme card">
+            <div class="theme-icon" aria-hidden="true">🌱</div>
+            <h3>Plant Bioelectric Signals</h3>
+            <p>
+              Focuses on the acquisition, denoising, mathematical modeling, and classification of electrical potential differences in vascular plants. By exploring these bioelectric responses, we seek to build edge-sensing systems that treat plants as natural biosensors for agricultural and environmental monitoring.
+            </p>
+          </div>
+
+          <div class="research-theme card">
+            <div class="theme-icon" aria-hidden="true">📈</div>
+            <h3>Biological Time-Series Machine Learning</h3>
+            <p>
+              Studying machine-learning and deep-learning methodologies that can handle the specific difficulties of biological signals. Unlike synthetic or financial time-series, biological signals are slow, non-stationary, and exhibit severe baseline wander and high variance across individuals.
+            </p>
+          </div>
+
+          <div class="research-theme card">
+            <div class="theme-icon" aria-hidden="true">⛅</div>
+            <h3>Multisensor Environmental Monitoring</h3>
+            <p>
+              Integrating environmental context data with plant electrophysiology to study how environmental conditions relate to bioelectric responses.
+            </p>
+          </div>
+
+          <div class="research-theme card">
+            <div class="theme-icon" aria-hidden="true">🧠</div>
+            <h3>Applied Artificial Intelligence</h3>
+            <p>
+              Applying computer vision and tabular machine learning to diverse fields including medical diagnostics (such as malaria detection in microscopy smears using GAN-augmented datasets), educational marketing segmentation, landslide susceptibility mapping, and cybersecurity.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sidebar for distinction of interests -->
+        <div class="research-sidebar">
+          <div class="sidebar-block card">
+            <h3>Research Status</h3>
+            
+            <div class="status-group">
+              <span class="status-indicator active"></span>
+              <h4>Primary Focus (Current)</h4>
+              <p>Plant electrophysiology and time-series modeling (PhD Thesis, Kanazawa University).</p>
+            </div>
+
+            <div class="status-group">
+              <span class="status-indicator supporting"></span>
+              <h4>Supporting Interests</h4>
+              <p>Transfer learning, generative augmentation, applied computer vision, and multisensor environmental logging.</p>
+            </div>
+
+            <div class="status-group">
+              <span class="status-indicator past"></span>
+              <h4>Previous Research</h4>
+              <p>Accreditation database schemas (Zachman Framework), data warehouses, and web theme recommendations using convolutional neural networks.</p>
+            </div>
+          </div>
+          
+          <div class="sidebar-block card">
+            <h3>Current Academic Institutions</h3>
+            <ul class="styled-list">
+              <li>Kanazawa University, Japan</li>
+              <li>Universitas Amikom Purwokerto, Indonesia</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .lead-text {
+    font-size: 1.15rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3.5rem auto;
+    color: var(--text-secondary);
+  }
+  
+  .research-layout {
+    display: grid;
+    grid-template-columns: 1.35fr 0.65fr;
+    gap: 3rem;
+  }
+  
+  .research-section h2 {
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+  
+  .primary-highlight {
+    border-left: 4px solid var(--accent-color);
+    background: var(--accent-light);
+  }
+  
+  .theme-label {
+    background-color: var(--accent-color);
+    color: var(--accent-foreground);
+    margin-bottom: 1rem;
+  }
+  
+  .research-theme {
+    margin-bottom: 1.5rem;
+  }
+  
+  .research-theme h3 {
+    font-size: 1.35rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .research-theme p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+  }
+  
+  .theme-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .research-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .sidebar-block h3 {
+    font-size: 1.15rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+  
+  .status-group {
+    margin-bottom: 1.5rem;
+    padding-left: 1.25rem;
+    position: relative;
+  }
+  
+  .status-indicator {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  .status-indicator.active {
+    background-color: hsl(145, 80%, 40%);
+    box-shadow: 0 0 8px hsl(145, 80%, 40%);
+  }
+  
+  .status-indicator.supporting {
+    background-color: var(--accent-color);
+  }
+  
+  .status-indicator.past {
+    background-color: var(--text-muted);
+  }
+  
+  .status-group h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .status-group p {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    color: var(--text-secondary);
+  }
+  
+  .styled-list {
+    list-style: none;
+  }
+  
+  .styled-list li {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 1.25rem;
+  }
+  
+  .styled-list li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+  }
+  
+  @media (max-width: 768px) {
+    .research-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

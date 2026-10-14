@@ -1,0 +1,53 @@
+name: Validate and deploy personal website
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: personal-website-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Preview is the safe default until domain migration is approved.
+      PUBLIC_SITE_MODE: ${{ vars.PERSONAL_SITE_MODE == 'production' && 'production' || 'preview' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check root-relative URLs and expected routes
+        run: node scripts/audit-source.mjs
+      - name: Build Astro site and upload artifact
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+      - name: Validate generated links and assets
+        run: npm run test:links
+      - name: Enforce safe crawl policy in preview
+        run: |
+          if [ "$PUBLIC_SITE_MODE" != 'production' ]; then
+            grep -q 'noindex, nofollow' dist/index.html
+            grep -q 'Disallow: /personal-website/' dist/robots.txt
+          fi
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

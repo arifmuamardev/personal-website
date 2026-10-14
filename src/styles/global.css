@@ -1,0 +1,323 @@
+/* System font stack: no third-party font requests. */
+
+:root {
+  /* HSL tailored color palette - High-contrast academic theme */
+  --bg-primary: hsl(220, 25%, 98%);
+  --bg-secondary: hsl(220, 20%, 94%);
+  --bg-tertiary: hsl(220, 16%, 89%);
+  
+  --text-primary: hsl(224, 75%, 11%);
+  --text-secondary: hsl(224, 24%, 30%);
+  --text-muted: hsl(224, 15%, 48%);
+  
+  --accent-color: hsl(186, 100%, 24%);
+  --accent-hover: hsl(186, 100%, 19%);
+  --accent-light: hsl(186, 40%, 92%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  
+  --border-color: hsl(220, 20%, 87%);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(210, 215, 225, 0.6);
+  
+  /* Typography Scale */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  
+  /* 8pt Spacing Rhythm */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+
+  /* Elevation Shadows */
+  --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 8px 20px -2px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 16px 36px -4px rgba(15, 23, 42, 0.12);
+  
+  --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius: 12px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: hsl(224, 25%, 8%);
+    --bg-secondary: hsl(224, 20%, 12%);
+    --bg-tertiary: hsl(224, 15%, 16%);
+    
+    --text-primary: hsl(210, 40%, 98%);
+    --text-secondary: hsl(215, 20%, 80%);
+    --text-muted: hsl(215, 12%, 60%);
+    
+    --accent-color: hsl(186, 75%, 68%);
+    --accent-hover: hsl(186, 75%, 75%);
+    --accent-light: hsl(186, 30%, 15%);
+    --accent-foreground: hsl(224, 75%, 8%);
+    
+    --border-color: hsl(224, 20%, 18%);
+    --glass-bg: rgba(13, 17, 24, 0.7);
+    --glass-border: rgba(45, 55, 72, 0.5);
+    
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.4);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Editorial Academic Typography */
+h1, h2, h3 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: 2.75rem;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+}
+
+h3 {
+  font-size: 1.45rem;
+  letter-spacing: -0.015em;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  font-weight: 400;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+/* Layout helpers */
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.section {
+  padding: 4.5rem 0;
+}
+
+/* Header & navigation glassmorphism (only the site header, not article headers) */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  transition: var(--transition-smooth);
+}
+
+/* Main buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  background-color: var(--accent-color);
+  color: var(--accent-foreground);
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  color: var(--accent-foreground);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--accent-light);
+}
+
+.btn-secondary {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-tertiary);
+  transform: translateY(-2px);
+}
+
+/* Card components */
+.card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid transparent;
+  border-radius: var(--border-radius);
+  padding: 1.85rem;
+  transition: var(--transition-smooth);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-color);
+  border-left-color: var(--accent-color);
+  box-shadow: var(--shadow-md);
+}
+
+/* Badges for tags */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Focus styles for accessibility */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
+
+/* Footer layout */
+footer {
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 3rem 0;
+  margin-top: 5rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Skip-to-content helper */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--accent-color);
+  color: var(--accent-foreground);
+  padding: 8px 16px;
+  z-index: 200;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Code highlight blocks */
+pre {
+  background: var(--bg-tertiary) !important;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+}
+
+code {
+  font-family: monospace, Courier;
+  font-size: 0.9rem;
+}
+
+/* Grid styles */
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 768px) {
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+
+
+/* Respect user motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .card:hover,
+  .btn:hover {
+    transform: none;
+  }
+}

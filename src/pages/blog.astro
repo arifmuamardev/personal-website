@@ -1,0 +1,134 @@
+---
+import { localPath } from '../lib/urls';
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+
+// Sort by date descending
+const sortedPosts = allPosts
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime());
+---
+
+<Layout title="Blog" description="Research explanations, academic reflections, technology notes, and personal writing by Arif Mu'amar Wahid.">
+  <section class="section">
+    <div class="container">
+      <h1 class="page-title">Blog Archive</h1>
+      <p class="lead-text">
+        Writing on research notes, plant signals electrophysiology, and experiences along the PhD journey.
+      </p>
+
+      <div class="posts-list">
+        {sortedPosts.map(post => (
+          <article class="post-item card">
+            <div class="post-meta-row">
+              <time datetime={post.data.publishedDate.toISOString()}>
+                {post.data.publishedDate.toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              <span class="meta-sep">&bull;</span>
+              <span class="post-category">{post.data.category}</span>
+            </div>
+            
+            <h2><a href={localPath(`/${post.id}/`)}>{post.data.title}</a></h2>
+            <p class="post-excerpt">{post.data.description}</p>
+            
+            <div class="post-tags-row">
+              {post.data.tags.map(tag => (
+                <span class="tag-badge badge">#{tag}</span>
+              ))}
+            </div>
+            
+            <a href={localPath(`/${post.id}/`)} class="read-more" aria-label={`Read full post: ${post.data.title}`}>Read Full Post &rarr;</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .lead-text {
+    font-size: 1.15rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 3.5rem auto;
+    color: var(--text-secondary);
+  }
+  
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  
+  .post-item {
+    padding: 2.25rem;
+  }
+  
+  .post-meta-row {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .meta-sep {
+    margin: 0 0.5rem;
+    color: var(--border-color);
+  }
+  
+  .post-item h2 {
+    font-size: 1.6rem;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+  
+  .post-item h2 a {
+    color: var(--text-primary);
+  }
+  
+  .post-item h2 a:hover {
+    color: var(--accent-color);
+  }
+  
+  .post-excerpt {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+  }
+  
+  .post-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .tag-badge {
+    background-color: var(--bg-primary);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+  }
+  
+  .read-more {
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+</style>

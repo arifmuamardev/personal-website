@@ -1,0 +1,22 @@
+{
+  "name": "arifmuamar-com",
+  "type": "module",
+  "version": "1.0.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro sync && npm run check:source",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test:links": "node scripts/check-links.mjs",
+    "astro": "astro",
+    "check:source": "node scripts/audit-source.mjs"
+  },
+  "dependencies": {
+    "astro": "^6.4.7",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/rss": "^4.0.1"
+  }
+}
