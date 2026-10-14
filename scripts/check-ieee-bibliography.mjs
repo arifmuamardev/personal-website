@@ -38,7 +38,8 @@ assert.equal(r.container,'Dasar Pemrograman Python');
 assert.match(r.detailText,/pp\. 146–160/);
 r=fixture('Zahira Media Publisher. ISBN: 9786238481958','Book',2025);
 assert.equal(r.container,'Zahira Media Publisher');
-assert.doesNotMatch(r.formattedPlain,/ISBN:|books\.google/);
+assert.match(r.formattedPlain,/ISBN 9786238481958/);
+assert.doesNotMatch(r.formattedPlain,/books\.google/);
 
 const index = readFileSync('src/pages/publications.astro','utf8');
 const detail = readFileSync('src/pages/publications/[slug].astro','utf8');
