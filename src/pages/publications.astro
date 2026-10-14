@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { getCollection } from 'astro:content';
 import PublicationAuthors from '../components/PublicationAuthors.astro';
+import { profile } from '../data/profile';
 
 const allPubs = await getCollection('publications');
 const sortedPubs = allPubs.sort((a, b) => b.data.year - a.data.year || a.data.title.localeCompare(b.data.title));
@@ -31,7 +32,8 @@ const counts = {
   <section class="section academic-index">
     <div class="container">
       <PageIntro title="Publications">
-        <p slot="description">A structured publication list with DOI, publisher, Scholar, code, and dataset links where available.</p>
+        <p slot="description">A structured publication list with DOI, publisher, Scholar, code, and dataset links where available. This collection is maintained separately from Google Scholar citation statistics.</p>
+        <a slot="actions" href={profile.profiles.scholar} target="_blank" rel="noopener noreferrer" class="scholar-profile-link" aria-label="Open my Google Scholar profile in a new tab">View Google Scholar profile ↗</a>
       </PageIntro>
 
       <div class="filter-container" aria-label="Publication filters">
@@ -117,6 +119,8 @@ const counts = {
 <style>
 
 .lead-text { font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3rem; color: var(--text-secondary); }
+  .scholar-profile-link {color:var(--accent-color);font-size:.88rem;font-weight:650;text-decoration:underline;text-underline-offset:3px;}
+  .scholar-profile-link:hover {color:var(--accent-hover);}
   .filter-container { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
   .filter-label { font-weight: 600; color: var(--text-secondary); font-size: 0.95rem; }
   .filter-buttons { display: flex; gap: 0.4rem; background: var(--bg-secondary); padding: 0.35rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); flex-wrap: wrap; }
