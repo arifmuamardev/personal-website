@@ -5,7 +5,8 @@ authors:
 - Arif Mu'amar Wahid
 - Aniec Anafisah Pratiwi
 year: 2024
-venue: Jurnal Teknik Informatika (Jutif)
+venue: "Jurnal Teknik Informatika (Jutif), 5(4), 187–196"
+publisherUrl: https://jutif.if.unsoed.ac.id/index.php/jurnal/article/view/2188
 type: Journal Article
 status: Published
 doi: 10.52436/1.jutif.2024.5.4.2188
