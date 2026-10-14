@@ -1,6 +1,7 @@
 ---
 import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
@@ -17,10 +18,11 @@ const sortedProjects = allProjects.sort((a, b) =>
   title="Projects"
   description="Research projects by Arif Mu'amar Wahid, including plant bioelectric signal research, machine learning, medical imaging, and geohazard applications."
 >
-  <section class="section">
+  <section class="section academic-index">
     <div class="container">
-      <h1 class="page-title">Research Projects</h1>
-      <p class="lead-text">Selected current and completed research activities, linked to publications where available.</p>
+      <PageIntro title="Research Projects">
+        <p slot="description">Selected current and completed research activities, linked to publications where available.</p>
+      </PageIntro>
 
       <div class="projects-list">
         {sortedProjects.map(project => {
@@ -68,8 +70,8 @@ const sortedProjects = allProjects.sort((a, b) =>
 </Layout>
 
 <style>
-  .page-title { text-align: center; margin-bottom: 0.5rem; }
-  .lead-text { font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3.5rem; color: var(--text-secondary); }
+
+.lead-text { font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3.5rem; color: var(--text-secondary); }
   .projects-list { display: flex; flex-direction: column; gap: 2rem; }
   .project-detail-card { padding: 2.25rem; }
   .project-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; margin-bottom: 0.75rem; }
