@@ -32,6 +32,22 @@ for (const file of details) {
   check((code.match(/<PageBreadcrumb\b/g) || []).length === 1, file + ' needs exactly one PageBreadcrumb');
   check((code.match(/<h1\b/g) || []).length === 1, file + ' needs one H1');
 }
+// Both bibliography and detail routes must share classification/topic hierarchy.
+const publicationList = readFileSync('src/pages/publications.astro', 'utf8');
+const publicationDetail = readFileSync('src/pages/publications/[slug].astro', 'utf8');
+const publicationMeta = readFileSync('src/components/PublicationMeta.astro', 'utf8');
+for (const [label, source] of [['Publications list', publicationList], ['Publication detail', publicationDetail]]) {
+  check(source.includes("import PublicationMeta from '"), label + ' must import shared publication metadata component');
+  check((source.match(/<PublicationMeta\b/g) || []).length === 1, label + ' should render shared metadata exactly once');
+  check(/researchArea=\{(?:pub\.data|data)\.researchArea\}/.test(source), label + ' omits research area');
+  check(/tags=\{(?:pub\.data|data)\.tags\}/.test(source), label + ' omits keywords');
+}
+check(publicationMeta.includes('class="publication-classification"'), 'publication type/status row missing');
+check(publicationMeta.includes('class="publication-topics"'), 'secondary metadata row missing');
+check(publicationMeta.includes('Research area') && publicationMeta.includes('Keywords'), 'secondary metadata requires accurate labels');
+check(publicationMeta.indexOf('class="publication-classification"') < publicationMeta.indexOf('class="publication-topics"'),
+  'publication topics must appear below type/status, not on the same row');
+check(publicationMeta.includes("tags.map(tag => tag.trim())"), 'keywords should be normalized for duplicate avoidance');
 const homepage = readFileSync('src/pages/index.astro', 'utf8');
 const about = readFileSync('src/pages/about.astro', 'utf8');
 for (const [name, source] of [['homepage', homepage], ['about', about]]) {

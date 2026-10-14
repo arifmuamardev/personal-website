@@ -35,6 +35,28 @@ colors, spatial rhythm, headers and link conventions are shared.
 - `src/data/software-projects.ts` — public engineering project records
   with honest demo states.
 
+## Publication metadata hierarchy
+
+Both `/publications/` cards and `/publications/{slug}/` detail headers use
+`src/components/PublicationMeta.astro`. **Do not place the publication
+type, research area and keywords in one badge row.**
+
+- **Classification row:** one compact `Journal Article`, `Conference
+  Paper`, `Book` or similar type badge; include the non-Published
+  status when applicable, and the year in detail views.
+- **Secondary row below:** labeled `Research area`, using
+  `researchArea` from publication frontmatter as plain muted text.
+- **Keywords row below:** labeled `Keywords`, using individual
+  `tags` from frontmatter as quiet small chips. Omit this row when
+  tags are empty; omit the area row when researchArea is unset.
+- Do not describe `researchArea` as an article keyword automatically:
+  `researchArea` is a curated topical classification, while `tags`
+  contains indexed topical keywords.
+- Align both modes with Academic Minimal light/dark semantic colors,
+  responsive wrapping, and the shared editorial typography.
+- This is *presentation only*: preserve the author list, year,
+  publication type, status, DOI and existing index filters.
+
 ## Portrait
 
 - Source provided by owner in this conversation, optimized to `public/images/arif-profile.webp`;

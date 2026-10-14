@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { getCollection } from 'astro:content';
 import PublicationAuthors from '../components/PublicationAuthors.astro';
+import PublicationMeta from '../components/PublicationMeta.astro';
 import { profile } from '../data/profile';
 
 const allPubs = await getCollection('publications');
@@ -70,11 +71,7 @@ const counts = {
               <div class="pubs-grid">
                 {yearPubs.map(pub => (
                   <article class="pub-card card" data-type={typeGroup(pub.data.type)}>
-                    <div class="pub-meta">
-                      <span class="badge">{pub.data.type}</span>
-                      {pub.data.status !== 'Published' && <span class="badge">{pub.data.status}</span>}
-                      {pub.data.researchArea && <span class="badge">{pub.data.researchArea}</span>}
-                    </div>
+                    <PublicationMeta type={pub.data.type} status={pub.data.status} researchArea={pub.data.researchArea} tags={pub.data.tags} />
                     <h3 class="pub-title"><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
                     <p class="pub-authors"><PublicationAuthors authors={pub.data.authors} /></p>
                     <p class="pub-venue">{pub.data.venue}</p>
@@ -161,7 +158,6 @@ const counts = {
   .year-heading { font-size: 1.75rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 0.25rem; margin-bottom: 1.5rem; color: var(--accent-color); width: fit-content; }
   .pubs-grid { display: flex; flex-direction: column; gap: 1.25rem; }
   .pub-card { margin-bottom: 0; }
-  .pub-meta { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.4rem; }
   .pub-title { font-size: 1.22rem; line-height: 1.35; margin-bottom: 0.5rem; }
   .pub-title a { color: var(--text-primary); }
   .pub-title a:hover { color: var(--accent-color); }

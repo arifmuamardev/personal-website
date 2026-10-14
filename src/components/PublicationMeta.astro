@@ -1,0 +1,69 @@
+---
+interface Props {
+  type: string;
+  status?: string;
+  year?: number;
+  researchArea?: string;
+  tags?: readonly string[];
+}
+
+const { type, status = 'Published', year, researchArea, tags = [] } = Astro.props;
+const area = researchArea?.trim();
+const keywords = [...new Set(tags.map(tag => tag.trim()).filter(Boolean))]
+  .filter(tag => tag.toLocaleLowerCase() !== area?.toLocaleLowerCase());
+---
+
+<div class="publication-metadata">
+  <div class="publication-classification" aria-label="Publication type and status">
+    <span class="badge publication-type">{type}</span>
+    {year && <span class="publication-year">{year}</span>}
+    {status !== 'Published' && <span class="badge publication-status">{status}</span>}
+  </div>
+
+  {(area || keywords.length > 0) && (
+    <div class="publication-topics">
+      {area && (
+        <div class="publication-topic-row">
+          <span class="publication-topic-label">Research area</span>
+          <span class="publication-area">{area}</span>
+        </div>
+      )}
+      {keywords.length > 0 && (
+        <div class="publication-topic-row">
+          <span class="publication-topic-label">Keywords</span>
+          <ul class="publication-keyword-list" aria-label="Publication keywords">
+            {keywords.map(keyword => <li>{keyword}</li>)}
+          </ul>
+        </div>
+      )}
+    </div>
+  )}
+</div>
+
+<style>
+  .publication-metadata { margin-bottom: .9rem; }
+  .publication-classification { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; }
+  .publication-type { font-weight: 650; }
+  .publication-status { color: var(--text-muted); }
+  .publication-year { font-size: .79rem; font-weight: 600; color: var(--text-muted); }
+  .publication-topics { margin-top: .65rem; display: grid; gap: .4rem; }
+  .publication-topic-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .65rem; font-size: .8rem; line-height: 1.5; }
+  .publication-topic-label { flex: 0 0 6.3rem; color: var(--text-muted); font-weight: 650; }
+  .publication-area { color: var(--text-secondary); overflow-wrap: anywhere; }
+  .publication-keyword-list { display: flex; flex-wrap: wrap; gap: .3rem .45rem; margin: 0; padding: 0; list-style: none; }
+  .publication-keyword-list li {
+    color: var(--text-secondary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: .1rem .45rem;
+    font-size: .75rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 430px) {
+    .publication-topic-row { display: block; }
+    .publication-topic-label { display: block; margin-bottom: .15rem; }
+    .publication-keyword-list { margin-top: .2rem; }
+  }
+</style>
