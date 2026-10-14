@@ -26,10 +26,7 @@ const recentWriting = posts
 ---
 <Layout title="Home" description="Arif Mu'amar Wahid: PhD student at Kanazawa University, lecturer at Universitas Amikom Purwokerto, and developer working on plant bioelectric signals, machine learning, and software.">
   <section class="intro container" aria-labelledby="home-name">
-    <div class="identity-portrait" role="img" aria-label="AMW monogram placeholder; not a photograph">
-      <span aria-hidden="true">AMW</span>
-      <small>PORTRAIT OPTIONAL</small>
-    </div>
+    <img class="identity-portrait" src={localPath('/images/arif-profile.webp')} width="240" height="300" alt="Profile portrait supplied for this personal website" fetchpriority="high" decoding="async" />
     <div class="identity-copy">
       <p class="identity-eyebrow">Researcher · Educator · Software developer</p>
       <h1 id="home-name">{profile.displayName}</h1>
@@ -158,17 +155,15 @@ const recentWriting = posts
     padding-bottom: clamp(3rem, 6vw, 4.5rem);
   }
   .identity-portrait {
+    width: 174px;
     aspect-ratio: 4 / 5;
-    padding: 1.1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    object-fit: cover;
+    object-position: center top;
     border: 1px solid var(--border-color);
+    border-radius: 3px;
     background: var(--accent-light);
-    color: var(--accent-hover);
+    display: block;
   }
-  .identity-portrait span { font-family: var(--font-serif); font-size: 3.15rem; font-weight: 700; line-height: 1; letter-spacing: -.07em; }
-  .identity-portrait small { font-size: .57rem; font-weight: 700; letter-spacing: .08em; color: var(--text-muted); }
   .identity-copy { min-width: 0; }
   .identity-eyebrow { color: var(--text-muted); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 650; margin: 0 0 .65rem; }
   .identity-copy h1 { font-size: clamp(2.3rem, 4.4vw, 3.6rem); letter-spacing: -.04em; line-height: 1.13; margin: 0 0 .75rem; }
@@ -215,9 +210,7 @@ const recentWriting = posts
   .writing-row time { font-size: .81rem; color: var(--text-muted); padding-top: .16rem; }
   @media(max-width:700px){
     .intro { grid-template-columns: 1fr; gap: 1.2rem; padding-top: 2.4rem; }
-    .identity-portrait { width: 112px; aspect-ratio: 1; padding: .7rem; }
-    .identity-portrait span { font-size: 2.2rem; }
-    .identity-portrait small { font-size: .49rem; }
+    .identity-portrait { width: 112px; aspect-ratio: 4 / 5; }
     .identity-break { display: block; font-size: 0; height: 0; }
     .identity-copy h1 { font-size: clamp(2.15rem, 9vw, 2.8rem); }
     .section-heading { align-items: flex-start; flex-wrap: wrap; gap: .5rem; }
