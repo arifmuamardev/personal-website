@@ -39,8 +39,21 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
     <link rel="icon" type="image/svg+xml" href={localPath('/favicon.svg')} />
     <link rel="icon" href={localPath('/favicon.ico')} />
     <link rel="manifest" href={localPath('/site.webmanifest')} />
-    <meta name="theme-color" content="#f7f9fb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#10141b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" />
+    <!-- Apply the saved/system color scheme before painting to avoid a theme flash. -->
+    <script is:inline>
+      (() => {
+        const key = 'amw-color-theme';
+        let saved = null;
+        try { saved = localStorage.getItem(key); } catch { /* storage may be blocked */ }
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = saved === 'dark' || saved === 'light'
+          ? saved
+          : (prefersDark ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#141c20' : '#ffffff');
+      })();
+    </script>
     
     <!-- Primary Meta Tags -->
     <title>{title} — Arif Mu'amar Wahid</title>
@@ -86,14 +99,26 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
           <span class="logo-subtitle">Research · Publications · Software</span>
         </a>
         
-        <!-- Accessible mobile menu toggle -->
-        <button id="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="main-nav">
+        <div class="header-actions">
+          <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Toggle light and dark appearance">
+            <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.9 13.2A9 9 0 0 1 10.8 3.1a9 9 0 1 0 10.1 10.1Z" />
+            </svg>
+            <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" />
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+            </svg>
+            <span data-theme-label>Light</span>
+          </button>
+          <!-- Accessible mobile menu toggle -->
+          <button id="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="main-nav">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="12" x2="20" y2="12" class="line-mid"></line>
             <line x1="4" y1="6" x2="20" y2="6" class="line-top"></line>
             <line x1="4" y1="18" x2="20" y2="18" class="line-bot"></line>
           </svg>
-        </button>
+          </button>
+        </div>
         
         <nav id="main-nav" aria-label="Main Navigation">
           <ul>
@@ -135,8 +160,46 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
       </div>
     </footer>
 
-    <!-- Client-side navigation toggle -->
+    <!-- Theme preference: explicit choice persists, otherwise follow system setting. -->
     <script>
+      const themeButton = document.querySelector('[data-theme-toggle]');
+      const themeLabel = themeButton?.querySelector('[data-theme-label]');
+      const themeRoot = document.documentElement;
+      const themeKey = 'amw-color-theme';
+      const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      const updateThemeUI = () => {
+        const dark = themeRoot.dataset.theme === 'dark';
+        if (themeButton) {
+          themeButton.setAttribute('aria-pressed', String(dark));
+          themeButton.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+        if (themeLabel) themeLabel.textContent = dark ? 'Dark' : 'Light';
+        document.querySelector('meta[name="theme-color"]')
+          ?.setAttribute('content', dark ? '#141c20' : '#ffffff');
+      };
+      const applyTheme = (theme) => {
+        themeRoot.dataset.theme = theme;
+        updateThemeUI();
+      };
+      updateThemeUI();
+      themeButton?.addEventListener('click', () => {
+        const nextTheme = themeRoot.dataset.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+        try { localStorage.setItem(themeKey, nextTheme); } catch { /* storage may be blocked */ }
+      });
+      themeMedia.addEventListener('change', () => {
+        let stored = null;
+        try { stored = localStorage.getItem(themeKey); } catch { /* storage may be blocked */ }
+        if (stored !== 'light' && stored !== 'dark') applyTheme(themeMedia.matches ? 'dark' : 'light');
+      });
+      window.addEventListener('storage', (event) => {
+        if (event.key === themeKey) {
+          const next = event.newValue === 'dark' || event.newValue === 'light'
+            ? event.newValue : (themeMedia.matches ? 'dark' : 'light');
+          applyTheme(next);
+        }
+      });
+
       const toggle = document.getElementById('menu-toggle');
       const nav = document.getElementById('main-nav');
       
@@ -176,6 +239,7 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
   .nav-wrapper {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -203,6 +267,41 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
     letter-spacing: 0.05em;
   }
   
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    flex: 0 0 auto;
+    order: 3;
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 44px;
+    gap: .45rem;
+    border: 1px solid var(--border-color);
+    border-radius: 9px;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    padding: .55rem .7rem;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: .76rem;
+    font-weight: 600;
+    transition: background-color 160ms ease, border-color 160ms ease;
+  }
+  .theme-toggle:hover {
+    background: var(--bg-secondary);
+    border-color: var(--accent-color);
+  }
+  .theme-icon-sun { display: none; }
+  :global(html[data-theme="dark"]) .theme-icon-moon { display: none; }
+  :global(html[data-theme="dark"]) .theme-icon-sun { display: block; }
+  .theme-toggle svg { flex: 0 0 auto; }
+
   #menu-toggle {
     display: none;
     align-items: center;
@@ -217,6 +316,10 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
     padding: 0.5rem;
   }
   
+  #main-nav {
+    order: 2;
+    margin-left: auto;
+  }
   #main-nav ul {
     display: flex;
     list-style: none;
@@ -267,6 +370,7 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
   }
   
   @media (max-width: 1080px) {
+    #main-nav { order: 4; }
     #menu-toggle {
       display: inline-flex;
     }
@@ -306,5 +410,10 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
     #main-nav a.active {
       background: var(--accent-light);
     }
+  }
+
+  @media (max-width: 420px) {
+    .theme-toggle [data-theme-label] { display: none; }
+    .theme-toggle { padding-inline: .65rem; }
   }
 </style>
