@@ -1,0 +1,29 @@
+---
+import { localPath } from '../lib/urls';
+interface Props {
+  parent: string;
+  href: string;
+  current?: string;
+}
+const { parent, href, current } = Astro.props;
+---
+<nav class="academic-breadcrumb" aria-label="Breadcrumb">
+  <a href={localPath(href)}>{parent}</a>
+  <span aria-hidden="true">/</span>
+  {current && <span class="current" aria-current="page">{current}</span>}
+</nav>
+<style>
+  .academic-breadcrumb {
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:.65rem;
+    font-size:.84rem;
+    color:var(--text-muted);
+    padding:0 0 .95rem;
+    margin-bottom:1.5rem;
+    border-bottom:1px solid var(--border-color);
+  }
+  .academic-breadcrumb a { color:var(--accent-color); text-decoration:underline; text-underline-offset:3px; }
+  .current { max-width:70ch; overflow-wrap:anywhere; }
+</style>
