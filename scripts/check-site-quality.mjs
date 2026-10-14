@@ -85,6 +85,19 @@ for (const [route, marker] of [
     if (!page.includes(marker)) fail(route, `missing shared rendered template marker: ${marker}`);
   } catch { fail(route, 'missing generated HTML page for template check'); }
 }
+// Publication metadata must keep type/status visually distinct from
+// research area and per-paper keywords in the generated HTML.
+for (const publicationPage of [
+  'publications/index.html',
+  'publications/dynamic-knowledge-intelligence-for-human-ai-collaborative-operational-decision-making/index.html',
+]) {
+  const page = await fs.readFile(path.join(root, publicationPage), 'utf8');
+  const top = page.indexOf('class="publication-classification"');
+  const topics = page.indexOf('class="publication-topics"');
+  if (top < 0 || topics < top) fail(publicationPage, 'publication type/status must precede separate topics');
+  if (!page.includes('publication-topic-label')) fail(publicationPage, 'research area/keywords labels are missing');
+  if (!page.includes('publication-keyword-list')) fail(publicationPage, 'paper keywords not displayed as separate row');
+}
 for (const required of [
   'images/arif-profile.webp',
   'robots.txt', 'rss.xml', 'feed.xml', 'sitemap-index.xml', 'favicon.svg',
