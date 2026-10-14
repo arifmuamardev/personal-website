@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
 import { profile } from '../data/profile';
 ---
 
@@ -7,10 +8,11 @@ import { profile } from '../data/profile';
   title="Contact"
   description="Professional contact details and academic profile links for Arif Mu'amar Wahid."
 >
-  <section class="section">
+  <section class="section academic-index">
     <div class="container container-narrow">
-      <h1 class="page-title">Contact</h1>
-      <p class="lead-text">For research collaboration, academic correspondence, or teaching-related inquiries.</p>
+      <PageIntro title="Contact">
+        <p slot="description">For research collaboration, academic correspondence, or teaching-related inquiries.</p>
+      </PageIntro>
 
       <div class="contact-grid">
         <div class="contact-card card">
@@ -80,8 +82,8 @@ import { profile } from '../data/profile';
 
 <style>
   .container-narrow { max-width: 800px; }
-  .page-title { text-align: center; margin-bottom: 0.5rem; }
-  .lead-text { font-size: 1.15rem; text-align: center; max-width: 700px; margin: 0 auto 3.5rem; color: var(--text-secondary); }
+
+.lead-text { font-size: 1.15rem; text-align: center; max-width: 700px; margin: 0 auto 3.5rem; color: var(--text-secondary); }
   .contact-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2rem; }
   .contact-card, .academic-profiles { margin-bottom: 0; padding: 2.25rem; }
   .contact-method { display: flex; gap: 1.25rem; margin-bottom: 2rem; }
