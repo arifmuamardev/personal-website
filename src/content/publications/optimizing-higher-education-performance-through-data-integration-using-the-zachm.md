@@ -6,7 +6,8 @@ authors:
 - Arif Mu'amar Wahid
 - Tri Titis Sufranto
 year: 2025
-venue: Jurnal Nasional Teknologi dan Sistem Informasi
+venue: "Jurnal Nasional Teknologi dan Sistem Informasi, 10(3), 201–215"
+publisherUrl: https://doi.org/10.25077/TEKNOSI.v10i3.2024.201-215
 type: Journal Article
 status: Published
 doi: 10.25077/TEKNOSI.v10i3.2024.201-215
