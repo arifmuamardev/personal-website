@@ -40,6 +40,15 @@ This PR changes *rendering*, not bibliographic truth. It also corrects a few cle
 
 ## Pending publisher metadata checks
 
+**Automated audit baseline (43 records, 15 October 2026):**
+
+| Audit indicator | Records | Interpretation |
+| --- | ---: | --- |
+| Publisher DOI not recorded | 15 | Not always an error: some published proceedings/books do not have DOIs; verify before adding |
+| Parsed venue metadata needs review | 18 | Missing volume/page details or other incomplete journal/chapter venue information |
+| Abbreviated author source records | 8 | Renderer consistently uses initials, but editorial source names may need verification |
+| Legacy venue repeats publication year | 6 | Renderer suppresses an exactly matching trailing year; source remains retained |
+
 Many older entries provide only the journal or conference name. A compact citation line is still rendered for these, without fictitious `vol.`, `no.` or `pp.` fields. For a full IEEE-compliant list, perform a separate evidence-based audit against Crossref/DOI and publisher articles. Check particularly:
 
 - First-wave Google Scholar imports with short bylines and raw venue formats.
