@@ -1,3 +1,5 @@
+> **15 October 2026 update:** The public PDF is now rebuilt by CI from the same site data and indexed publications; the earlier note saying the public PDF is unchanged describes only the 14 October integration. See [the reconciliation and PDF build report](./PUBLICATION-RECONCILIATION-2026-10-15.md).
+
 # Public CV integration audit — 14 October 2026
 
 ## Source and scope
