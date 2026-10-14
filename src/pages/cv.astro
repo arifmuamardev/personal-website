@@ -1,6 +1,7 @@
 ---
 import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
 import { profile } from '../data/profile';
 ---
 
@@ -8,16 +9,14 @@ import { profile } from '../data/profile';
   title="Curriculum Vitae"
   description="Academic curriculum vitae of Arif Mu'amar Wahid, including education, current appointments, research interests, experience, and selected awards."
 >
-  <section class="section">
+  <section class="section academic-index">
     <div class="container container-narrow">
-      <div class="cv-header-row">
-        <h1 class="page-title">Curriculum Vitae</h1>
-        <a href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-primary" download>
-          <span aria-hidden="true">↓</span>
-          Download Public PDF
+      <PageIntro title="Curriculum Vitae">
+        <p slot="description">A concise public overview of my academic background and experience. The downloadable PDF excludes private phone numbers and membership IDs.</p>
+        <a slot="actions" href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-primary" download>
+          <span aria-hidden="true">↓</span> Download Public PDF
         </a>
-      </div>
-      <p class="lead-text">A concise web version of my academic CV. The downloadable public PDF omits phone and WhatsApp numbers.</p>
+      </PageIntro>
 
       <div class="cv-content">
         <section class="cv-section" aria-labelledby="cv-profile">
@@ -70,6 +69,14 @@ import { profile } from '../data/profile';
           <ul class="styled-list">{profile.awards.map(award => <li>{award}</li>)}</ul>
         </section>
 
+        <section class="cv-section" aria-labelledby="cv-memberships">
+          <h2 id="cv-memberships">Professional Memberships</h2>
+          <ul class="styled-list">
+            <li>Japanese Society for Artificial Intelligence (JSAI) — Student Member (since July 2026)</li>
+            <li>Information Processing Society of Japan (IPSJ) — Student Member (since May 2026)</li>
+          </ul>
+        </section>
+
         <section class="cv-section" aria-labelledby="cv-links">
           <h2 id="cv-links">Academic Profiles</h2>
           <p class="profile-links">
@@ -87,10 +94,10 @@ import { profile } from '../data/profile';
 
 <style>
   .container-narrow { max-width: 800px; }
-  .cv-header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 1.5rem; }
-  .page-title { margin-bottom: 0; }
-  .lead-text { font-size: 1.05rem; color: var(--text-secondary); margin: 1rem 0 3rem; }
-  .cv-content { display: flex; flex-direction: column; gap: 2.75rem; }
+
+.page-title { margin-bottom: 0; }
+
+.cv-content { display: flex; flex-direction: column; gap: 2.75rem; }
   .cv-section h2 { font-size: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-bottom: 1.25rem; color: var(--accent-color); }
   .cv-timeline { border-left: 2px solid var(--border-color); padding-left: 1.5rem; }
   .cv-entry { position: relative; margin-bottom: 1.75rem; }
