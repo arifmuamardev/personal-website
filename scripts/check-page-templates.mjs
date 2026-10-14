@@ -38,9 +38,9 @@ const publicationDetail = readFileSync('src/pages/publications/[slug].astro', 'u
 const publicationMeta = readFileSync('src/components/PublicationMeta.astro', 'utf8');
 for (const [label, source] of [['Publications list', publicationList], ['Publication detail', publicationDetail]]) {
   check(source.includes("import PublicationMeta from '"), label + ' must import shared publication metadata component');
-  check((source.match(/<PublicationMeta\\b/g) || []).length === 1, label + ' should render shared metadata exactly once');
-  check(/researchArea=\\{(?:pub\\.data|data)\\.researchArea\\}/.test(source), label + ' omits research area');
-  check(/tags=\\{(?:pub\\.data|data)\\.tags\\}/.test(source), label + ' omits keywords');
+  check((source.match(/<PublicationMeta\b/g) || []).length === 1, label + ' should render shared metadata exactly once');
+  check(/researchArea=\{(?:pub\.data|data)\.researchArea\}/.test(source), label + ' omits research area');
+  check(/tags=\{(?:pub\.data|data)\.tags\}/.test(source), label + ' omits keywords');
 }
 check(publicationMeta.includes('class="publication-classification"'), 'publication type/status row missing');
 check(publicationMeta.includes('class="publication-topics"'), 'secondary metadata row missing');
