@@ -3,7 +3,7 @@ import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { getCollection } from 'astro:content';
-import PublicationAuthors from '../components/PublicationAuthors.astro';
+import PublicationReference from '../components/PublicationReference.astro';
 import PublicationMeta from '../components/PublicationMeta.astro';
 import { profile } from '../data/profile';
 
@@ -35,7 +35,7 @@ const counts = {
   <section class="section academic-index">
     <div class="container">
       <PageIntro title="Publications">
-        <p slot="description">A structured publication list with DOI, publisher, Scholar, code, and dataset links where available. This collection is maintained separately from Google Scholar citation statistics.</p>
+        <p slot="description">A bibliography with IEEE-inspired citation formatting for journals, conference papers, books and chapters. Missing metadata is omitted rather than guessed; citation metrics are separately sourced from Google Scholar.</p>
         <a slot="actions" href={profile.profiles.scholar} target="_blank" rel="noopener noreferrer" class="scholar-profile-link" aria-label="Open my Google Scholar profile in a new tab">View Google Scholar profile ↗</a>
       </PageIntro>
 
@@ -73,8 +73,7 @@ const counts = {
                   <article class="pub-card card" data-type={typeGroup(pub.data.type)}>
                     <PublicationMeta type={pub.data.type} status={pub.data.status} researchArea={pub.data.researchArea} tags={pub.data.tags} />
                     <h3 class="pub-title"><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
-                    <p class="pub-authors"><PublicationAuthors authors={pub.data.authors} /></p>
-                    <p class="pub-venue">{pub.data.venue}</p>
+                    <PublicationReference publication={pub.data} />
                     <div class="pub-links" aria-label={`Links for ${pub.data.title}`}>
                       <a class="pub-link-btn" href={localPath(`/publications/${pub.id}/`)} aria-label={`View details for ${pub.data.title}`}>Details</a>
                       {pub.data.doi && <a class="pub-link-btn" href={`https://doi.org/${pub.data.doi}`} target="_blank" rel="noopener" aria-label={`View DOI for ${pub.data.title}`}>DOI</a>}
@@ -161,8 +160,6 @@ const counts = {
   .pub-title { font-size: 1.22rem; line-height: 1.35; margin-bottom: 0.5rem; }
   .pub-title a { color: var(--text-primary); }
   .pub-title a:hover { color: var(--accent-color); }
-  .pub-authors { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
-  .pub-venue { font-size: 0.9rem; font-style: italic; color: var(--text-muted); margin-bottom: 1rem; }
   .pub-links { display: flex; gap: 0.5rem; flex-wrap: wrap; }
   .pub-link-btn { display: inline-flex; align-items: center; padding: 0.4rem 0.7rem; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.8rem; font-weight: 650; color: var(--text-secondary); }
   .pub-link-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }

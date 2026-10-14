@@ -33,6 +33,8 @@ jobs:
         run: node scripts/check-page-templates.mjs
       - name: Verify public CV integration and privacy policy
         run: node scripts/check-public-cv.mjs
+      - name: Verify IEEE-style bibliography formatting and metadata completeness
+        run: node --experimental-strip-types scripts/check-ieee-bibliography.mjs
       - name: Validate researcher design comparison lab
         run: node scripts/check-researcher-design-lab.mjs
       # Generate the public PDF from the same curated data and publications

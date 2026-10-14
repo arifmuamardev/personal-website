@@ -1,5 +1,5 @@
 ---
-title: PENINGKATAN KOMPETENSI LITERASI DIGITAL SISWA SMK MITRA UNIVERSITAS AMIKOM PURWOKERTO
+title: Peningkatan Kompetensi Literasi Digital Siswa SMK Mitra Universitas Amikom Purwokerto
 authors:
 - A Prasetyo
 - AM Wahid
