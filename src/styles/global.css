@@ -41,10 +41,13 @@
   --transition-smooth: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
   --border-radius: 9px;
   --reading-width: 72ch;
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+/* Set before paint by the head script; manually selected theme takes precedence over OS. */
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
     --bg-primary: #141c20;
     --bg-secondary: #1b282d;
     --bg-tertiary: #25363b;
@@ -65,7 +68,6 @@
     --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
     --shadow-lg: 0 10px 30px rgba(0,0,0,0.4);
-  }
 }
 
 * {
