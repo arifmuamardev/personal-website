@@ -1,15 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
 import { localPath } from '../lib/urls';
 ---
 
 <Layout title="Research" description="Current doctoral research and supporting research themes of Arif Mu'amar Wahid, centered on plant bioelectric signals and machine learning.">
-  <section class="section">
+  <section class="section academic-index">
     <div class="container">
-      <h1 class="page-title">Research Activities</h1>
-      <p class="lead-text">
-        Bridging machine learning and plant electrophysiology to decipher biological signaling and create applied intelligent systems.
-      </p>
+      <PageIntro title="Research Activities">
+        <p slot="description">Bridging machine learning and plant electrophysiology to decipher biological signaling and create applied intelligent systems.</p>
+      </PageIntro>
       <p class="research-jump"><a href={localPath('/projects/')}>Explore research projects &rarr;</a> <span aria-hidden="true">·</span> <a href={localPath('/publications/')}>Browse publications &rarr;</a></p>
 
       <div class="research-layout">
@@ -106,12 +106,8 @@ import { localPath } from '../lib/urls';
 
 <style>
   .research-jump { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin:-2.3rem auto 2.5rem; font-weight:600; }
-  .page-title {
-    text-align: center;
-    margin-bottom: 0.5rem;
-  }
-  
-  .lead-text {
+
+.lead-text {
     font-size: 1.15rem;
     text-align: center;
     max-width: 800px;

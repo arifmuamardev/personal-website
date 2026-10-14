@@ -1,5 +1,6 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
+import PageBreadcrumb from '../../../components/PageBreadcrumb.astro';
 import { localPath } from '../../../lib/urls';
 import { softwareProjects } from '../../../data/software-projects';
 const project = softwareProjects.find(p => p.id === 'pilketos')!;
@@ -7,7 +8,7 @@ const project = softwareProjects.find(p => p.id === 'pilketos')!;
 <Layout title="Pilketos — Software Case Study" description="Architecture and engineering overview of Pilketos, a school election application using React, Vite, and Supabase.">
   <article class="section case-study">
     <div class="container">
-      <nav class="breadcrumb" aria-label="Breadcrumb"><a href={localPath('/portfolio/')}>Portfolio</a> <span aria-hidden="true">/</span> <span>Pilketos</span></nav>
+      <PageBreadcrumb parent="Software Portfolio" parentPath="/portfolio/" current="Pilketos" />
       <p class="eyebrow">Case Study · Web Application</p>
       <h1>Pilketos</h1>
       <p class="intro">A web application exploring how election administration, polling-station operations, and result reporting can be organized for a student-council election.</p>
@@ -69,11 +70,11 @@ const project = softwareProjects.find(p => p.id === 'pilketos')!;
   .case-study .container { max-width: 900px; }
   .case-availability { display:inline-flex;align-items:center;gap:.55rem;border:1px solid var(--border-color);background:var(--bg-secondary);border-radius:999px;padding:.5rem .9rem;margin:.4rem 0 2rem;font-size:.82rem;font-weight:650;color:var(--text-secondary); }
   .availability-dot { width:.53rem;height:.53rem;border-radius:50%;background:var(--accent-color); }
-  .case-diagram { margin:0 0 2.8rem;padding:clamp(1.1rem,3vw,2rem);border-radius:20px;background:var(--bg-secondary);border:1px solid var(--border-color); }
+  .case-diagram { margin:0 0 2.8rem;padding:clamp(1.1rem,3vw,1.6rem);border-radius:9px;background:var(--bg-secondary);border:1px solid var(--border-color); }
   .diagram-header { display:flex;gap:.7rem;justify-content:space-between;flex-wrap:wrap;color:var(--accent-color);font-size:.68rem;font-weight:750;letter-spacing:.11em; }
   .diagram-header span:last-child { color:var(--text-muted); }
   .case-diagram ol { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));list-style:none;gap:.75rem;margin:1.5rem 0 1rem; }
-  .case-diagram li { position:relative;display:flex;flex-direction:column;min-height:96px;gap:.8rem;border:1px solid var(--border-color);border-radius:12px;padding:1rem;background:var(--bg-primary);font-size:.9rem; }
+  .case-diagram li { position:relative;display:flex;flex-direction:column;min-height:96px;gap:.8rem;border:1px solid var(--border-color);border-radius:4px;padding:1rem;background:var(--bg-primary);font-size:.9rem; }
   .flow-number { color:var(--accent-color);font-size:.75rem;font-weight:800; }
   .flow-arrow { position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--accent-color);z-index:1;font-size:1.3rem;font-weight:800; }
   .case-diagram figcaption { font-size:.78rem;color:var(--text-muted); }

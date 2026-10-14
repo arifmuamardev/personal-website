@@ -1,6 +1,7 @@
 ---
 import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
+import PageBreadcrumb from '../components/PageBreadcrumb.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -66,6 +67,7 @@ const articleSchema = {
   <script type="application/ld+json" is:raw set:html={JSON.stringify(articleSchema)} />
   <article class="post-detail-section">
     <div class="container container-narrow">
+      <PageBreadcrumb parent="Writing" parentPath="/blog/" current={post.data.title} />
       <header class="post-header">
         <div class="post-meta-details">
           <time datetime={post.data.publishedDate.toISOString()}>
@@ -153,8 +155,8 @@ const articleSchema = {
   }
   
   .post-header {
-    margin-bottom: 3rem;
-    text-align: center;
+    margin-bottom: 2.5rem;
+    text-align: left;
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 2rem;
   }
@@ -167,7 +169,7 @@ const articleSchema = {
     letter-spacing: 0.05em;
     margin-bottom: 1rem;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     gap: 0.25rem;
@@ -181,7 +183,7 @@ const articleSchema = {
     font-size: 2.75rem;
     line-height: 1.2;
     margin-bottom: 1.5rem;
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     letter-spacing: -0.03em;
   }
   

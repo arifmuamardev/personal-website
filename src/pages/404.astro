@@ -33,13 +33,10 @@ import { localPath } from '../lib/urls';
   }
   
   .error-code {
-    font-size: 8rem;
+    font-size: clamp(4rem, 12vw, 7rem);
     font-weight: 800;
     line-height: 1;
     color: var(--accent-color);
-    background: linear-gradient(135deg, var(--accent-color), hsl(210, 40%, 25%));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
     letter-spacing: -0.05em;
   }

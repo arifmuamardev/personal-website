@@ -1,6 +1,7 @@
 ---
 import { localPath } from '../../lib/urls';
 import Layout from '../../layouts/Layout.astro';
+import PageBreadcrumb from '../../components/PageBreadcrumb.astro';
 import PublicationAuthors from '../../components/PublicationAuthors.astro';
 import { getCollection } from 'astro:content';
 import { profile } from '../../data/profile';
@@ -39,9 +40,7 @@ const publicationSchema = {
   <script type="application/ld+json" is:raw set:html={JSON.stringify(publicationSchema)} />
   <article class="section publication-detail">
     <div class="container container-narrow">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href={localPath('/publications/')}>Publications</a><span aria-hidden="true"> / </span><span>{data.year}</span>
-      </nav>
+      <PageBreadcrumb parent="Publications" parentPath="/publications/" current={data.title} />
 
       <header class="publication-header">
         <div class="badges">
@@ -87,7 +86,6 @@ const publicationSchema = {
 
 <style>
   .container-narrow { max-width: 760px; }
-  .breadcrumb { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; }
   .publication-header { border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; margin-bottom: 2.5rem; }
   .badges { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.75rem; }
   .publication-header h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }

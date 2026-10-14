@@ -1,6 +1,7 @@
 ---
 import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
@@ -12,12 +13,11 @@ const sortedPosts = allPosts
 ---
 
 <Layout title="Blog" description="Research explanations, academic reflections, technology notes, and personal writing by Arif Mu'amar Wahid.">
-  <section class="section">
+  <section class="section academic-index">
     <div class="container">
-      <h1 class="page-title">Blog Archive</h1>
-      <p class="lead-text">
-        Writing on research notes, plant signals electrophysiology, and experiences along the PhD journey.
-      </p>
+      <PageIntro title="Blog Archive">
+        <p slot="description">Writing on research notes, plant signals electrophysiology, and experiences along the PhD journey.</p>
+      </PageIntro>
 
       <div class="posts-list">
         {sortedPosts.map(post => (
@@ -52,12 +52,8 @@ const sortedPosts = allPosts
 </Layout>
 
 <style>
-  .page-title {
-    text-align: center;
-    margin-bottom: 0.5rem;
-  }
-  
-  .lead-text {
+
+.lead-text {
     font-size: 1.15rem;
     text-align: center;
     max-width: 800px;

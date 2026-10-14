@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+  eyebrow?: string;
+}
+const { title, eyebrow } = Astro.props;
+---
+<header class="academic-page-intro">
+  {eyebrow && <p class="intro-eyebrow">{eyebrow}</p>}
+  <h1>{title}</h1>
+  <div class="intro-description"><slot name="description" /></div>
+  <div class="intro-actions"><slot name="actions" /></div>
+</header>
+<style>
+  .academic-page-intro {
+    margin: 0 0 clamp(2rem, 4vw, 3rem);
+    padding: 0 0 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    max-width: 100%;
+  }
+  .academic-page-intro h1 {
+    font-size: clamp(2rem, 4.3vw, 2.8rem);
+    line-height: 1.17;
+    letter-spacing: -.035em;
+    margin: 0 0 .8rem;
+  }
+  .intro-eyebrow {
+    font-family: var(--font-sans);
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: .075em;
+    margin: 0 0 .75rem;
+  }
+  .intro-description { max-width: 72ch; }
+  .intro-description :global(p) {
+    font-size: clamp(.98rem, 1.6vw, 1.08rem);
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  .intro-actions { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin-top: 1rem; }
+  .intro-actions:empty { display: none; }
+  @media(max-width:600px) { .academic-page-intro { padding-bottom: 1.2rem; margin-bottom: 2rem; } }
+</style>
