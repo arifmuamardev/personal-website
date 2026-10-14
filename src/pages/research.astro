@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { localPath } from '../lib/urls';
+import { publicCv } from '../data/public-cv';
 ---
 
 <Layout title="Research" description="Current doctoral research and supporting research themes of Arif Mu'amar Wahid, centered on plant bioelectric signals and machine learning.">
@@ -65,6 +66,18 @@ import { localPath } from '../lib/urls';
               Applying computer vision and tabular machine learning to diverse fields including medical diagnostics (such as malaria detection in microscopy smears using GAN-augmented datasets), educational marketing segmentation, landslide susceptibility mapping, and cybersecurity.
             </p>
           </div>
+
+          <h2>Research Experience and Funded Projects</h2>
+          <p class="research-funding-intro">The following 2024 projects are recorded in my comprehensive academic CV as funded research experience. Participation is listed without assuming a principal-investigator role.</p>
+          <div class="research-funding">
+            {publicCv.fundedResearch.map(item => (
+              <div class="funded-entry">
+                <h3>{item.title}</h3>
+                <p>{item.sponsor} · {item.year}</p>
+              </div>
+            ))}
+          </div>
+          <p class="research-funding-cta"><a href={localPath('/cv/')}>More academic and research experience in my CV →</a></p>
         </div>
 
         <!-- Sidebar for distinction of interests -->
@@ -115,6 +128,12 @@ import { localPath } from '../lib/urls';
     color: var(--text-secondary);
   }
   
+  .research-funding-intro {font-size:.95rem;line-height:1.75;color:var(--text-secondary);}
+  .research-funding {border-top:1px solid var(--border-color);}
+  .funded-entry {padding:.9rem 0;border-bottom:1px solid var(--border-color);}
+  .funded-entry h3 {font-family:var(--font-sans);font-size:1rem;margin:0 0 .3rem;line-height:1.5;}
+  .funded-entry p {font-size:.86rem;margin:0;color:var(--text-muted);}
+  .research-funding-cta {font-size:.9rem;margin:1rem 0 0;}
   .research-layout {
     display: grid;
     grid-template-columns: 1.35fr 0.65fr;
