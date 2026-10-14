@@ -74,6 +74,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
   font-size: 16px;
 }
 
@@ -133,6 +134,13 @@ a {
 
 a:hover {
   color: var(--accent-hover);
+}
+
+/* Consistent visible affordances for prose links; navigation/buttons opt out. */
+main p a:not(.btn), main li a:not(.btn) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
 /* Layout helpers */
