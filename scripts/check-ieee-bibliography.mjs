@@ -62,6 +62,7 @@ assert.match(detail,/includeTitle=\{true\}/, 'detail needs full IEEE-style refer
 const folder='src/content/publications';
 const files=readdirSync(folder).filter(p=>p.endsWith('.md'));
 let noDoi=0, abbreviated=0, noExpandedVenue=0, entriesWithRawYear=0;
+const missingVenueIds=[];
 const titles=[];
 for(const f of files){
   const raw=readFileSync(path.join(folder,f),'utf8');
@@ -80,7 +81,7 @@ for(const f of files){
   assert(ref.authorText&&ref.container&&ref.formattedPlain, 'invalid reference '+f);
   if(!doiMatch)noDoi++;
   if(/\b[A-Z]{2,4} [A-Z][a-z]/.test(authorsMatch[1]))abbreviated++;
-  if(ref.needsMetadataReview)noExpandedVenue++;
+  if(ref.needsMetadataReview){noExpandedVenue++;missingVenueIds.push(f);}
   if(/,\s*\d{4}\s*$/.test(item.venue))entriesWithRawYear++;
 }
 const verifiedCases = [
@@ -114,3 +115,4 @@ console.log('IEEE-inspired bibliography PASS:', files.length,
 '; records needing expanded venue metadata:',noExpandedVenue,
 '; records using abbreviated names:',abbreviated,
 '; legacy venues repeating year:',entriesWithRawYear);
+if(missingVenueIds.length) console.log('Outstanding source metadata review:',missingVenueIds.join(', '));
