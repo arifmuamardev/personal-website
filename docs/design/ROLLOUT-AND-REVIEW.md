@@ -1,4 +1,4 @@
-# Personal Website — Design Rollout & Review Contract
+> **Historical design study — superseded.** Academic Minimal (A) was selected on 14 October 2026. The active design authority is [ADR-001](./ADR-001-ACADEMIC-MINIMAL.md) and the [Academic Minimal Guide](./ACADEMIC-MINIMAL-GUIDE.md). Do not treat the earlier PPI-inspired C proposal or the undecided A/B/C comparison as the active website design.\n\n# Personal Website — Design Rollout & Review Contract
 
 **Status: PROTOTYPE, awaiting visual approval.** Source reference is PPI Ishikawa
 B/Solid Institutional as deployed in October 2026. This document governs
