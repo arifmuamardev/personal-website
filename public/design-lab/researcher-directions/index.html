@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" data-mode="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Three alternative directions for a researcher and software engineer's personal website, shown as an isolated, interactive design study.">
+  <title>Researcher Website — Compare A/B/C · Personal Design Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ui-bg:#f2f5f4;--ui-surface:#fff;--ui-text:#203238;--ui-muted:#5a6a70;--ui-line:#d4ddda;--ui-accent:#156a65;--ui-pressed:#e4f1eb;--font-sans:"Fira Sans",system-ui,-apple-system,Arial,sans-serif;color-scheme:light}
+:root[data-mode="dark"]{--ui-bg:#141d21;--ui-surface:#1d2a2f;--ui-text:#f2f7f4;--ui-muted:#bececc;--ui-line:#3c5052;--ui-accent:#91d9c6;--ui-pressed:#24453e;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ui-bg);color:var(--ui-text);font-family:var(--font-sans);line-height:1.6;-webkit-font-smoothing:antialiased}button{font:inherit;cursor:pointer}a{color:inherit}button:focus-visible,a:focus-visible{outline:3px solid #4faaa1;outline-offset:3px}img,svg{max-width:100%}[hidden]{display:none!important}
+.lab-bar{background:#172a2b;color:#e1f5ef}.lab-bar-inner{width:min(1200px,calc(100% - 36px));margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:42px;font-size:12px}.lab-bar strong{letter-spacing:.1em;font-weight:800}.lab-bar a{color:#d4ebe4;text-underline-offset:3px}
+.lab-shell{width:min(1200px,calc(100% - 36px));margin:auto}.lab-intro{padding:42px 0 24px}.lab-eyebrow{margin:0 0 9px;color:var(--ui-accent);font-weight:800;letter-spacing:.15em;text-transform:uppercase;font-size:11px}.lab-intro h1{margin:0;font-size:clamp(27px,4.4vw,46px);line-height:1.12;letter-spacing:-.042em;max-width:22ch}.lab-intro p:last-child{color:var(--ui-muted);max-width:72ch;font-size:14px;margin:12px 0 0}
+.choices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.choice{background:var(--ui-surface);border:1px solid var(--ui-line);border-radius:14px;padding:16px 18px;min-height:116px;text-align:left;color:var(--ui-text);transition:border-color 160ms,box-shadow 160ms}.choice:hover{border-color:var(--ui-accent)}.choice[aria-pressed="true"]{border-color:var(--ui-accent);box-shadow:inset 0 0 0 1px var(--ui-accent);background:var(--ui-pressed)}.choice .choice-num{display:inline-flex;align-items:center;justify-content:center;width:25px;height:25px;background:var(--ui-bg);border:1px solid var(--ui-line);border-radius:7px;color:var(--ui-accent);font-size:11px;font-weight:900}.choice strong{font-size:15px;display:block;margin:10px 0 2px;line-height:1.2}.choice small{font-size:12px;line-height:1.5;color:var(--ui-muted);display:block}
+.lab-tools{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding:22px 0 15px}.lab-tools p{margin:0;color:var(--ui-muted);font-size:12px}.lab-tools button{border:1px solid var(--ui-line);background:var(--ui-surface);color:var(--ui-text);font-size:12px;font-weight:700;border-radius:9px;padding:10px 13px;min-height:42px}.lab-tools button[aria-pressed="true"]{background:var(--ui-pressed);border-color:var(--ui-accent)}.device-controls{display:flex;gap:6px;align-items:center}.device-controls .label{margin-right:6px;color:var(--ui-muted);font-size:12px}.preview-shell{border:1px solid var(--ui-line);background:var(--ui-surface);border-radius:19px;overflow:hidden;box-shadow:0 22px 45px #132b2214;margin-bottom:24px}.preview-bar{background:#e4ebe9;display:flex;align-items:center;gap:7px;min-height:37px;padding:0 17px;border-bottom:1px solid #cad4d0;color:#52635f;font-size:11px}.preview-bar i{width:8px;height:8px;border-radius:50%;background:#a4b7b0}.preview-bar span{margin:auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:70%;text-align:center}.preview-viewport{margin:auto;transition:max-width 160ms}.preview-viewport[data-device="phone"]{max-width:390px;border-left:1px solid var(--ui-line);border-right:1px solid var(--ui-line)}.concept{container-type:inline-size;min-width:0}.concept :is(p,h1,h2,h3){margin-top:0}.concept a{text-decoration:none}.concept button,.concept a{transition:background-color 160ms,border-color 160ms,color 160ms}.mock-wrap{width:min(1080px,calc(100% - 60px));margin:auto}.mock-footer{border-top:1px solid var(--c-border);padding:27px 0;font-size:12px;color:var(--c-muted);background:var(--c-bg)}.mock-footer .mock-wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}.mock-footer strong{color:var(--c-ink)}.mock-footer a{color:var(--c-link)}.mock-link{color:var(--c-link)!important;text-decoration:underline!important;text-underline-offset:4px;font-weight:650}.mock-primary,.mock-secondary{display:inline-flex;justify-content:center;align-items:center;min-height:44px;gap:10px;font-weight:700;font-size:13px;border-radius:9px;padding:11px 18px;text-decoration:none!important}.mock-primary{background:var(--c-action);color:var(--c-action-text)!important}.mock-secondary{background:transparent;border:1px solid var(--c-border);color:var(--c-ink)!important}.mock-subline{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:11px;color:var(--c-muted)}.mock-chip{display:inline-flex;padding:5px 9px;border:1px solid var(--c-border);border-radius:40px;color:var(--c-muted);font-size:11px}.mock-end{padding-block:45px}
+.concept-a{--c-bg:#fff;--c-paper:#fff;--c-ink:#192c33;--c-muted:#52646a;--c-border:#e0e8e8;--c-action:#215a62;--c-action-text:#fff;--c-link:#206369;background:var(--c-bg);color:var(--c-ink);font-family:ui-sans-serif,system-ui,-apple-system,sans-serif}
+.concept-a .a-header{border-bottom:1px solid var(--c-border)}.concept-a .a-header .mock-wrap{display:flex;justify-content:space-between;align-items:center;min-height:76px;gap:24px}.concept-a .a-brand{font-family:Georgia,serif;font-weight:700;letter-spacing:-.025em;font-size:22px;line-height:1.1}.concept-a .a-menu{display:flex;gap:20px;font-size:12px;color:var(--c-muted)}.concept-a .a-menu a:hover{color:var(--c-link)}.concept-a .a-main{padding:74px 0 61px}.concept-a .a-hero{display:grid;grid-template-columns:180px minmax(0,1fr);gap:45px;align-items:start}.concept-a .a-portrait{aspect-ratio:4/5;display:flex;flex-direction:column;justify-content:space-between;background:#e5f0ef;border-radius:3px;border:1px solid #d2e2e0;overflow:hidden;padding:16px}.concept-a .a-portrait-letters{color:#477c7c;font-family:Georgia,serif;font-size:51px;font-weight:700;line-height:1}.concept-a .a-portrait small{color:#577776;font-size:10px;letter-spacing:.08em}.concept-a .a-small{margin:0 0 9px;font-size:12px;color:var(--c-muted);text-transform:uppercase;letter-spacing:.1em;font-weight:700}.concept-a h1{font-family:Georgia,serif;font-weight:700;font-size:clamp(36px,4.6vw,53px);letter-spacing:-.035em;line-height:1.11;margin:0 0 14px}.concept-a .a-hero p{max-width:63ch;font-size:15px;line-height:1.8;color:var(--c-muted);margin-bottom:15px}.concept-a .a-hero .a-role{color:var(--c-ink);font-weight:600;font-size:14px}.concept-a .a-actions{display:flex;gap:15px;flex-wrap:wrap;margin-top:21px;font-size:13px}.concept-a .a-headline{font-family:Georgia,serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin-bottom:13px}.concept-a .a-columns{display:grid;grid-template-columns:1.15fr .85fr;gap:58px;padding:50px 0;border-top:1px solid var(--c-border)}.concept-a .a-list{margin:0;padding:0;list-style:none}.concept-a .a-list li{border-bottom:1px solid var(--c-border);padding:14px 0}.concept-a .a-list strong{display:block;font-size:14px;line-height:1.5}.concept-a .a-list span{display:block;font-size:12px;color:var(--c-muted);margin-top:5px}.concept-a .a-project{padding:16px 0;border-bottom:1px solid var(--c-border)}.concept-a .a-project strong{display:block;font-size:15px}.concept-a .a-project p{font-size:13px;color:var(--c-muted);margin:5px 0}.concept-a .a-project a{font-size:12px}.concept-a .a-footnotes{color:var(--c-muted);font-size:13px;line-height:1.7}
+.concept-b{--c-bg:#f6f7f4;--c-paper:#fff;--c-ink:#223238;--c-muted:#596966;--c-border:#d9e1dc;--c-action:#245e59;--c-action-text:#fff;--c-link:#1c6662;background:var(--c-bg);color:var(--c-ink);font-family:var(--font-sans)}
+.concept-b .b-topline{height:5px;background:linear-gradient(90deg,#205d59 0 76%,#bc8266 76% 100%)}.concept-b .b-header .mock-wrap{display:flex;justify-content:space-between;align-items:center;gap:22px;min-height:79px;border-bottom:1px solid var(--c-border)}.concept-b .b-brand{font-size:17px;font-weight:800;letter-spacing:-.055em}.concept-b .b-brand em{font-style:normal;color:#ad6c51}.concept-b .b-menu{display:flex;gap:21px;font-size:12px;font-weight:700;color:#51635d}.concept-b .b-hero{padding:77px 0 66px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:72px}.concept-b .b-eyebrow{color:#2b7770;font-size:11px;text-transform:uppercase;letter-spacing:.15em;font-weight:800;margin:0 0 16px}.concept-b h1{font-size:clamp(42px,5.2vw,68px);letter-spacing:-.06em;font-weight:800;line-height:1.04;margin:0 0 24px;max-width:13ch}.concept-b .b-lead{font-size:17px;color:var(--c-muted);line-height:1.7;max-width:53ch}.concept-b .b-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}.concept-b .b-aside{border-left:1px solid var(--c-border);padding-left:29px;align-self:stretch;display:flex;flex-direction:column;justify-content:space-between;gap:25px}.concept-b .b-monogram{font-size:clamp(54px,7vw,100px);letter-spacing:-.11em;font-weight:900;line-height:1;color:#2c6d65;opacity:.2;margin-left:-5px}.concept-b .b-aside h2{font-size:14px;font-weight:800;margin:0 0 10px}.concept-b .b-aside p{font-size:13px;line-height:1.8;color:var(--c-muted);margin:0}.concept-b .b-aside .b-sub{border-top:1px solid var(--c-border);padding-top:15px}.concept-b .b-tracks{background:var(--c-paper);border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border)}.concept-b .b-tracks .mock-wrap{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.concept-b .b-track{padding:31px 27px 30px 0}.concept-b .b-track+.b-track{border-left:1px solid var(--c-border);padding:31px 0 30px 28px}.concept-b .b-track small{color:var(--c-link);font-size:11px;text-transform:uppercase;font-weight:800;letter-spacing:.13em}.concept-b .b-track strong{display:block;font-size:20px;line-height:1.25;letter-spacing:-.03em;margin:7px 0}.concept-b .b-track p{font-size:13px;line-height:1.65;color:var(--c-muted);margin:0}.concept-b .b-work{padding:63px 0}.concept-b .b-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:21px}.concept-b .b-heading h2{font-size:27px;letter-spacing:-.035em;line-height:1.1;font-weight:750;margin:0}.concept-b .b-heading p{font-size:12px;color:var(--c-muted);margin:8px 0 0}.concept-b .b-worklist{border-top:1px solid var(--c-border)}.concept-b .b-workrow{display:grid;grid-template-columns:115px minmax(0,1fr) auto;gap:20px;align-items:center;border-bottom:1px solid var(--c-border);padding:22px 0}.concept-b .b-workrow small{font-size:11px;color:var(--c-link);font-weight:800;letter-spacing:.055em}.concept-b .b-workrow h3{font-size:17px;letter-spacing:-.02em;line-height:1.3;margin:0 0 4px}.concept-b .b-workrow p{font-size:12px;color:var(--c-muted);line-height:1.5;margin:0}.concept-b .b-workrow a{font-size:12px;color:var(--c-link);font-weight:800;white-space:nowrap}.concept-b .b-bottom{display:grid;grid-template-columns:1fr 1fr;gap:35px;margin-top:37px}.concept-b .b-note{padding:20px 22px;background:var(--c-paper);border:1px solid var(--c-border);border-radius:12px}.concept-b .b-note h3{font-size:16px;margin:0 0 8px}.concept-b .b-note p{font-size:13px;color:var(--c-muted);margin:0}
+.concept-c{--c-bg:#f7faf9;--c-paper:#fff;--c-ink:#232e30;--c-muted:#53676a;--c-border:#d8e4e0;--c-action:#f7faf9;--c-action-text:#103d40;--c-link:#176b6a;background:var(--c-bg);color:var(--c-ink);font-family:var(--font-sans)}
+.concept-c .c-dark{background:#103d40;color:#fff}.concept-c .c-header{border-bottom:1px solid #ffffff28}.concept-c .c-header .mock-wrap{min-height:78px;display:flex;justify-content:space-between;align-items:center;gap:20px}.concept-c .c-brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:14px}.concept-c .c-brand-mark{width:45px;height:45px;border:1px solid #ffffff73;border-radius:12px;display:grid;place-items:center;font-size:15px}.concept-c .c-nav{display:flex;gap:23px;color:#e2f1ec;font-size:12px;font-weight:700}.concept-c .c-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:54px;align-items:center;padding:70px 0 85px}.concept-c .c-eyebrow{display:inline-block;border:1px solid #ffffff4e;border-radius:999px;padding:5px 13px;color:#e3f5f0;font-size:11px;text-transform:uppercase;font-weight:700;letter-spacing:.1em;margin-bottom:21px}.concept-c h1{font-size:clamp(46px,5.3vw,76px);font-weight:900;letter-spacing:-.06em;line-height:1.05;max-width:11ch;margin:0 0 22px}.concept-c h1 mark{background:#ac4546;color:#fff;padding:0 .09em;box-decoration-break:clone}.concept-c .c-lead{font-size:16px;line-height:1.75;color:#d4e8e2;max-width:51ch}.concept-c .c-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:26px}.concept-c .c-actions .mock-secondary{border-color:#ffffffa8;color:#fff!important}.concept-c .c-actions .mock-primary{border-color:transparent}.concept-c .c-figure{padding:23px 23px 14px;border:1px solid #ffffff5a;border-radius:24px;background:linear-gradient(155deg,#1b6460,#144348);position:relative;overflow:hidden;min-height:330px;display:flex;flex-direction:column;justify-content:space-between}.concept-c .c-figure:after{content:"";position:absolute;width:300px;height:300px;border:1px solid #a2f5d23b;border-radius:50%;right:-120px;top:20px;pointer-events:none}.concept-c .c-figure small{letter-spacing:.13em;font-size:10px;color:#c1e4da;z-index:1}.concept-c .c-figure strong{display:block;font-size:38px;line-height:1.03;letter-spacing:-.055em;margin-top:15px;z-index:1}.concept-c .c-wave{stroke:#94e0cb;fill:none;stroke-width:2.3;stroke-linejoin:round}.concept-c .c-figure figcaption{font-size:10px;color:#d8f4e9;z-index:1}.concept-c .c-transition{padding:21px 0;background:#eaf3f0;border-bottom:1px solid #d2e3dd}.concept-c .c-transition .mock-wrap{display:flex;justify-content:space-between;gap:22px;font-size:12px;color:#254542;flex-wrap:wrap}.concept-c .c-main{padding:63px 0}.concept-c .c-sectionhead{display:flex;justify-content:space-between;gap:16px;align-items:end;margin-bottom:25px}.concept-c .c-sectionhead h2{font-size:30px;line-height:1.14;letter-spacing:-.035em;margin:5px 0 0;font-weight:750}.concept-c .c-sectionhead p{font-size:11px;text-transform:uppercase;color:#176b6a;font-weight:800;letter-spacing:.12em;margin:0}.concept-c .c-tilegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.concept-c .c-tile{border:1px solid #dbe7e1;border-radius:16px;padding:23px;background:white}.concept-c .c-tile .c-tile-icon{width:44px;height:44px;display:grid;place-items:center;background:#e9f5f0;border-radius:12px;color:#176b6a;font-size:20px;margin-bottom:18px}.concept-c .c-tile h3{font-size:17px;margin:0 0 8px}.concept-c .c-tile p{font-size:12px;color:#566764;margin:0}.concept-c .c-project{border:1px solid #dbe7e1;border-radius:24px;display:grid;grid-template-columns:1fr .82fr;overflow:hidden;background:#fff;margin-top:31px}.concept-c .c-projectcopy{padding:30px}.concept-c .c-projectcopy h3{font-size:27px;margin:8px 0}.concept-c .c-projectcopy p{font-size:13px;color:#566764;line-height:1.7}.concept-c .c-projectcopy small{color:#176b6a;font-weight:800;font-size:11px;letter-spacing:.1em}.concept-c .c-projectflow{background:#1f5655;color:white;padding:25px;display:flex;flex-direction:column;gap:10px;justify-content:center}.concept-c .c-projectflow div{border:1px solid #ffffff42;border-radius:12px;padding:12px 15px;font-size:12px}.concept-c .c-projectflow strong{color:#9cddd2;font-size:11px;padding-right:8px}
+.concept-a[data-mode="dark"],:root[data-mode="dark"] .concept-a{--c-bg:#141b20;--c-paper:#19252a;--c-ink:#eff8f6;--c-muted:#c6d1d0;--c-border:#344b4c;--c-action:#8dd3c6;--c-action-text:#102b2d;--c-link:#90ddd0}
+:root[data-mode="dark"] .concept-a .a-portrait{background:#203c40;border-color:#416b6b}:root[data-mode="dark"] .concept-a .a-portrait-letters{color:#b6e9dd}:root[data-mode="dark"] .concept-a .a-portrait small{color:#b8d7d2}
+:root[data-mode="dark"] .concept-b{--c-bg:#172225;--c-paper:#213034;--c-ink:#f0f7f2;--c-muted:#bfceca;--c-border:#3d5151;--c-action:#a1dbcc;--c-action-text:#15332f;--c-link:#a2dfd0}
+:root[data-mode="dark"] .concept-b .b-brand em{color:#f0ad8c}:root[data-mode="dark"] .concept-b .b-menu{color:#d6e2db}:root[data-mode="dark"] .concept-b .b-eyebrow{color:#9cd8ca}:root[data-mode="dark"] .concept-b .b-monogram{color:#9cd8ca}
+:root[data-mode="dark"] .concept-c{--c-bg:#152122;--c-paper:#223235;--c-ink:#f1f8f5;--c-muted:#c6d5d0;--c-border:#3d5552;--c-link:#a3e2d4}
+:root[data-mode="dark"] .concept-c .c-transition{background:#223635;border-color:#486761}:root[data-mode="dark"] .concept-c .c-transition .mock-wrap{color:#dbeee9}:root[data-mode="dark"] .concept-c .c-tile{background:#25383a;border-color:#3b5453}:root[data-mode="dark"] .concept-c .c-tile .c-tile-icon{background:#33504c;color:#b3eddb}:root[data-mode="dark"] .concept-c .c-tile p,:root[data-mode="dark"] .concept-c .c-projectcopy p{color:#bfd2cd}:root[data-mode="dark"] .concept-c .c-project{background:#25383a;border-color:#3b5453}:root[data-mode="dark"] .concept-c .c-sectionhead p{color:#9adace}
+.review{background:var(--ui-surface);border:1px solid var(--ui-line);border-radius:14px;margin-bottom:60px;padding:22px}.review h2{font-size:19px;margin:0 0 8px;line-height:1.2}.review p{color:var(--ui-muted);font-size:13px;margin:0 0 14px}.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.review-grid div{border-top:2px solid var(--ui-line);padding-top:12px}.review-grid strong{font-size:13px}.review-grid small{display:block;color:var(--ui-muted);font-size:12px;margin-top:5px}.review-emphasis{font-size:13px;font-weight:700;color:var(--ui-accent);margin-top:16px}
+.lab-footer{padding:18px 0 36px;color:var(--ui-muted);font-size:12px;border-top:1px solid var(--ui-line)}.lab-footer a{color:var(--ui-accent)}
+@container (max-width:740px){
+ .mock-wrap{width:calc(100% - 34px)}
+ .concept-a .a-menu,.concept-b .b-menu,.concept-c .c-nav{display:none}
+ .concept-a .a-header .mock-wrap,.concept-b .b-header .mock-wrap,.concept-c .c-header .mock-wrap{min-height:65px}
+ .concept-a .a-header .mock-wrap:after,.concept-b .b-header .mock-wrap:after,.concept-c .c-header .mock-wrap:after{content:"Menu";font-size:12px;opacity:.8}
+ .concept-a .a-main{padding:42px 0}
+ .concept-a .a-hero{grid-template-columns:1fr;gap:19px}
+ .concept-a .a-portrait{width:102px;aspect-ratio:1}
+ .concept-a .a-portrait-letters{font-size:34px}
+ .concept-a h1{font-size:36px}
+ .concept-a .a-columns{grid-template-columns:1fr;gap:36px;padding:34px 0}
+ .concept-b .b-hero{grid-template-columns:1fr;gap:22px;padding:42px 0}
+ .concept-b h1{font-size:42px}
+ .concept-b .b-aside{border-left:0;border-top:1px solid var(--c-border);padding:18px 0 0;gap:10px}
+ .concept-b .b-monogram{display:none}
+ .concept-b .b-tracks .mock-wrap{grid-template-columns:1fr}
+ .concept-b .b-track{padding:21px 0}
+ .concept-b .b-track+.b-track{border-left:0;border-top:1px solid var(--c-border);padding:21px 0}
+ .concept-b .b-work{padding:40px 0}
+ .concept-b .b-workrow{grid-template-columns:1fr auto;gap:8px}
+ .concept-b .b-workrow small{grid-column:1/-1}
+ .concept-b .b-bottom{grid-template-columns:1fr;gap:12px}
+ .concept-c .c-hero{grid-template-columns:1fr;padding:45px 0 60px;gap:34px}
+ .concept-c h1{font-size:48px}
+ .concept-c .c-figure{min-height:270px}
+ .concept-c .c-tilegrid{grid-template-columns:1fr}
+ .concept-c .c-project{grid-template-columns:1fr}
+ .concept-c .c-main{padding:42px 0}
+}
+@media(max-width:800px){.choices,.review-grid{grid-template-columns:1fr}.lab-intro{padding-top:29px}.choice{min-height:auto}.lab-tools{align-items:flex-start}.lab-tools>p{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:0.01ms!important;animation-duration:0.01ms!important}}
+</style>
+</head>
+<body>
+<div class="lab-bar"><div class="lab-bar-inner"><strong>AMW / DESIGN LAB</strong><a href="../../">Back to current website ↗</a></div></div>
+<main id="content" class="lab-shell">
+  <div class="lab-intro">
+    <p class="lab-eyebrow">Researcher website · Visual comparison</p>
+    <h1>Three directions.<br>One personal identity.</h1>
+    <p>Compare three full-page approaches inspired by established researcher websites. This is a design prototype, not the published homepage. The content and software claims are deliberately conservative.</p>
+  </div>
+  <div class="choices" role="group" aria-label="Choose website design concept">
+    <button type="button" class="choice" data-pick="a" aria-pressed="false"><span class="choice-num">A</span><strong>Academic Minimal</strong><small>Quiet portrait, biography and publication index. Work-first and traditional.</small></button>
+    <button type="button" class="choice" data-pick="b" aria-pressed="true"><span class="choice-num">B</span><strong>Modern Researcher–Engineer</strong><small>Light editorial layout. Research and software are equally discoverable.</small></button>
+    <button type="button" class="choice" data-pick="c" aria-pressed="false"><span class="choice-num">C</span><strong>Solid Editorial</strong><small>Strong teal header and hero, abstract scientific visual and structured panels.</small></button>
+  </div>
+  <div class="lab-tools">
+    <p id="active-description" role="status" aria-live="polite">Showing B: Modern Researcher–Engineer — balanced editorial identity.</p>
+    <div class="device-controls" role="group" aria-label="Preview controls">
+      <span class="label">Viewport</span>
+      <button type="button" data-device-pick="desktop" aria-pressed="true">Responsive</button>
+      <button type="button" data-device-pick="phone" aria-pressed="false">390px phone</button>
+      <button type="button" id="theme-toggle" aria-pressed="false">Dark preview</button>
+    </div>
+  </div>
+  <div class="preview-shell">
+    <div class="preview-bar" aria-hidden="true"><i></i><i></i><i></i><span id="preview-label">Option B / Personal homepage preview</span></div>
+    <div class="preview-viewport" id="preview-viewport" data-device="desktop">
+      <div class="concept concept-a" data-concept="a" hidden>
+        <header class="a-header"><div class="mock-wrap"><div class="a-brand">Arif Mu’amar Wahid</div><nav class="a-menu" aria-label="Academic navigation"><a href="../../about/">About</a><a href="../../research/">Research</a><a href="../../publications/">Publications</a><a href="../../portfolio/">Software</a><a href="../../blog/">Writing</a></nav></div></header>
+        <div class="mock-wrap"><div class="a-main"><div class="a-hero">
+          <div class="a-portrait" role="img" aria-label="Initials placeholder, not a photograph"><span class="a-portrait-letters">AMW</span><small>PHOTO OPTIONAL</small></div>
+          <div><p class="a-small">Researcher · Educator · Developer</p><h1>Arif Mu’amar Wahid</h1><p class="a-role">PhD student at Kanazawa University · Lecturer at Universitas Amikom Purwokerto</p><p>I study machine learning for plant bioelectric potential signals and related time-series problems. I also build web applications and tools to make complex workflows more manageable.</p><div class="a-actions"><a class="mock-link" href="../../publications/">Publications ↗</a><a class="mock-link" href="../../research/">Research ↗</a><a class="mock-link" href="../../portfolio/">Software projects ↗</a><a class="mock-link" href="../../cv/">CV ↗</a></div></div>
+        </div></div><div class="a-columns">
+          <section><h2 class="a-headline">Selected research</h2><ul class="a-list">
+            <li><strong>Plant bioelectric signals and machine learning</strong><span>Doctoral research · Kanazawa University</span></li>
+            <li><strong>Transformer-Based Models for Enhanced Plant Bioelectric Signal Classification</strong><span>Conference paper · Read publication metadata on the main site</span></li>
+            <li><strong>Applied data mining and intelligent systems</strong><span>Methods and projects across time-series and applied computing</span></li></ul><p style="margin:17px 0 0"><a class="mock-link" href="../../publications/">View full publications →</a></p>
+          </section>
+          <section><h2 class="a-headline">Software &amp; writing</h2><div class="a-project"><strong>Pilketos — election web application</strong><p>React, Vite, Supabase · development / demo not enabled</p><a class="mock-link" href="../../portfolio/pilketos/">Case study →</a></div><div class="a-project"><strong>Technical writing</strong><p>Notes on research, building software, and learning.</p><a class="mock-link" href="../../blog/">Read the blog →</a></div><p class="a-footnotes">Minimal by design: the work is the interface. No metrics or claims without verification.</p></section>
+        </div></div>
+        <footer class="mock-footer"><div class="mock-wrap"><strong>Arif Mu’amar Wahid</strong><a href="../../contact/">Contact →</a></div></footer>
+      </div>
+      <div class="concept concept-b" data-concept="b">
+        <div class="b-topline" aria-hidden="true"></div><header class="b-header"><div class="mock-wrap"><div class="b-brand">ARIF<span style="opacity:.55"> / </span>MU’AMAR<em>.</em></div><nav class="b-menu" aria-label="Editorial navigation"><a href="../../about/">About</a><a href="../../research/">Research</a><a href="../../portfolio/">Software</a><a href="../../publications/">Publications</a><a href="../../blog/">Writing</a></nav></div></header>
+        <div class="mock-wrap"><section class="b-hero"><div><p class="b-eyebrow">PhD researcher &amp; software developer</p><h1>Curious about data. Focused on useful systems.</h1><p class="b-lead">I’m Arif Mu’amar Wahid. I study how biological signals can be understood with machine learning, and build thoughtful software for real-world needs.</p><div class="b-actions"><a class="mock-primary" href="../../research/">Explore research →</a><a class="mock-secondary" href="../../portfolio/">See software work →</a></div></div><aside class="b-aside"><span class="b-monogram" aria-hidden="true">AMW.</span><div><h2>Current focus</h2><p>Plant bioelectric potential · biological time-series · applied machine learning</p></div><div class="b-sub"><h2>Affiliations</h2><p>Kanazawa University, Japan<br>Universitas Amikom Purwokerto, Indonesia</p></div><p><a class="mock-link" href="../../cv/">Curriculum vitae ↗</a></p></aside></section></div>
+        <div class="b-tracks"><div class="mock-wrap"><div class="b-track"><small>01 / Research</small><strong>Questions worth investigating.</strong><p>Scientific methods, reproducibility, publications, and a deeper understanding of signals.</p></div><div class="b-track"><small>02 / Engineering</small><strong>Problems worth solving.</strong><p>Maintainable software, accessible user experiences, and practical application workflows.</p></div></div></div>
+        <section class="mock-wrap b-work"><div class="b-heading"><div><p class="b-eyebrow">Selected work</p><h2>Research &amp; things I build.</h2><p>A concise starting point. Full details belong on dedicated pages.</p></div><a class="mock-link" href="../../portfolio/">All projects →</a></div><div class="b-worklist">
+          <div class="b-workrow"><small>RESEARCH</small><div><h3>Plant bioelectric signals</h3><p>PhD research · time-series analysis and machine learning</p></div><a href="../../research/">Explore ↗</a></div>
+          <div class="b-workrow"><small>PUBLICATION</small><div><h3>Transformer-Based Models for Enhanced Plant Bioelectric Signal Classification</h3><p>Scientific publication · methodology and results</p></div><a href="../../publications/">Browse ↗</a></div>
+          <div class="b-workrow"><small>SOFTWARE</small><div><h3>Pilketos — School Election Application</h3><p>React + Vite + Supabase · source available; interactive demo not enabled</p></div><a href="../../portfolio/pilketos/">Case study ↗</a></div>
+        </div><div class="b-bottom"><div class="b-note"><h3>Writing</h3><p>Research notes, technical explanations, and occasional reflections. <a class="mock-link" href="../../blog/">Read the blog →</a></p></div><div class="b-note"><h3>Get in touch</h3><p>Questions about research or software collaboration? <a class="mock-link" href="../../contact/">Contact me →</a></p></div></div></section>
+        <footer class="mock-footer"><div class="mock-wrap"><strong>Arif Mu’amar Wahid</strong><span>Research · Software · Writing</span></div></footer>
+      </div>
+      <div class="concept concept-c" data-concept="c" hidden>
+        <div class="c-dark"><header class="c-header"><div class="mock-wrap"><div class="c-brand"><span class="c-brand-mark">AMW</span><span>Arif Mu’amar Wahid</span></div><nav class="c-nav" aria-label="Institutional navigation"><a href="../../about/">About</a><a href="../../research/">Research</a><a href="../../publications/">Publications</a><a href="../../portfolio/">Portfolio</a><a href="../../contact/">Contact</a></nav></div></header>
+        <section class="mock-wrap c-hero"><div><p class="c-eyebrow">Research · Education · Software Engineering</p><h1>Exploring <mark>signals.</mark> Building systems.</h1><p class="c-lead">Arif Mu’amar Wahid — a researcher and lecturer studying machine learning for plant bioelectric signals, while building practical web applications.</p><div class="c-actions"><a class="mock-primary" href="../../research/">Research →</a><a class="mock-secondary" href="../../portfolio/">Software portfolio →</a></div></div>
+        <figure class="c-figure"><small>SIGNAL / DATA / SYSTEMS</small><svg viewBox="0 0 460 145" aria-hidden="true"><path class="c-wave" d="M0 70H65L76 50L87 85L103 24L117 112L131 70H195L208 59L224 81L242 16L255 128L270 73H342L356 38L373 97L391 65H460"/></svg><strong>Observe.<br>Model.<br>Build.</strong><figcaption>Abstract signal illustration, not measured data.</figcaption></figure>
+        </section></div><div class="c-transition"><div class="mock-wrap"><span><strong>Research</strong> · Plant BEP, time-series and intelligent systems</span><span><strong>Software</strong> · Web applications and thoughtful UX</span></div></div>
+        <section class="mock-wrap c-main"><div class="c-sectionhead"><div><p>Focus areas</p><h2>What I work on.</h2></div><a class="mock-link" href="../../research/">All research →</a></div><div class="c-tilegrid">
+          <div class="c-tile"><div class="c-tile-icon">∿</div><h3>Biological Signals</h3><p>Understanding plant electrophysiology and its environmental responses.</p></div>
+          <div class="c-tile"><div class="c-tile-icon">◇</div><h3>Machine Learning</h3><p>Classification, time-series models and careful validation.</p></div>
+          <div class="c-tile"><div class="c-tile-icon">⌘</div><h3>Applied Software</h3><p>Translating data and operational workflows into useful systems.</p></div>
+        </div><div class="c-project"><div class="c-projectcopy"><small>FEATURED SOFTWARE / 01</small><h3>Pilketos</h3><p>School election management, voter administration, TPS workflows and results interfaces. Source code available; functional demo is not currently enabled.</p><a class="mock-link" href="../../portfolio/pilketos/">Read case study →</a></div><div class="c-projectflow"><div><strong>01</strong> Election setup</div><div><strong>02</strong> TPS operations</div><div><strong>03</strong> Results review</div><small>Conceptual flow · not app screenshots</small></div></div>
+        </section><footer class="mock-footer"><div class="mock-wrap"><strong>Arif Mu’amar Wahid</strong><a href="../../contact/">Contact →</a></div></footer>
+      </div>
+    </div>
+  </div>
+  <section class="review" aria-labelledby="criteria-title">
+    <h2 id="criteria-title">What to compare before choosing</h2>
+    <p>None of the mockups is a final homepage. Evaluate how naturally they express a researcher's credibility and hands-on software work.</p>
+    <div class="review-grid"><div><strong>A — Academic Minimal</strong><small>Best for bibliography, CV and direct links; intentionally modest visual identity.</small></div><div><strong>B — Researcher–Engineer</strong><small>Best balance of research, publications, code, writing and approachable personal identity.</small></div><div><strong>C — Solid Editorial</strong><small>Strongest visual presence, but can feel more like an institutional website.</small></div></div>
+    <p class="review-emphasis">Working recommendation: B. The final decision should follow review on desktop and mobile.</p>
+  </section>
+</main>
+<footer class="lab-footer"><div class="lab-shell">Prototype only · No live app data, invented publication metrics, or user photographs · <a href="../../">Existing staging site ↗</a></div></footer>
+<script>
+(()=>{
+ const options=[...document.querySelectorAll('[data-pick]')];
+ const panels=[...document.querySelectorAll('[data-concept]')];
+ const labels={a:'Academic Minimal — academic CV and publication-first presentation.',b:'Modern Researcher–Engineer — balanced editorial identity.',c:'Solid Editorial — strong teal research and software presence.'};
+ const caption=document.getElementById('active-description');
+ const tabText=document.getElementById('preview-label');
+ function setChoice(id,updateHash=true){
+   if(!Object.prototype.hasOwnProperty.call(labels,id))id='b';
+   options.forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.pick===id)));
+   panels.forEach(panel=>{panel.hidden=panel.dataset.concept!==id});
+   caption.textContent='Showing '+id.toUpperCase()+': '+labels[id];
+   tabText.textContent='Option '+id.toUpperCase()+' / Personal homepage preview';
+   if(updateHash&&history.replaceState)history.replaceState(null,'','#'+id);
+ }
+ options.forEach(btn=>btn.addEventListener('click',()=>setChoice(btn.dataset.pick)));
+ const start=location.hash.replace('#','').toLowerCase();setChoice(start==='a'||start==='c'?start:'b',false);
+ const viewport=document.getElementById('preview-viewport');
+ const deviceButtons=[...document.querySelectorAll('[data-device-pick]')];
+ deviceButtons.forEach(btn=>btn.addEventListener('click',()=>{
+   const device=btn.dataset.devicePick;
+   viewport.dataset.device=device;
+   deviceButtons.forEach(el=>el.setAttribute('aria-pressed',String(el===btn)));
+ }));
+ const root=document.documentElement, theme=document.getElementById('theme-toggle');
+ theme.addEventListener('click',()=>{
+  const dark=root.dataset.mode!=='dark';root.dataset.mode=dark?'dark':'light';
+  theme.setAttribute('aria-pressed',String(dark));
+  theme.textContent=dark?'Light preview':'Dark preview';
+ });
+ document.addEventListener('keydown',event=>{
+  if(event.altKey&&(event.key==='1'||event.key==='2'||event.key==='3')){
+   event.preventDefault();setChoice({1:'a',2:'b',3:'c'}[event.key]);
+   options.find(btn=>btn.dataset.pick==={1:'a',2:'b',3:'c'}[event.key])?.focus();
+  }
+ });
+})();
+</script>
+</body>
+</html>
