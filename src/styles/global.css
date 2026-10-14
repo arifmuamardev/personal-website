@@ -234,6 +234,69 @@ main :is(.lead-text, .portfolio-lead, .portfolio-note) {
   box-shadow: none;
 }
 
+/* Reusable Academic Minimal overview template. PageIntro controls the heading; the
+   page collection supplies its own content without reintroducing a bespoke hero. */
+.academic-index {
+  --index-border: var(--border-color);
+}
+
+.academic-index .card {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--index-border);
+  border-radius: 0;
+  box-shadow: none;
+  padding: 1.25rem 0;
+  margin: 0;
+}
+.academic-index .card:hover {
+  background: transparent;
+  border-bottom-color: var(--index-border);
+  box-shadow: none;
+}
+.academic-index .pubs-grid,
+.academic-index .projects-list,
+.academic-index .posts-list {
+  display: block;
+  margin: 0;
+  max-width: none;
+}
+.academic-index .pubs-grid > *,
+.academic-index .projects-list > *,
+.academic-index .posts-list > * {
+  width: 100%;
+}
+.academic-index .research-theme.primary-highlight {
+  border-left: 3px solid var(--accent-color);
+  padding-left: 1.25rem;
+}
+.academic-index .year-group { margin-bottom: 2.5rem; }
+.academic-index .year-heading {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: .5rem;
+  margin-bottom: .3rem;
+}
+.academic-index .filter-container {
+  justify-content: flex-start;
+  margin-bottom: 1.8rem;
+}
+.academic-index .card :is(h2,h3) {
+  line-height: 1.35;
+}
+.academic-index .card p { line-height: 1.72; }
+.academic-index .research-jump {
+  justify-content: flex-start;
+  margin: -1rem 0 2rem;
+}
+.academic-index .profile-links-list a,
+.academic-index .filter-btn {
+  min-height: 44px;
+}
+@media(max-width:650px) {
+  .academic-index .card { padding-block: 1.1rem; }
+  .academic-index .research-theme.primary-highlight { padding-left: .85rem; }
+}
+
 /* Badges for tags */
 .badge {
   display: inline-flex;
