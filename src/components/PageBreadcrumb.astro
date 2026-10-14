@@ -2,13 +2,13 @@
 import { localPath } from '../lib/urls';
 interface Props {
   parent: string;
-  href: string;
+  parentPath: string;
   current?: string;
 }
-const { parent, href, current } = Astro.props;
+const { parent, parentPath, current } = Astro.props;
 ---
 <nav class="academic-breadcrumb" aria-label="Breadcrumb">
-  <a href={localPath(href)}>{parent}</a>
+  <a href={localPath(parentPath)}>{parent}</a>
   <span aria-hidden="true">/</span>
   {current && <span class="current" aria-current="page">{current}</span>}
 </nav>
