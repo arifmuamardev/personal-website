@@ -31,6 +31,7 @@ const featuredProjects = allProjects
   <section class="section hero-section">
     <div class="container hero-grid">
       <div class="hero-text">
+        <p class="hero-eyebrow">Research · Education · Software Engineering</p>
         <h1 class="hero-title">{profile.displayName}</h1>
         <p class="hero-subtitle">
           {profile.phd.role} at {profile.phd.institution}, Japan &amp; {profile.lecturer.role} at {profile.lecturer.institution}, Indonesia
@@ -43,13 +44,14 @@ const featuredProjects = allProjects
             <span>Explore My Research</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
-          <a href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-secondary" download>
+          <a href={localPath('/portfolio/')} class="btn btn-secondary">Explore Software Portfolio &rarr;</a>
+          <a href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-tertiary" download>
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon-left"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             <span>Download CV (PDF)</span>
           </a>
         </div>
         <div class="hero-secondary-links">
-          <span class="hero-link-label">Academic Portfolio:</span>
+          <span class="hero-link-label">Research outputs:</span>
           <a href={localPath('/publications/')} class="hero-text-link">Browse {allPubs.length} Publications &rarr;</a>
         </div>
       </div>
@@ -89,6 +91,25 @@ const featuredProjects = allProjects
           <h3>Applied Intelligent Systems</h3>
           <p>Deploying classification and decision-support systems for medical imaging (malaria classification), agriculture, and education.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Software Portfolio: separate from academic research projects -->
+  <section class="section software-spotlight">
+    <div class="container">
+      <div class="section-header">
+        <h2>Software Portfolio</h2>
+        <a href={localPath('/portfolio/')} class="view-all">View Software Projects &rarr;</a>
+      </div>
+      <div class="software-spotlight-card card">
+        <div>
+          <span class="badge">React · Vite · Supabase</span>
+          <h3>Pilketos — School Election Application</h3>
+          <p>Separate election management, polling-station workflows, and reporting interfaces, documented as an engineering case study.</p>
+          <p class="demo-note">Project in development; live voting demo is not currently enabled.</p>
+        </div>
+        <a href={localPath('/portfolio/pilketos/')} class="btn btn-primary">Explore case study &rarr;</a>
       </div>
     </div>
   </section>
@@ -143,25 +164,7 @@ const featuredProjects = allProjects
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <!-- Software Portfolio: separate from academic research projects -->
-  <section class="section software-spotlight">
-    <div class="container">
-      <div class="section-header">
-        <h2>Software Portfolio</h2>
-        <a href={localPath('/portfolio/')} class="view-all">View Software Projects &rarr;</a>
-      </div>
-      <div class="software-spotlight-card card">
-        <div>
-          <span class="badge">React · Vite · Supabase</span>
-          <h3>Pilketos — School Election Application</h3>
-          <p>Separate election management, polling-station workflows, and reporting interfaces, documented as an engineering case study.</p>
-          <p class="demo-note">Project in development; live voting demo is not currently enabled.</p>
-        </div>
-        <a href={localPath('/portfolio/pilketos/')} class="btn btn-primary">Explore case study &rarr;</a>
-      </div>
+      <p class="research-footer-link"><a href={localPath('/projects/')}>See all research projects &rarr;</a></p>
     </div>
   </section>
 
@@ -195,7 +198,27 @@ const featuredProjects = allProjects
 
 <style>
   .hero-section {
-    padding: 6rem 0;
+    padding: 5.5rem 0;
+  }
+
+  .hero-eyebrow {
+    color: var(--accent-color);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .btn-tertiary {
+    color: var(--accent-color);
+    background: transparent;
+    border: 1px solid var(--border-color);
+  }
+
+  .btn-tertiary:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-color);
   }
   
   .hero-grid {
@@ -252,6 +275,7 @@ const featuredProjects = allProjects
     align-items: center;
     gap: 0.75rem;
     font-size: 0.95rem;
+    flex-wrap: wrap;
   }
   
   .hero-link-label {
@@ -437,6 +461,10 @@ const featuredProjects = allProjects
     .hero-title {
       font-size: 2.5rem;
     }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+    }
     
     .hero-ctas {
       justify-content: center;
@@ -451,6 +479,7 @@ const featuredProjects = allProjects
       grid-template-columns: 1fr;
     }
   }
+  .research-footer-link { margin-top: 1.3rem; text-align: right; font-weight: 600; }
   .software-spotlight-card { padding: 2rem; display: flex; gap: 2rem; justify-content: space-between; align-items:center; }
   .software-spotlight-card > div { max-width: 560px; }
   .software-spotlight-card h3 { margin-top:.6rem; }

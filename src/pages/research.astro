@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { localPath } from '../lib/urls';
 ---
 
 <Layout title="Research" description="Current doctoral research and supporting research themes of Arif Mu'amar Wahid, centered on plant bioelectric signals and machine learning.">
@@ -9,6 +10,7 @@ import Layout from '../layouts/Layout.astro';
       <p class="lead-text">
         Bridging machine learning and plant electrophysiology to decipher biological signaling and create applied intelligent systems.
       </p>
+      <p class="research-jump"><a href={localPath('/projects/')}>Explore research projects &rarr;</a> <span aria-hidden="true">·</span> <a href={localPath('/publications/')}>Browse publications &rarr;</a></p>
 
       <div class="research-layout">
         <!-- Main Research Areas -->
@@ -103,6 +105,7 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+  .research-jump { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin:-2.3rem auto 2.5rem; font-weight:600; }
   .page-title {
     text-align: center;
     margin-bottom: 0.5rem;
