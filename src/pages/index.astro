@@ -36,6 +36,7 @@ const recentWriting = posts
         {profile.lecturer.role}, {profile.lecturer.institution}, Indonesia
       </p>
       <p class="identity-bio">{profile.researchSummary} I also develop web applications and software tools for practical workflows.</p>
+      <p class="identity-recognition">MEXT Scholarship recipient · 2nd place, Indoneris Data Mining Competition (2024)</p>
       <nav class="identity-links" aria-label="Key profile links">
         <a href={localPath('/research/')}>Research</a>
         <a href={localPath('/publications/')}>Publications</a>
@@ -163,6 +164,7 @@ const recentWriting = posts
   .identity-copy h1 { font-size: clamp(2.3rem, 4.4vw, 3.6rem); letter-spacing: -.04em; line-height: 1.13; margin: 0 0 .75rem; }
   .identity-affiliations { font-size: .98rem; color: var(--text-primary); font-weight: 550; line-height: 1.75; margin: 0 0 1.1rem; }
   .identity-bio { font-size: 1.04rem; line-height: 1.78; max-width: 70ch; margin-bottom: 1.2rem; }
+  .identity-recognition {font-size:.83rem;color:var(--text-muted);line-height:1.65;margin:-.3rem 0 1.2rem;}
   .identity-links, .identity-external { display:flex; flex-wrap:wrap; column-gap: 1.25rem; row-gap: .35rem; }
   .identity-links { margin-bottom: .9rem; }
   .identity-links a { font-size: .88rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }

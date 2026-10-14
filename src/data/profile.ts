@@ -29,53 +29,63 @@ export const profile = {
     github: 'https://github.com/arifmuamardev',
   },
   researchSummary:
-    'My current doctoral research focuses on machine learning for plant bioelectric potential signals, with supporting interests in biological time-series analysis, multisensor sensing, and applied artificial intelligence.',
+    'I study plant bioelectric signals, biological time-series representation learning, reliable machine-learning evaluation, and edge/IoT sensing. My broader work spans data mining, educational analytics, and applied intelligent systems.',
   researchAreas: [
     'Plant bioelectric potentials and plant electrophysiology',
     'Machine learning for biological time-series data',
-    'Multisensor environmental sensing',
-    'Applied artificial intelligence',
+    'Signal processing, acquisition, and validation',
+    'Transfer learning and domain adaptation',
+    'Edge/IoT and multisensor environmental sensing',
+    'Data mining, applied artificial intelligence, and educational analytics',
   ],
   education: [
     {
       degree: 'PhD Student',
       institution: 'Kanazawa University, Japan',
-      period: 'Present',
+      period: 'Oct 2025–present',
       detail:
         'Graduate School of Natural Science and Technology; Division of Electrical, Information and Communication Engineering. MEXT Scholarship awardee.',
     },
     {
       degree: 'Master of Computer Science',
       institution: 'Universitas Amikom Purwokerto, Indonesia',
-      period: '2025',
+      period: '2023–2025',
       detail:
-        'Thesis: Optimization of Feature Extraction Algorithm and Visual-Based Recommendation in Image-Based Website Theme Recommendation System with Transfer Learning.',
+        'GPA 4.00/4.00. Thesis: Optimization of Feature Extraction Algorithm and Visual-Based Recommendation in Image-Based Website Theme Recommendation System with Transfer Learning.',
     },
     {
       degree: 'Bachelor of Mathematics Education',
       institution: 'Universitas Negeri Semarang, Indonesia',
-      period: '2016',
+      period: '2011–2016',
       detail:
-        'Undergraduate thesis on the effectiveness of probing prompting learning assisted by question cards in students’ problem-solving ability.',
+        'GPA 3.44/4.00. Undergraduate thesis on the effectiveness of probing-prompting learning with question cards for students’ problem-solving ability.',
     },
   ],
   experience: [
     {
       role: 'Lecturer, Department of Informatics, Faculty of Computer Science',
       institution: 'Universitas Amikom Purwokerto, Indonesia',
-      period: 'Current',
+      period: '2025–present',
       detail:
-        'Teaching and supporting academic activities in informatics; contributing to research and scholarly publication; and participating in academic development within the faculty.',
+        'Teaching and student research support in informatics, including Data Science, Multivariate Analysis, Persuasive Technology, machine learning, and predictive analytics. On doctoral study in Japan under MEXT.',
     },
     {
       role: 'Staff, Educational Development and Quality Assurance Center',
       institution: 'Universitas Amikom Purwokerto, Indonesia',
       period: '2017–present',
       detail:
-        'Supports accreditation, curriculum development, institutional performance monitoring, and internal quality-assurance activities.',
+        'Study-program and institutional accreditation, academic program development, KPI monitoring, curriculum development, internal quality assurance and audit.',
+    },
+    {
+      role: 'Teaching and Research Assistant',
+      institution: 'Universitas Amikom Purwokerto, Indonesia',
+      period: '2023–2024',
+      detail:
+        'Assisted Data Science, Multivariate Analysis, and Persuasive Technology teaching and student projects in analytics and machine learning.',
     },
   ],
   awards: [
+    '2nd Place — Data Mining Competition, Indoneris National IT Competition (2024)',
     'MEXT Scholarship (2025)',
     'Amikom Purwokerto Foundation Scholarship (2023)',
     'Best Employee Award, Universitas Amikom Purwokerto (2020)',

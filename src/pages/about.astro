@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { localPath } from '../lib/urls';
 import { profile } from '../data/profile';
+import { publicCv } from '../data/public-cv';
 ---
 
 <Layout
@@ -60,6 +61,31 @@ import { profile } from '../data/profile';
               </div>
             ))}
           </div>
+
+          <h2>Teaching and Research Support</h2>
+          <p>My teaching and student project experience includes {publicCv.teachingAreas.join(', ')}. Beyond teaching, I have worked on curriculum and accreditation support, internal quality assurance, and institutional analytics.</p>
+
+          <h2>Selected Academic Leadership</h2>
+          <div class="about-list">
+            {publicCv.academicLeadership.map(item => (
+              <div class="about-list-row">
+                <h3>{item.title}</h3>
+                <p>{item.organization} · {item.period}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2>Scholarly Service</h2>
+          <p class="about-context">Selected editorial, reviewing, and conference roles listed in my August 2026 CV. Appointments may have changed since that date.</p>
+          <div class="about-list">
+            {publicCv.scholarlyService.map(item => (
+              <div class="about-list-row">
+                <h3>{item.title}</h3>
+                <p>{item.organization} · {item.period}</p>
+              </div>
+            ))}
+          </div>
+          <p><a href={localPath('/cv/')}>View the public academic CV →</a></p>
         </div>
 
         <aside class="about-sidebar" aria-label="Academic profile summary">
@@ -93,6 +119,11 @@ import { profile } from '../data/profile';
 </Layout>
 
 <style>
+  .about-list {border-top:1px solid var(--border-color);}
+  .about-list-row {padding:.8rem 0;border-bottom:1px solid var(--border-color);}
+  .about-list-row h3 {font-family:var(--font-sans);font-size:1rem;margin:0 0 .2rem;line-height:1.5;}
+  .about-list-row p {font-size:.9rem!important;color:var(--text-muted);margin:0!important;}
+  .about-context {font-size:.85rem!important;color:var(--text-muted);}
   .about-photo-intro { display:flex;align-items:flex-start;gap:1.5rem;border-bottom:1px solid var(--border-color);padding-bottom:2rem;margin-bottom:2.5rem; }
   .about-photo-intro img {width:138px;height:138px;}
   .about-photo-intro p {max-width:67ch;font-size:.98rem;line-height:1.8;margin:.15rem 0 0;}
