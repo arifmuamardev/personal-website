@@ -75,7 +75,18 @@ for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
   if (duplicates.length) fail(rel, `duplicate HTML ids: ${[...new Set(duplicates)].join(', ')}`);
 }
 
+for (const [route, marker] of [
+  ...['about','research','projects','publications','portfolio','blog','cv','contact','privacy'].map(route => [route, 'academic-page-intro']),
+  ...['portfolio/pilketos'].map(route => [route, 'academic-breadcrumb']),
+]) {
+  const htmlPath = path.join(root, route, 'index.html');
+  try {
+    const page = await fs.readFile(htmlPath, 'utf8');
+    if (!page.includes(marker)) fail(route, `missing shared rendered template marker: ${marker}`);
+  } catch { fail(route, 'missing generated HTML page for template check'); }
+}
 for (const required of [
+  'images/arif-profile.webp',
   'robots.txt', 'rss.xml', 'feed.xml', 'sitemap-index.xml', 'favicon.svg',
   'files/arif-muamar-cv.pdf', 'portfolio/index.html', 'portfolio/pilketos/index.html',
   'category/blog/index.html', 'author/arifmuamar/index.html', 'feed/index.html',
