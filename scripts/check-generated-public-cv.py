@@ -16,6 +16,8 @@ checks = {
     "books and intellectual property": "Books and Book Chapters" in body and "Intellectual Property and Creative Works" in body,
     "journal/conference publications": "Published Journal and Conference Work" in body,
     "verified DIMA publication": "Optimalisasi Pembelajaran melalui Workshop" in body,
+    "verified IJAIM 2026 publication": "Dynamic Knowledge Intelligence for Human AI Collaborative" in body,
+    "verified JMM 2026 publication": "Transnational Academic-Community Partnerships" in body,
     "ICCRAIDS 2026 paper": "A Systematic Review of Plant Bioelectrical Potential" in body,
     "data-mining award": "Indoneris National IT Competition" in body,
     "academic memberships": "Japanese Society for Artificial Intelligence" in body,
