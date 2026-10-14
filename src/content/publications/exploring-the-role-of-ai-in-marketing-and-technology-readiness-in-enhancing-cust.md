@@ -6,8 +6,9 @@ authors:
 - Retno Waluyo
 - Melia Dianingrum
 - Arif Mu'amar Wahid
-year: 2025
-venue: ASEAN Journal of Scientific and Technological Reports
+year: 2026
+venue: "ASEAN Journal of Scientific and Technological Reports, 29(1), Article e258998"
+publisherUrl: https://ph02.tci-thaijo.org/index.php/tsujournal/article/view/258998
 type: Journal Article
 status: Published
 doi: 10.55164/ajstr.v29i1.258998
