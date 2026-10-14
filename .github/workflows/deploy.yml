@@ -29,6 +29,8 @@ jobs:
         run: node scripts/audit-source.mjs
       - name: Verify light/dark theme behavior
         run: node scripts/check-theme-switch.mjs
+      - name: Verify Academic Minimal templates and portrait
+        run: node scripts/check-page-templates.mjs
       - name: Validate researcher design comparison lab
         run: node scripts/check-researcher-design-lab.mjs
       - name: Build Astro site and upload artifact
