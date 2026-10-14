@@ -28,6 +28,13 @@ export const profile = {
     researchGate: 'https://www.researchgate.net/profile/Arif-Wahid-2',
     github: 'https://github.com/arifmuamardev',
   },
+  scholarSnapshot: {
+    asOf: '2026-10-15',
+    source: 'Google Scholar profile figures copied by the profile owner on 15 October 2026; not automatically refreshed',
+    citations: { all: 248, since2021: 247 },
+    hIndex: { all: 10, since2021: 10 },
+    i10Index: { all: 10, since2021: 10 },
+  },
   researchSummary:
     'I study plant bioelectric signals, biological time-series representation learning, reliable machine-learning evaluation, and edge/IoT sensing. My broader work spans data mining, educational analytics, and applied intelligent systems.',
   researchAreas: [
