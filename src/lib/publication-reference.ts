@@ -124,6 +124,7 @@ function citationDetails(parts: VenueParts, type: string): string {
   if (parts.pages) out.push('pp. ' + parts.pages.replace('-', '–'));
   if (parts.articleNumber) out.push('Art. no. ' + parts.articleNumber);
   if (type === 'Book Chapter' && parts.publisher) out.push(parts.publisher);
+  if ((type === 'Book' || type === 'Book Chapter') && parts.isbn) out.push('ISBN ' + parts.isbn);
   if (parts.month) out.push(parts.month);
   return out.join(', ');
 }
