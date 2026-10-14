@@ -297,6 +297,18 @@ main :is(.lead-text, .portfolio-lead, .portfolio-note) {
   .academic-index .research-theme.primary-highlight { padding-left: .85rem; }
 }
 
+/* Profile portrait is the same circle on Home and About. */
+.profile-photo {
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 32%;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--accent-light);
+  flex-shrink: 0;
+}
+
 /* Badges for tags */
 .badge {
   display: inline-flex;
