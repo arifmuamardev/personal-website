@@ -102,7 +102,10 @@ function parseVenue(input: PublicationLike): VenueParts {
   // A confirmed article number: "Smart Agricultural Technology, 15
   // (December 2026), Article 102484".
   const article = venue.match(/^(.*?),\s*(\d{1,3})\s*\(([^)]*\b(?:19|20)\d{2})\)\s*,\s*Article\s+([A-Za-z0-9-]+)$/i);
-  if (article) return { container: article[1].trim(), volume: article[2], articleNumber: article[4], month: article[3].trim() };
+  if (article) {
+    const month = article[3].trim().replace(/\s+(?:19|20)\d{2}$/, '').replace(/^December$/i, 'Dec.');
+    return { container: article[1].trim(), volume: article[2], articleNumber: article[4], month };
+  }
 
   // Only recognize explicit journal volume(issue) groups. "4(1)" without
   // page numbers is valid incomplete bibliographic data, not guessed pages.
