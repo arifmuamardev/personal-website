@@ -42,6 +42,15 @@ jobs:
             grep -q 'Disallow: /personal-website/' dist/robots.txt
           fi
 
+      - name: Dry-run production-domain build (never deploy this output)
+        env:
+          PUBLIC_SITE_MODE: production
+        run: |
+          npm run build
+          npm run test:links
+          npm run test:quality
+          grep -q 'content="index, follow"' dist/index.html
+
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
