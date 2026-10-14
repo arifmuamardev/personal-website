@@ -36,6 +36,18 @@ const counts = {
         <a slot="actions" href={profile.profiles.scholar} target="_blank" rel="noopener noreferrer" class="scholar-profile-link" aria-label="Open my Google Scholar profile in a new tab">View Google Scholar profile ↗</a>
       </PageIntro>
 
+      <aside class="scholar-metrics" aria-label="Dated Google Scholar citation statistics">
+        <div class="scholar-metrics-label">
+          <strong>Google Scholar · snapshot</strong>
+          <span>15 October 2026 · supplied by profile owner · not live</span>
+        </div>
+        <dl>
+          <div><dt>Citations</dt><dd>{profile.scholarSnapshot.citations.all}</dd><small>{profile.scholarSnapshot.citations.since2021} since 2021</small></div>
+          <div><dt>h-index</dt><dd>{profile.scholarSnapshot.hIndex.all}</dd><small>{profile.scholarSnapshot.hIndex.since2021} since 2021</small></div>
+          <div><dt>i10-index</dt><dd>{profile.scholarSnapshot.i10Index.all}</dd><small>{profile.scholarSnapshot.i10Index.since2021} since 2021</small></div>
+        </dl>
+      </aside>
+
       <div class="filter-container" aria-label="Publication filters">
         <span class="filter-label">Filter:</span>
         <div class="filter-buttons" role="group" aria-label="Filter publications by type">
@@ -121,6 +133,22 @@ const counts = {
 .lead-text { font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3rem; color: var(--text-secondary); }
   .scholar-profile-link {color:var(--accent-color);font-size:.88rem;font-weight:650;text-decoration:underline;text-underline-offset:3px;}
   .scholar-profile-link:hover {color:var(--accent-hover);}
+  .scholar-metrics {
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+    padding: 1rem 0 1.15rem;
+    color: var(--text-primary);
+  }
+  .scholar-metrics-label { display:flex;flex-wrap:wrap;justify-content:space-between;gap:.3rem 1.2rem;align-items:baseline; }
+  .scholar-metrics-label strong {font-size:.87rem;}
+  .scholar-metrics-label span {font-size:.75rem;color:var(--text-muted);}
+  .scholar-metrics dl {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:1rem 0 0;}
+  .scholar-metrics dl>div {min-width:0;}
+  .scholar-metrics dt {font-size:.79rem;color:var(--text-muted);}
+  .scholar-metrics dd {font-family:var(--font-serif);font-size:clamp(1.4rem,3vw,2rem);font-weight:700;margin:0;line-height:1.3;}
+  .scholar-metrics small {font-size:.73rem;color:var(--text-muted);}
+  @media(max-width:410px){.scholar-metrics dl{gap:.45rem;}.scholar-metrics small{font-size:.65rem;}}
   .filter-container { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 3rem; flex-wrap: wrap; }
   .filter-label { font-weight: 600; color: var(--text-secondary); font-size: 0.95rem; }
   .filter-buttons { display: flex; gap: 0.4rem; background: var(--bg-secondary); padding: 0.35rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); flex-wrap: wrap; }
