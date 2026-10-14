@@ -2,7 +2,7 @@
 import { localPath } from '../../lib/urls';
 import Layout from '../../layouts/Layout.astro';
 import PageBreadcrumb from '../../components/PageBreadcrumb.astro';
-import PublicationAuthors from '../../components/PublicationAuthors.astro';
+import PublicationReference from '../../components/PublicationReference.astro';
 import PublicationMeta from '../../components/PublicationMeta.astro';
 import { getCollection } from 'astro:content';
 import { profile } from '../../data/profile';
@@ -46,9 +46,15 @@ const publicationSchema = {
       <header class="publication-header">
         <PublicationMeta type={data.type} status={data.status} year={data.year} researchArea={data.researchArea} tags={data.tags} />
         <h1>{data.title}</h1>
-        <p class="authors"><PublicationAuthors authors={data.authors} /></p>
-        <p class="venue">{data.venue}</p>
+        <p class="authors">{data.authors.join(' · ')}</p>
+        <PublicationReference publication={data} />
       </header>
+
+      <section class="detail-section ieee-citation-section" aria-labelledby="ieee-heading">
+        <h2 id="ieee-heading">Recommended IEEE-style citation</h2>
+        <PublicationReference publication={data} includeTitle={true} />
+        <p class="citation-note">Only available bibliographic fields are shown. Missing volume, issue, page or article number details are not inferred from the title or DOI.</p>
+      </section>
 
       {data.abstract && (
         <section class="detail-section" aria-labelledby="abstract-heading">
@@ -85,7 +91,9 @@ const publicationSchema = {
   .container-narrow { max-width: 760px; }
   .publication-header { border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; margin-bottom: 2.5rem; }
   .publication-header h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
-  .authors { font-size: 1.05rem; margin: 1rem 0 0.4rem; }
+  .authors { font-size: .88rem; color: var(--text-muted); margin: 1rem 0 .35rem; line-height: 1.7; }
+  .citation-note {font-size:.79rem;color:var(--text-muted);line-height:1.65;margin-top:.65rem;}
+  .ieee-citation-section {padding:1rem 1.2rem;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;}
   .venue { font-style: italic; color: var(--text-muted); margin-bottom: 0; }
   .detail-section { margin: 2.5rem 0; }
   .detail-section h2 { font-size: 1.4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.45rem; }
