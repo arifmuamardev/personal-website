@@ -67,7 +67,7 @@ const articleSchema = {
   <script type="application/ld+json" is:raw set:html={JSON.stringify(articleSchema)} />
   <article class="post-detail-section">
     <div class="container container-narrow">
-      <PageBreadcrumb parent="Writing" href="/blog/" current={post.data.title} />
+      <PageBreadcrumb parent="Writing" parentPath="/blog/" current={post.data.title} />
       <header class="post-header">
         <div class="post-meta-details">
           <time datetime={post.data.publishedDate.toISOString()}>
