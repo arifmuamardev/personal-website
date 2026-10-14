@@ -6,13 +6,14 @@
 
 ## Evidence and changes
 
-The initial IEEE formatter audit flagged **18 records for insufficient venue metadata**. During this batch, **17 named journal records** were checked against publisher article pages or journal-issued PDFs and updated with verified bibliographic fields. The same work fixed a provable three-author omission and one issue-year discrepancy. Other records remain unchanged unless separately documented. The follow-up CI log is the authoritative measurement of how many formatter warnings remain after this batch.
+The initial IEEE formatter audit flagged **18 records for insufficient venue metadata**. During this batch, **18 named journal records** were checked against publisher article pages or journal-issued PDFs and updated with verified bibliographic fields. The same work fixed a provable three-author omission and one issue-year discrepancy. Other records remain unchanged unless separately documented. The follow-up CI log is the authoritative measurement of how many formatter warnings remain after this batch.
 
 | Short title | Verified journal metadata | Publisher evidence |
 | --- | --- | --- |
 | Analysis of Factors Determining Student Satisfaction | *Jurnal Teknik Informatika (Jutif)* **5(4)**, **187–196** (2024) | https://jutif.if.unsoed.ac.id/index.php/jurnal/article/view/2188 |
 | Analyzing Customer Spending | *International Journal for Applied Information Management* **5(2)**, **111–124** (2025) | https://ijaim.net/journal/index.php/ijaim/article/view/103 |
 | Empirical Analysis of Social Media Interaction Metrics | *International Journal of Informatics and Information Systems* **8(3)**, **161–174** (2025) | https://ijiis.org/index.php/IJIIS/issue/view/26 |
+| Implementasi Pelatihan Kesiapsiagaan Bencana Gempa Bumi (SFDRR) | *JURPIKAT* **6(4)**, **2121–2130** (2025) | https://jurnal.politeknik-kebumen.ac.id/jurpikat/article/view/2641 |
 | Enhancing Collaboration Data Management | *Jurnal Teknik Informatika (Jutif)* **5(6)**, **1517–1527** (2024) | https://jutif.if.unsoed.ac.id/index.php/jurnal/article/view/1747 |
 | Impact of Discount Strategies | *Journal of Applied Data Sciences* **5(1)**, **158–172** (2024) | https://www.bright-journal.org/Journal/index.php/JADS/article/view/163 |
 | AI in Marketing and Technology Readiness | *ASEAN Journal of Scientific and Technological Reports* **29(1)**, **e258998** (issue 2026) | https://ph02.tci-thaijo.org/index.php/tsujournal/article/view/258998 |
@@ -41,13 +42,14 @@ For the 16-page *Sinkron* PDF, the printed pagination runs **755 through 770**; 
 ## Display QA and audit improvements
 
 - `src/lib/publication-reference.ts` understands journal electronic article numbers and flags volume-only journal records as still incomplete.
-- `scripts/check-ieee-bibliography.mjs` asserts the verified metadata on all 17 entries, requires publisher URLs, tests electronic article ID output, and reports remaining problems.
+- `scripts/check-ieee-bibliography.mjs` asserts the verified metadata on all 18 entries, requires publisher URLs, tests electronic article ID output, and reports remaining problems.
 - The actual GitHub Pages PDF CV generator still reads the same source collection and will incorporate the corrected venues when the PR is deployed.
 - Existing citations use IEEE-inspired presentation, not a literal IEEE manuscript reference-list ordering.
 
 ## Remaining tasks
 
-- Use the post-change CI warning count to isolate the residual item(s).
+- The revised audit remains strict about page numbers and article IDs. One outstanding item is **“Optimalisasi Pembelajaran melalui Workshop Pemanfaatan Kecerdasan Artifisial bagi Guru SMK Negeri 1 Pekalongan”** in *DIMA* **4(1)**. The publisher article page and official issue page supply the article/issue information but do **not** provide a definite page range. Leave this venue as **DIMA 4(1)** instead of inventing a page range; resolve only when the publisher PDF or catalog provides reliable printed pagination.
+- Record updated actual CI counts after the final branch passes.
 - Verify older Scholar imports' abbreviated author names and any remaining venue-year duplicates in a separate, source-backed cleanup.
 - Check other publications for incomplete **page ranges** even if their earlier `venue` fields passed the coarse initial parser.
 - Manual desktop/mobile/light/dark visual review remains outstanding. CI verifies structural output, not pixel accuracy.
