@@ -8,6 +8,8 @@ export const softwareProjects = [
     category: 'Web application',
     status: 'Development / demonstration',
     technologies: ['React', 'Vite', 'Supabase', 'GitHub Pages'],
+    // Simplified information architecture labels, not product screenshots.
+    workflow: ['Election setup', 'TPS operations', 'Results review'],
     repository: 'https://github.com/arifmuamardev/pilketos',
     caseStudy: '/portfolio/pilketos/',
     // Production Supabase project is currently inactive; do not advertise a live voting demo.
