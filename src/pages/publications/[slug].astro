@@ -3,6 +3,7 @@ import { localPath } from '../../lib/urls';
 import Layout from '../../layouts/Layout.astro';
 import PageBreadcrumb from '../../components/PageBreadcrumb.astro';
 import PublicationAuthors from '../../components/PublicationAuthors.astro';
+import PublicationMeta from '../../components/PublicationMeta.astro';
 import { getCollection } from 'astro:content';
 import { profile } from '../../data/profile';
 
@@ -43,11 +44,7 @@ const publicationSchema = {
       <PageBreadcrumb parent="Publications" parentPath="/publications/" current={data.title} />
 
       <header class="publication-header">
-        <div class="badges">
-          <span class="badge">{data.type}</span>
-          <span class="badge">{data.year}</span>
-          {data.status !== 'Published' && <span class="badge">{data.status}</span>}
-        </div>
+        <PublicationMeta type={data.type} status={data.status} year={data.year} researchArea={data.researchArea} tags={data.tags} />
         <h1>{data.title}</h1>
         <p class="authors"><PublicationAuthors authors={data.authors} /></p>
         <p class="venue">{data.venue}</p>
@@ -87,7 +84,6 @@ const publicationSchema = {
 <style>
   .container-narrow { max-width: 760px; }
   .publication-header { border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; margin-bottom: 2.5rem; }
-  .badges { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-bottom: 0.75rem; }
   .publication-header h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
   .authors { font-size: 1.05rem; margin: 1rem 0 0.4rem; }
   .venue { font-style: italic; color: var(--text-muted); margin-bottom: 0; }
