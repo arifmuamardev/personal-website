@@ -1,5 +1,5 @@
 ---
-title: PELATIHAN INTEL SFI FRAMEWORK UNTUK PENINGKATAN KETERAMPILAN TEKNOLOGI ASISTEN PRAKTIKUM UNIVERSITAS AMIKOM PURWOKERTO
+title: Pelatihan Intel SFI Framework untuk Peningkatan Keterampilan Teknologi Asisten Praktikum Universitas Amikom Purwokerto
 authors:
 - A Hariawan
 - AM Wahid
