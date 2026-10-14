@@ -107,6 +107,16 @@ function parseVenue(input: PublicationLike): VenueParts {
     return { container: article[1].trim(), volume: article[2], articleNumber: article[4], month };
   }
 
+  // Publisher-supplied electronic article identifier rather than a page range.
+  // Example: "ASEAN Journal ..., 29(1), Article e258998".
+  const eArticle = venue.match(/^(.*?),\s*(\d{1,3})\s*\(\s*(\d{1,3})\s*\),\s*(?:Article|Art\.\s*no\.)\s+([A-Za-z]?\d{3,})$/i);
+  if (eArticle) {
+    return {
+      container: eArticle[1].trim(),
+      volume: eArticle[2], issue: eArticle[3], articleNumber: eArticle[4],
+    };
+  }
+
   // Only recognize explicit journal volume(issue) groups. "4(1)" without
   // page numbers is valid incomplete bibliographic data, not guessed pages.
   const journal = venue.match(/^(.*?)\s*,?\s+(\d{1,3})\s*\(\s*(\d{1,3})\s*\)(?:,\s*(?:pp?\.\s*)?(\d+\s*[-–]\s*\d+))?$/);
@@ -137,7 +147,7 @@ export function ieeeReference(item: PublicationLike): ReferenceParts {
   const prefix = item.type === 'Conference Paper' || item.type === 'Book Chapter' ? 'in ' : '';
   const detailText = citationDetails(venue, item.type);
   const needsMetadataReview = !container || /\u2026|(?:\.\.\.)/.test(container)
-    || (item.type === 'Journal Article' && !venue.volume && !venue.pages && !venue.articleNumber)
+    || (item.type === 'Journal Article' && (!venue.volume || (!venue.pages && !venue.articleNumber)))
     || (item.type === 'Book Chapter' && !venue.pages);
   const titlePart = isBook ? item.title : '“' + item.title + ',”';
   const parts = [

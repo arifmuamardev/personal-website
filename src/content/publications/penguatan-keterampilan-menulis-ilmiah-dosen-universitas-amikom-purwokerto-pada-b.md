@@ -8,7 +8,8 @@ authors:
 - Satrya Fajri Pratama
 - Ding Yi
 year: 2025
-venue: Jurnal Abdi Masyarakat Indonesia
+venue: "Jurnal Abdi Masyarakat Indonesia, 5(5), 2053–2062"
+publisherUrl: https://jamsi.jurnal-id.com/index.php/jamsi/article/view/2082
 type: Journal Article
 status: Published
 doi: 10.54082/jamsi.2082

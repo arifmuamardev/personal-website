@@ -5,7 +5,7 @@ authors:
 - Satrya Fajri Pratama
 - Arif Mu'amar Wahid
 year: 2025
-venue: Journal of Digital Society
+venue: "Journal of Digital Society, 1(2), 138–151"
 type: Journal Article
 status: Published
 doi: 10.63913/jds.v1i2.18

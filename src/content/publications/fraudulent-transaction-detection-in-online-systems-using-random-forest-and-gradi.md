@@ -4,7 +4,7 @@ authors:
 - Satrya Fajri Pratama
 - Arif Mu'amar Wahid
 year: 2025
-venue: Journal of Cyber Law
+venue: "Journal of Cyber Law, 1(1), 88–115"
 type: Journal Article
 status: Published
 doi: 10.63913/jcl.v1i1.16

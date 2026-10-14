@@ -4,7 +4,7 @@ authors:
 - Quba Siddique
 - Arif Mu'amar Wahid
 year: 2025
-venue: International Journal for Applied Information Management
+venue: "International Journal for Applied Information Management, 5(2), 111–124"
 type: Journal Article
 status: Published
 doi: 10.47738/ijaim.v5i2.103

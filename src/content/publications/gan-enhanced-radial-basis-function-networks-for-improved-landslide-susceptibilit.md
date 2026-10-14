@@ -6,7 +6,7 @@ authors:
 - Yuli Purwati
 - Arif Mu'amar Wahid
 year: 2026
-venue: Journal of Applied Data Sciences
+venue: "Journal of Applied Data Sciences, 7(1), 554–566"
 type: Journal Article
 status: Published
 doi: 10.47738/jads.v7i1.1035
