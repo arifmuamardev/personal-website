@@ -7,7 +7,7 @@ authors:
 - Sultan Ananda Haikal
 - Prayoga Pribadi
 year: 2026
-venue: "Sinkron: Jurnal dan Penelitian Teknik Informatika, 10(1)"
+venue: "Sinkron: Jurnal dan Penelitian Teknik Informatika, 10(1), 755–770"
 publisherUrl: https://jurnal.polgan.ac.id/index.php/sinkron/article/view/15703
 type: Journal Article
 status: Published
