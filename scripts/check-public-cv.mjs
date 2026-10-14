@@ -20,7 +20,7 @@ for (const [label, code, sections] of [
   requireThat(code.includes("from '../data/public-cv'"), label + ' lacks central CV source');
   for (const section of sections) requireThat(code.includes('publicCv.' + section), label + ' omits data group ' + section);
 }
-requireThat(profile.includes('Indoneris Data Mining'), '2024 Data Mining award was not added');
+requireThat(profile.includes('Data Mining Competition, Indoneris'), '2024 Data Mining award was not added');
 requireThat(profile.includes('2023–2024') && profile.includes('2023–2025'), 'Academic experience or education chronology incomplete');
 requireThat(home.includes('MEXT Scholarship recipient'), 'Home is missing brief CV recognition');
 requireThat(cv.includes('14 August 2026'), 'The CV snapshot date must be disclosed');
