@@ -27,6 +27,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Check root-relative URLs and expected routes
         run: node scripts/audit-source.mjs
+      - name: Verify light/dark theme behavior
+        run: node scripts/check-theme-switch.mjs
       - name: Validate researcher design comparison lab
         run: node scripts/check-researcher-design-lab.mjs
       - name: Build Astro site and upload artifact

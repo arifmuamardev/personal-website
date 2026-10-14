@@ -53,6 +53,9 @@ for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
     continue;
   }
   if (!/<a\b[^>]+href=["']#main-content["']/.test(html)) fail(rel, 'missing skip link');
+  if (!/data-theme-toggle/.test(html)) fail(rel, 'missing shared light/dark switch');
+  if (!/amw-color-theme/.test(html)) fail(rel, 'missing prepaint theme initialization');
+  if (!/<meta\b[^>]*name=["']theme-color["']/.test(html)) fail(rel, 'missing theme-color metadata');
   if (!/<main\b[^>]*id=["']main-content["']/.test(html)) fail(rel, 'missing main landmark');
   if ((html.match(/<h1\b/gi) || []).length !== 1) fail(rel, 'expected exactly one h1');
   if (!/<title\b[^>]*>\s*[^<\s]/i.test(html)) fail(rel, 'missing page title');

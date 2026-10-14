@@ -84,9 +84,7 @@ const sortedProjects = allProjects.sort((a, b) =>
   .status-badge.active { background: hsl(145, 35%, 90%); color: hsl(145, 80%, 25%); }
   .status-badge.completed { background: hsl(210, 30%, 90%); color: hsl(210, 80%, 28%); }
   .tech-badge { background: var(--accent-light); color: var(--accent-color); border: 1px solid var(--border-color); }
-  @media (prefers-color-scheme: dark) {
-    .status-badge.active { background: hsl(145, 30%, 16%); color: hsl(145, 65%, 72%); }
-    .status-badge.completed { background: hsl(210, 28%, 17%); color: hsl(210, 70%, 75%); }
-  }
+  :global(html[data-theme="dark"]) .status-badge.active { background: hsl(145, 30%, 16%); color: hsl(145, 65%, 72%); }
+  :global(html[data-theme="dark"]) .status-badge.completed { background: hsl(210, 28%, 17%); color: hsl(210, 70%, 75%); }
   @media (max-width: 768px) { .project-header-row { flex-direction: column; gap: 0.5rem; } }
 </style>
