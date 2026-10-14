@@ -83,7 +83,7 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
       <div class="container nav-wrapper">
         <a href={localPath('/')} class="logo" aria-label="Arif Mu’amar Wahid — Home">
           <span class="logo-name">{profile.displayName}</span>
-          <span class="logo-subtitle">Research &amp; Software</span>
+          <span class="logo-subtitle">Research · Publications · Software</span>
         </a>
         
         <!-- Accessible mobile menu toggle -->
@@ -188,6 +188,7 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
   }
   
   .logo-name {
+    font-family: var(--font-serif);
     font-weight: 700;
     font-size: 1.25rem;
     letter-spacing: -0.02em;
@@ -219,14 +220,14 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
   #main-nav ul {
     display: flex;
     list-style: none;
-    gap: 1.5rem;
+    gap: clamp(0.8rem, 1.5vw, 1.4rem);
   }
   
   #main-nav a {
     color: var(--text-secondary);
     font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.25rem 0;
+    font-size: 0.87rem;
+    padding: 0.4rem 0;
     border-bottom: 2px solid transparent;
   }
   
@@ -250,6 +251,8 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
   
   .footer-links {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 0.75rem;
     font-size: 0.85rem;
     color: var(--text-muted);
