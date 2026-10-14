@@ -3,6 +3,7 @@ import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { profile } from '../data/profile';
+import { publicCv } from '../data/public-cv';
 ---
 
 <Layout
@@ -12,11 +13,13 @@ import { profile } from '../data/profile';
   <section class="section academic-index">
     <div class="container container-narrow">
       <PageIntro title="Curriculum Vitae">
-        <p slot="description">A concise public overview of my academic background and experience. The downloadable PDF excludes private phone numbers and membership IDs.</p>
+        <p slot="description">Academic background, research experience, scholarly contributions, teaching, and selected professional activities. The downloadable public PDF is a separate, shorter edition without private contact details.</p>
         <a slot="actions" href={localPath('/files/arif-muamar-cv.pdf')} class="btn btn-primary" download>
           <span aria-hidden="true">↓</span> Download Public PDF
         </a>
       </PageIntro>
+
+      <p class="cv-source-note">The entries below are curated from my comprehensive CV last updated on 14 August 2026. Roles listed as current in that document may have changed subsequently.</p>
 
       <div class="cv-content">
         <section class="cv-section" aria-labelledby="cv-profile">
@@ -72,9 +75,98 @@ import { profile } from '../data/profile';
         <section class="cv-section" aria-labelledby="cv-memberships">
           <h2 id="cv-memberships">Professional Memberships</h2>
           <ul class="styled-list">
-            <li>Japanese Society for Artificial Intelligence (JSAI) — Student Member (since July 2026)</li>
-            <li>Information Processing Society of Japan (IPSJ) — Student Member (since May 2026)</li>
+            {publicCv.memberships.map(item => <li><strong>{item.organization}</strong> — {item.capacity} (since {item.since})</li>)}
           </ul>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-teaching">
+          <h2 id="cv-teaching">Teaching and Technical Competencies</h2>
+          <h3>Teaching and student research support</h3>
+          <p>{publicCv.teachingAreas.join(' · ')}</p>
+          <div class="cv-compact-entries">
+            {publicCv.technicalCompetencies.map(item => (
+              <div class="cv-compact-entry">
+                <h3>{item.name}</h3>
+                <p>{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-leadership">
+          <h2 id="cv-leadership">Academic Leadership</h2>
+          <div class="cv-compact-entries">
+            {publicCv.academicLeadership.map(item => (
+              <div class="cv-compact-entry">
+                <h3>{item.title}</h3>
+                <p>{item.organization} · {item.period}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-service">
+          <h2 id="cv-service">Editorial, Reviewing, and Conference Service</h2>
+          <p class="cv-context">Service appointments below reflect the August 2026 CV and are not asserted as freshly verified current appointments.</p>
+          <div class="cv-compact-entries">
+            {publicCv.scholarlyService.map(item => (
+              <div class="cv-compact-entry">
+                <h3>{item.title}</h3>
+                <p>{item.organization} · {item.period}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-presentations">
+          <h2 id="cv-presentations">Selected Academic Presentations</h2>
+          <div class="cv-compact-entries">
+            {publicCv.presentations.map(item => (
+              <div class="cv-compact-entry">
+                <span class="cv-entry-date">{item.date} · {item.kind}</span>
+                <h3>{item.title}</h3>
+                <p>{item.event}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-funded">
+          <h2 id="cv-funded">Funded Research Experience</h2>
+          <p class="cv-context">Projects listed in the master CV; individual awardee or principal-investigator roles are not inferred.</p>
+          <div class="cv-compact-entries">
+            {publicCv.fundedResearch.map(item => (
+              <div class="cv-compact-entry">
+                <h3>{item.title}</h3>
+                <p>{item.sponsor} · {item.year}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-books">
+          <h2 id="cv-books">Books and Chapters</h2>
+          <div class="cv-compact-entries">
+            {publicCv.books.map(item => (
+              <div class="cv-compact-entry">
+                <h3>{item.title}</h3>
+                <p>{item.kind} · {item.publisher} · {item.year} · ISBN {item.isbn}</p>
+              </div>
+            ))}
+          </div>
+          <p class="cv-context">See <a href={localPath('/publications/')}>Publications</a> for the searchable bibliography and available publication links.</p>
+        </section>
+
+        <section class="cv-section" aria-labelledby="cv-ip">
+          <h2 id="cv-ip">Intellectual Property and Creative Works</h2>
+          <div class="cv-compact-entries">
+            {publicCv.intellectualProperty.map(item => (
+              <div class="cv-compact-entry">
+                <h3>{item.title}</h3>
+                <p>{item.kind} · {item.year}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section class="cv-section" aria-labelledby="cv-links">
@@ -93,7 +185,14 @@ import { profile } from '../data/profile';
 </Layout>
 
 <style>
-  .container-narrow { max-width: 800px; }
+  .container-narrow { max-width: 850px; }
+  .cv-source-note {font-size:.82rem;color:var(--text-muted);line-height:1.7;margin:-.3rem 0 2rem;max-width:72ch;}
+  .cv-context {font-size:.88rem;color:var(--text-muted);margin:.1rem 0 1rem;line-height:1.7;}
+  .cv-compact-entries {border-top:1px solid var(--border-color);}
+  .cv-compact-entry {padding:.9rem 0;border-bottom:1px solid var(--border-color);}
+  .cv-compact-entry h3 {font-family:var(--font-sans);font-size:1rem;margin:0 0 .25rem;line-height:1.5;}
+  .cv-compact-entry p {font-size:.9rem;margin:0;color:var(--text-secondary);line-height:1.68;}
+  .cv-section>h3 {font-family:var(--font-sans);font-size:1.02rem;margin:0 0 .6rem;}
 
 .page-title { margin-bottom: 0; }
 
