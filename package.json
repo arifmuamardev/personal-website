@@ -11,6 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "test:links": "node scripts/check-links.mjs",
+    "test:quality": "node scripts/check-site-quality.mjs",
     "astro": "astro",
     "check:source": "node scripts/audit-source.mjs"
   },

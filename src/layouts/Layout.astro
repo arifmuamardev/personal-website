@@ -8,13 +8,15 @@ interface Props {
   description?: string;
   image?: string;
   type?: 'website' | 'article';
+  noindex?: boolean;
 }
 
 const { 
   title, 
   description = "Academic website of Arif Mu'amar Wahid: PhD student at Kanazawa University and lecturer at Universitas Amikom Purwokerto, researching plant bioelectric signals and machine learning.",
   image = "/og-image.png",
-  type = 'website'
+  type = 'website',
+  noindex = false
 } = Astro.props;
 
 const imageURL = new URL(/^https?:\/\//.test(image) ? image : localPath(image), Astro.site || 'https://arifmuamardev.github.io');
@@ -37,7 +39,8 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
     <link rel="icon" type="image/svg+xml" href={localPath('/favicon.svg')} />
     <link rel="icon" href={localPath('/favicon.ico')} />
     <link rel="manifest" href={localPath('/site.webmanifest')} />
-    <meta name="theme-color" content="#0d1117" />
+    <meta name="theme-color" content="#f7f9fb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#10141b" media="(prefers-color-scheme: dark)" />
     
     <!-- Primary Meta Tags -->
     <title>{title} — Arif Mu'amar Wahid</title>
@@ -50,7 +53,7 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
     <link rel="alternate" type="application/rss+xml" title="Arif Muamar Blog" href={localPath('/rss.xml')} />
     
     <!-- Temporary Indexing Restrictions (Offline Review/Staging Mode) -->
-    <meta name="robots" content={isProduction ? 'index, follow' : 'noindex, nofollow'} />
+    <meta name="robots" content={isProduction && !noindex ? 'index, follow' : 'noindex, nofollow'} />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content={type} />

@@ -33,12 +33,23 @@ jobs:
           node-version: 24
       - name: Validate generated links and assets
         run: npm run test:links
+      - name: Audit generated HTML, SEO and migration routes
+        run: npm run test:quality
       - name: Enforce safe crawl policy in preview
         run: |
           if [ "$PUBLIC_SITE_MODE" != 'production' ]; then
             grep -q 'noindex, nofollow' dist/index.html
             grep -q 'Disallow: /personal-website/' dist/robots.txt
           fi
+
+      - name: Dry-run production-domain build (never deploy this output)
+        env:
+          PUBLIC_SITE_MODE: production
+        run: |
+          npm run build
+          npm run test:links
+          npm run test:quality
+          grep -q 'content="index, follow"' dist/index.html
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
