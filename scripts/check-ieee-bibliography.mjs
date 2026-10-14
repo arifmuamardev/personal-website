@@ -27,6 +27,15 @@ assert.equal(r.detailText,'vol. 15, Art. no. 102484, Dec.');
 assert.equal((r.formattedPlain.match(/2026/g)||[]).length,1,'publication year duplicated');
 r=fixture('DIMA: Jurnal Pengabdian Masyarakat, 4(1)');
 assert.equal(r.detailText,'vol. 4, no. 1');
+assert.equal(r.needsMetadataReview, true, 'journal lacking pages/article ID should stay in editorial backlog');
+r=fixture('ASEAN Journal of Scientific and Technological Reports, 29(1), Article e258998');
+assert.equal(r.container,'ASEAN Journal of Scientific and Technological Reports');
+assert.equal(r.detailText,'vol. 29, no. 1, Art. no. e258998');
+assert.equal(r.needsMetadataReview,false);
+r=fixture('Sinkron: Jurnal dan Penelitian Teknik Informatika, 10(1), 755–770');
+assert.equal(r.detailText,'vol. 10, no. 1, pp. 755–770');
+assert.equal(r.needsMetadataReview,false);
+
 r=fixture('Journal of Applied Data Sciences');
 assert.equal(r.container,'Journal of Applied Data Sciences');
 assert.equal(r.needsMetadataReview,true);
@@ -74,6 +83,31 @@ for(const f of files){
   if(ref.needsMetadataReview)noExpandedVenue++;
   if(/,\s*\d{4}\s*$/.test(item.venue))entriesWithRawYear++;
 }
+const verifiedCases = [
+  ['analysis-of-factors-determining-student-satisfaction-using-decision-tree-random-.md','5(4), 187–196'],
+  ['analyzing-customer-spending-based-on-transactional-data-using-the-random-forest-.md','5(2), 111–124'],
+  ['empirical-analysis-of-social-media-interaction-metrics-and-their-impact-on-start.md','8(3), 161–174'],
+  ['enhancing-collaboration-data-management-through-data-warehouse-design-meeting-ba.md','5(6), 1517–1527'],
+  ['exploring-the-impact-of-discount-strategies-on-consumer-ratings-an-analytical-st.md','5(1), 158–172'],
+  ['exploring-the-role-of-ai-in-marketing-and-technology-readiness-in-enhancing-cust.md','29(1), Article e258998'],
+  ['fraudulent-transaction-detection-in-online-systems-using-random-forest-and-gradi.md','1(1), 88–115'],
+  ['from-prediction-to-targeting-comparative-ml-models-and-threshold-based-re-enroll.md','10(1), 755–770'],
+  ['gan-enhanced-radial-basis-function-networks-for-improved-landslide-susceptibilit.md','7(1), 554–566'],
+  ['mining-public-sentiment-and-trends-in-social-media-discussions-on-indonesian-pre.md','1(2), 138–151'],
+  ['optimization-of-recommender-systems-for-image-based-website-themes-using-transfe.md','6(2), 952–968'],
+  ['optimizing-higher-education-performance-through-data-integration-using-the-zachm.md','10(3), 201–215'],
+  ['pemanfaatan-teknologi-untuk-meningkatkan-pembelajaran-inklusif-bagi-dosen-fakult.md','6(4), 2084–2092'],
+  ['penguatan-keterampilan-menulis-ilmiah-dosen-universitas-amikom-purwokerto-pada-b.md','5(5), 2053–2062'],
+  ['prediksi-magnitudo-gempa-menggunakan-random-forest-support-vector-regression-xgb.md','4(5), 221–232'],
+  ['time-series-analysis-of-bitcoin-prices-using-arima-and-lstm-for-trend-prediction.md','1(1), 84–102'],
+  ['transformasi-media-pembelajaran-melalui-pelatihan-ai-untuk-meningkatkan-kompeten.md','6(3), 1666–1675'],
+];
+for(const [filename,expectedVenueFragment] of verifiedCases){
+  const raw=readFileSync(path.join(folder,filename),'utf8');
+  assert(raw.includes(expectedVenueFragment), 'Missing publisher verified venue metadata: '+filename);
+  assert.match(raw,/^publisherUrl:/m,'Missing publisher citation provenance: '+filename);
+}
+assert.match(readFileSync(path.join(folder,'optimization-of-recommender-systems-for-image-based-website-themes-using-transfe.md'),'utf8'), /- Taqwa Hariguna\n- Giat Karyono/, 'publisher-authored recommender article requires all three authors');
 assert.equal(new Set(titles).size,files.length,'duplicate exact publication title');
 console.log('IEEE-inspired bibliography PASS:', files.length,
 'entries; records without DOI:',noDoi,
