@@ -50,7 +50,8 @@ for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
   if (!/<title\b[^>]*>\s*[^<\s]/i.test(html)) fail(rel, 'missing page title');
   if (!meta('description')?.trim()) fail(rel, 'missing meta description');
   if (!tags.some(t => t.property === 'og:description')) fail(rel, 'missing Open Graph description');
-  if (production ? meta('robots')?.includes('noindex') : !meta('robots')?.includes('noindex')) fail(rel, 'invalid robots policy for deployment mode');
+  const shouldIndex = production && rel !== '404.html';
+  if (shouldIndex ? meta('robots')?.includes('noindex') : !meta('robots')?.includes('noindex')) fail(rel, 'invalid robots policy for deployment mode');
   for (const tag of html.match(/<img\b[^>]*>/gi) || []) {
     if (!Object.hasOwn(attributes(tag), 'alt')) fail(rel, 'image missing alt attribute');
   }
