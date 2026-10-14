@@ -1,0 +1,52 @@
+---
+import { ieeeReference } from '../lib/publication-reference';
+
+interface Props {
+  publication: {
+    title: string;
+    authors: readonly string[];
+    type: string;
+    status: string;
+    venue: string;
+    year: number;
+    doi?: string;
+  };
+  includeTitle?: boolean;
+}
+
+const { publication, includeTitle = false } = Astro.props;
+const reference = ieeeReference(publication);
+const isBook = publication.type === 'Book';
+---
+
+<p class="ieee-reference">
+  {reference.authorText}{reference.authorText && ', '}
+  {includeTitle && (
+    isBook
+      ? <><cite>{publication.title}</cite>, </>
+      : <>“{publication.title},” </>
+  )}
+  {reference.prefix}
+  {reference.container && (
+    isBook
+      ? <>{reference.container}, </>
+      : <><cite>{reference.container}</cite>, </>
+  )}
+  {reference.detailText && <>{reference.detailText}, </>}
+  {reference.year}
+  {reference.doi ? <>, doi: <a href={`https://doi.org/${reference.doi}`} target="_blank" rel="noopener noreferrer">{reference.doi}</a>.</> : '.'}
+</p>
+
+<style>
+  .ieee-reference {
+    font-size: .9rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin: .4rem 0 .8rem;
+    max-width: 78ch;
+    overflow-wrap: anywhere;
+  }
+  .ieee-reference cite {font-style: italic;color:var(--text-primary);}
+  .ieee-reference a {font-weight: 550;text-decoration: underline;text-underline-offset: 3px;}
+  .ieee-reference a:hover {color:var(--accent-hover);}
+</style>
