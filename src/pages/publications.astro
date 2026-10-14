@@ -17,6 +17,8 @@ const typeGroup = (type: string) => {
   return 'other';
 };
 
+const scholarSnapshotDate = new Date(profile.scholarSnapshot.asOf + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+
 const counts = {
   all: sortedPubs.length,
   journal: sortedPubs.filter(p => typeGroup(p.data.type) === 'journal').length,
@@ -39,7 +41,7 @@ const counts = {
       <aside class="scholar-metrics" aria-label="Dated Google Scholar citation statistics">
         <div class="scholar-metrics-label">
           <strong>Google Scholar · snapshot</strong>
-          <span>15 October 2026 · supplied by profile owner · not live</span>
+          <span>{scholarSnapshotDate} · supplied by profile owner · not live</span>
         </div>
         <dl>
           <div><dt>Citations</dt><dd>{profile.scholarSnapshot.citations.all}</dd><small>{profile.scholarSnapshot.citations.since2021} since 2021</small></div>
