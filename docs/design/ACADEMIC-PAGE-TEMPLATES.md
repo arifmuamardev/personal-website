@@ -39,7 +39,9 @@ colors, spatial rhythm, headers and link conventions are shared.
 
 - Source provided by owner in this conversation, optimized to `public/images/arif-profile.webp`;
   **240×300**, about **3.3 KB**, portrait ratio 4:5.
-- Homepage display: ~174 px wide. About: ~138 px wide, 112 px on small screens.
+- Both Home and About display the image as a **circular 1:1 crop**, using the shared `.profile-photo` class in `src/styles/global.css`; the source image remains a 4:5 portrait.
+- Homepage circle: 174×174px (112×112px on mobile). About circle: 138×138px (112×112px on small screens). The face stays centered with `object-position: center 32%`.
+- Keep the circle treatment consistent when replacing the portrait file; do not use page-specific 4:5 borders or corner radii.
 - It is **provided artwork** and should not be described as an independently
   verified documentary photograph. Alt text describes it as a supplied profile portrait.
 - Do not upload or expose the large original PNG, the comprehensive master CV,
