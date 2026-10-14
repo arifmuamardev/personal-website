@@ -98,6 +98,14 @@ for (const publicationPage of [
   if (!page.includes('publication-topic-label')) fail(publicationPage, 'research area/keywords labels are missing');
   if (!page.includes('publication-keyword-list')) fail(publicationPage, 'paper keywords not displayed as separate row');
 }
+// Ensure the publication pages expose a styled bibliography, not raw venue text.
+for (const [route, marker] of [
+  ['publications/index.html', 'ieee-reference'],
+  ['publications/dynamic-knowledge-intelligence-for-human-ai-collaborative-operational-decision-making/index.html', 'Recommended IEEE-style citation'],
+]) {
+  const html = await fs.readFile(path.join(root, route), 'utf8');
+  if (!html.includes(marker)) fail(route, `IEEE-inspired bibliography marker ${marker} is missing`);
+}
 for (const required of [
   'images/arif-profile.webp',
   'robots.txt', 'rss.xml', 'feed.xml', 'sitemap-index.xml', 'favicon.svg',
