@@ -229,7 +229,7 @@ for (const marker of [
 // Public-facing profile must never expose grades or contradictory doctoral statuses.
 for (const file of (await walk(root)).filter(file => file.endsWith('.html'))) {
   const html = await fs.readFile(file, 'utf8');
-  if (/(GPA|4[.]00\\/4[.]00|3[.]44\\/4[.]00)/i.test(html)) {
+  if (/(GPA|4[.]00|3[.]44)/i.test(html)) {
     fail(path.relative(root, file), 'public academic grades detected');
   }
 }
