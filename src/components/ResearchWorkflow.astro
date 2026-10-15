@@ -1,0 +1,190 @@
+---
+interface Props {
+  projectId: string;
+}
+
+// Editorial method maps, not experiment outputs. Do not replace these
+// with traces, simulated instruments, accuracy plots or photographs.
+const workflows = {
+  'plant-bioelectrical-potential-edge-sensing': {
+    title: 'Acquisition and signal quality',
+    steps: [
+      { label: 'Plant signals', detail: 'Bioelectric potential measurements' },
+      { label: 'Recording', detail: 'Electrodes and acquisition setup' },
+      { label: 'Signal quality', detail: 'Noise, drift and recording conditions' },
+      { label: 'Analysis', detail: 'Evaluate usable recordings and methods' },
+    ],
+  },
+  'plant-bioelectric-transformer-classifier': {
+    title: 'Time-series classification',
+    steps: [
+      { label: 'Signal sequences', detail: 'Plant bioelectric time-series' },
+      { label: 'Preprocessing', detail: 'Signal preparation choices' },
+      { label: 'Sequence models', detail: 'Compare model approaches' },
+      { label: 'Evaluation', detail: 'Validation and reproducibility' },
+    ],
+  },
+  'malaria-deep-learning-classification': {
+    title: 'Microscopy image analysis',
+    steps: [
+      { label: 'Image data', detail: 'Microscopy inputs' },
+      { label: 'Augmentation', detail: 'GAN-based training support' },
+      { label: 'Transfer learning', detail: 'Pretrained visual representations' },
+      { label: 'Classification', detail: 'Evaluate image classification' },
+    ],
+  },
+  'landslide-susceptibility-mapping': {
+    title: 'Geospatial modeling',
+    steps: [
+      { label: 'Spatial inputs', detail: 'Geographic predictors' },
+      { label: 'Augmentation', detail: 'Generative modeling' },
+      { label: 'RBF network', detail: 'Susceptibility estimation' },
+      { label: 'Mapping', detail: 'Spatial model output' },
+    ],
+  },
+} as const;
+
+const { projectId } = Astro.props;
+const workflow = workflows[projectId as keyof typeof workflows];
+---
+
+{workflow && (
+  <figure class="research-workflow" data-visual-kind="conceptual" aria-label={`Illustrative research workflow: ${workflow.title}`}>
+    <div class="workflow-heading">
+      <span class="workflow-kind">Method overview</span>
+      <strong>{workflow.title}</strong>
+    </div>
+    <ol class="workflow-steps">
+      {workflow.steps.map((step, index) => (
+        <li class="workflow-step">
+          <span class="step-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <strong>{step.label}</strong>
+          <span class="step-description">{step.detail}</span>
+        </li>
+      ))}
+    </ol>
+    <figcaption>
+      Conceptual research workflow — not a signal recording, experimental result, equipment photograph or a claim of deployed functionality.
+    </figcaption>
+  </figure>
+)}
+
+<style>
+  .research-workflow {
+    margin: 1.4rem 0 1.7rem;
+    padding: 1.1rem 1.25rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+  }
+  .workflow-heading {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .3rem .85rem;
+    margin-bottom: 1rem;
+  }
+  .workflow-kind {
+    color: var(--accent-color);
+    font-size: .73rem;
+    letter-spacing: .075em;
+    text-transform: uppercase;
+    font-weight: 750;
+  }
+  .workflow-heading > strong {
+    color: var(--text-primary);
+    font-size: .88rem;
+    font-weight: 650;
+  }
+  .workflow-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .7rem;
+  }
+  .workflow-step {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    min-height: 8rem;
+    padding: .8rem .75rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-top: 2px solid var(--accent-color);
+    border-radius: 5px;
+  }
+  .workflow-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    z-index: 1;
+    top: 43%;
+    right: -.7rem;
+    transform: translate(50%, -50%);
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--accent-color);
+    background: var(--bg-secondary);
+    line-height: 1;
+  }
+  .step-index {
+    font-size: .7rem;
+    color: var(--accent-color);
+    font-variant-numeric: tabular-nums;
+    font-weight: 750;
+    margin-bottom: .5rem;
+  }
+  .workflow-step strong {
+    font-size: .85rem;
+    line-height: 1.35;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+    margin-bottom: .35rem;
+  }
+  .step-description {
+    font-size: .76rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    overflow-wrap: anywhere;
+  }
+  .research-workflow figcaption {
+    color: var(--text-muted);
+    font-size: .72rem;
+    line-height: 1.6;
+    margin-top: .9rem;
+  }
+  @media (max-width: 760px) {
+    .workflow-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
+    .workflow-step { min-height: 7.5rem; }
+    .workflow-step:nth-child(2)::after { display: none; }
+    .workflow-step:nth-child(3)::before {
+      content: '↓';
+      position: absolute;
+      top: -.82rem;
+      right: 50%;
+      transform: translate(50%, -50%);
+      font-weight: 800;
+      color: var(--accent-color);
+      background: var(--bg-secondary);
+      line-height: 1;
+    }
+  }
+  @media (max-width: 440px) {
+    .research-workflow { padding: .95rem .85rem; }
+    .workflow-steps { grid-template-columns: 1fr; gap: .85rem; }
+    .workflow-step { min-height: auto; padding: .65rem .8rem; }
+    .workflow-step:not(:last-child)::after {
+      content: '↓';
+      top: auto;
+      bottom: -.84rem;
+      right: 50%;
+      transform: translate(50%, 50%);
+    }
+    .workflow-step:nth-child(2)::after { display: block; }
+    .workflow-step:nth-child(3)::before { display: none; }
+  }
+</style>
