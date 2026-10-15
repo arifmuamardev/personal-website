@@ -6,7 +6,11 @@ const overviews = [
   'src/pages/projects.astro',
   'src/pages/publications.astro',
   'src/pages/blog.astro',
-  'src/pages/cv.astro',
+  'src/pages/education.astro',
+  'src/pages/experience.astro',
+  'src/pages/teaching.astro',
+  'src/pages/academic-service.astro',
+  'src/pages/recognition.astro',
   'src/pages/contact.astro',
   'src/pages/privacy.astro',
 ];
