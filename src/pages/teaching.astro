@@ -13,10 +13,11 @@ import { localPath } from '../lib/urls';
       </PageIntro>
       <AcademicProfileNav current="/teaching/" />
       <div class="academic-profile-content">
-        <h2>Teaching and student research support</h2>
-        <p class="profile-disclaimer">The areas below describe teaching-related experience recorded in the curated August 2026 academic profile, not a current-semester course timetable.</p>
+        <h2>Teaching subject areas</h2>
+        <p class="profile-disclaimer">Teaching areas come from the curated academic profile dated 14 August 2026. They describe past and ongoing teaching-related experience, not an independently verified current-semester course assignment.</p>
         <ul class="profile-topics">{publicCv.teachingAreas.map(area => <li>{area}</li>)}</ul>
-        <h2>Technical competencies</h2>
+        <h2>Research and technical competencies</h2>
+        <p class="profile-disclaimer">Competencies describe areas of practical or research experience; they are not proficiency certifications or an exhaustive software inventory.</p>
         <ul class="profile-records">
           {publicCv.technicalCompetencies.map(item => (
             <li>
