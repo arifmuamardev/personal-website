@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import AcademicProfileNav from '../components/AcademicProfileNav.astro';
+import { publicCv } from '../data/public-cv';
+import { localPath } from '../lib/urls';
+---
+<Layout title="Teaching & Skills" description="Teaching areas, student research support and technical competencies of Arif Mu'amar Wahid.">
+  <section class="section academic-index academic-profile-page">
+    <div class="container">
+      <PageIntro title="Teaching &amp; Skills" eyebrow="Academic background">
+        <p slot="description">Areas of teaching and student research support, alongside methods and tools developed through academic and software work.</p>
+      </PageIntro>
+      <AcademicProfileNav current="/teaching/" />
+      <div class="academic-profile-content">
+        <h2>Teaching and student research support</h2>
+        <p class="profile-disclaimer">The areas below describe teaching-related experience recorded in the curated August 2026 academic profile, not a current-semester course timetable.</p>
+        <ul class="profile-topics">{publicCv.teachingAreas.map(area => <li>{area}</li>)}</ul>
+        <h2>Technical competencies</h2>
+        <ul class="profile-records">
+          {publicCv.technicalCompetencies.map(item => (
+            <li>
+              <h3>{item.name}</h3>
+              <p>{item.description}</p>
+            </li>
+          ))}
+        </ul>
+        <p class="profile-crosslink">The <a href={localPath('/research/')}>research overview</a> and <a href={localPath('/publications/')}>publication index</a> provide examples of my scholarly work.</p>
+      </div>
+    </div>
+  </section>
+</Layout>

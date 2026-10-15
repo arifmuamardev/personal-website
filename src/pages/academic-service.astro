@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import AcademicProfileNav from '../components/AcademicProfileNav.astro';
+import { publicCv } from '../data/public-cv';
+import { localPath } from '../lib/urls';
+---
+<Layout title="Academic Service" description="Editorial, reviewing, conference and academic leadership activities and selected presentations by Arif Mu'amar Wahid.">
+  <section class="section academic-index academic-profile-page">
+    <div class="container">
+      <PageIntro title="Academic Service" eyebrow="Academic background">
+        <p slot="description">Editorial, reviewing, conference and academic community contributions recorded in my curated professional history.</p>
+      </PageIntro>
+      <AcademicProfileNav current="/academic-service/" />
+      <div class="academic-profile-content">
+        <p class="profile-disclaimer">Editorial and membership appointments are based on the CV snapshot of 14 August 2026; their current status has not been independently reconfirmed.</p>
+        <h2>Editorial, reviewing and conference service</h2>
+        <ul class="profile-records">
+          {publicCv.scholarlyService.map(item => <li><h3>{item.title}</h3><p>{item.organization} · {item.period}</p></li>)}
+        </ul>
+        <h2>Academic leadership</h2>
+        <ul class="profile-records">
+          {publicCv.academicLeadership.map(item => <li><h3>{item.title}</h3><p>{item.organization} · {item.period}</p></li>)}
+        </ul>
+        <h2>Selected presentations and workshops</h2>
+        <ul class="profile-records">
+          {publicCv.presentations.map(item => <li><span class="profile-period">{item.date} · {item.kind}</span><h3>{item.title}</h3><p>{item.event}</p></li>)}
+        </ul>
+        <h2>Professional society memberships</h2>
+        <ul class="profile-records">
+          {publicCv.memberships.map(item => <li><h3>{item.organization}</h3><p>{item.capacity} · since {item.since}</p></li>)}
+        </ul>
+        <p class="profile-crosslink">Browse <a href={localPath('/publications/')}>scholarly publications</a> and <a href={localPath('/recognition/')}>recognition</a>.</p>
+      </div>
+    </div>
+  </section>
+</Layout>

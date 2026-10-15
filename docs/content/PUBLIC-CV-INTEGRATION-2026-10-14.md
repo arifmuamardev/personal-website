@@ -1,3 +1,5 @@
+> **16 October 2026 update:** The owner has paused the combined public CV page and downloadable PDF, replacing them with five topic pages accessible from About: Education, Experience, Teaching, Academic Service, and Recognition. The generated public CV PDF is no longer deployed or rebuilt. This document is retained as a **historical audit** of the October 14–15 CV integration. See the current README for live URLs and release policy.
+
 > **15 October 2026 update:** The public PDF is now rebuilt by CI from the same site data and indexed publications; the earlier note saying the public PDF is unchanged describes only the 14 October integration. See [the reconciliation and PDF build report](./PUBLICATION-RECONCILIATION-2026-10-15.md).
 
 # Public CV integration audit — 14 October 2026

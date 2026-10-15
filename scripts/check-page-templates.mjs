@@ -6,7 +6,11 @@ const overviews = [
   'src/pages/projects.astro',
   'src/pages/publications.astro',
   'src/pages/blog.astro',
-  'src/pages/cv.astro',
+  'src/pages/education.astro',
+  'src/pages/experience.astro',
+  'src/pages/teaching.astro',
+  'src/pages/academic-service.astro',
+  'src/pages/recognition.astro',
   'src/pages/contact.astro',
   'src/pages/privacy.astro',
 ];
@@ -21,7 +25,7 @@ for (const file of overviews) {
   const code = readFileSync(file, 'utf8');
   check(code.includes("import PageIntro from '"), file + ' does not use shared PageIntro');
   check((code.match(/<PageIntro\b/g) || []).length === 1, file + ' must have exactly one PageIntro');
-  check(code.includes('class="section academic-index"'), file + ' missing shared overview class');
+  check(code.includes('class="section academic-index'), file + ' missing shared overview class');
   check(!/<h1\b/.test(code), file + ' has hand-written H1 rather than PageIntro');
 }
 for (const file of details) {
