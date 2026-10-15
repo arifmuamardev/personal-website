@@ -33,6 +33,15 @@ for (const [name, groups] of [
 check(pages.get('education').includes('profile.education'), 'Education chronology missing');
 check(pages.get('experience').includes('profile.experience'), 'Experience chronology missing');
 check(pages.get('recognition').includes('profile.awards'), 'Awards and scholarships missing');
+check(pages.get('education').includes('completedDegrees') && pages.get('education').includes('doctoralStudy'), 'Education must distinguish completed degrees and active doctoral study');
+check(pages.get('experience').includes('rolesListedAsCurrent') && pages.get('experience').includes('earlierRoles'), 'Experience should separate recorded current and historical roles');
+check(pages.get('academic-service').includes('serviceGroups') && pages.get('academic-service').includes('item.serviceType === group.type'), 'Scholarly service must show accurate functional groups');
+for (const kind of ['Editorial', 'Peer review', 'Journal operations', 'Conference service']) {
+  check(data.includes("serviceType: '" + kind + "'"), 'Unclassified scholarly service: ' + kind);
+}
+check(pages.get('academic-service').includes('publicationByTitle') && pages.get('academic-service').includes('Related publication'), 'Conference presentations should link to matching published research');
+check(pages.get('recognition').includes('scholarships') && pages.get('recognition').includes('awards'), 'Scholarships and distinctions must be distinct');
+check(pages.get('teaching').includes('current-semester') && pages.get('teaching').includes('certifications'), 'Teaching source and competency caveats missing');
 check(about.includes('AcademicProfileNav'), 'About must link to the section directory');
 check(research.includes('publicCv.fundedResearch'), 'Research funding context missing');
 check(home.includes('MEXT Scholarship recipient'), 'Home missing brief recognition');
