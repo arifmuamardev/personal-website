@@ -137,7 +137,7 @@ for (const hidden of ['cv/index.html', 'files/arif-muamar-cv.pdf']) {
 const publicDocuments = (await walk(root)).filter(file => file.endsWith('.html') || file.endsWith('.txt'));
 for (const file of publicDocuments) {
   const source = await fs.readFile(file, 'utf8');
-  if (/(?:href=["'][^"']*\\/cv\\/|\\/files\\/arif-muamar-cv\\.pdf|[- ]CV: https?:\\/\\/[^\\s]+\\/cv\\/)/i.test(source)) {
+  if (source.includes('/cv/') || source.includes('arif-muamar-cv.pdf')) {
     fail(path.relative(root, file), 'public content links to paused CV');
   }
 }
