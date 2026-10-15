@@ -1,6 +1,8 @@
 ---
 title: "GAN-Enhanced RBF Networks for Landslide Susceptibility Mapping"
 summary: "Applied machine-learning research combining generative augmentation and radial-basis-function networks for landslide susceptibility mapping."
+question: "How can generative augmentation and RBF-based models contribute to landslide susceptibility mapping?"
+approach: "Examine GAN-based augmentation, geospatial predictors, and radial-basis-function modeling in the associated study."
 status: "Completed"
 role: "Co-Author"
 collaborators:
