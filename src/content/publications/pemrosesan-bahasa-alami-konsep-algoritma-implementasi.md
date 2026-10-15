@@ -1,8 +1,8 @@
 ---
 title: Pemrosesan Bahasa Alami Konsep, Algoritma & Implementasi
 authors:
-- CRA Widiawati
-- AM Wahid
+- Chyntia Raras Ajeng Widiawati
+- Arif Mu'amar Wahid
 year: 2025
 venue: 'Zahira Media Publisher. ISBN: 9786238481958'
 type: Book
