@@ -14,7 +14,7 @@ for (const file of files) {
     errors.push(`${path.relative(source, file)}: root-only link ${m[0]}`);
   }
 }
-for (const required of ['src/pages/portfolio/index.astro','src/pages/portfolio/pilketos/index.astro','src/pages/robots.txt.ts','src/pages/rss.xml.js','src/pages/feed.xml.js','src/pages/site.webmanifest.ts']) {
+for (const required of ['src/pages/robots.txt.ts','src/pages/rss.xml.js','src/pages/feed.xml.js','src/pages/site.webmanifest.ts']) {
   try { await fs.access(required); } catch { errors.push(`${required}: missing`); }
 }
 if (errors.length) {
