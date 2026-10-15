@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import AcademicProfileNav from '../components/AcademicProfileNav.astro';
+import { profile } from '../data/profile';
+import { publicCv } from '../data/public-cv';
+import { localPath } from '../lib/urls';
+---
+<Layout title="Recognition & Creative Works" description="Awards, scholarships, registered creative works and professional recognition of Arif Mu'amar Wahid.">
+  <section class="section academic-index academic-profile-page">
+    <div class="container">
+      <PageIntro title="Recognition &amp; Creative Works" eyebrow="Academic background">
+        <p slot="description">Selected awards and scholarships, plus registered and institutional creative-work listings.</p>
+      </PageIntro>
+      <AcademicProfileNav current="/recognition/" />
+      <div class="academic-profile-content">
+        <h2>Awards and scholarships</h2>
+        <ul class="profile-topics">{profile.awards.map(award => <li>{award}</li>)}</ul>
+        <h2>Registered and institutional creative works</h2>
+        <p class="profile-disclaimer">Descriptions are based on the curated August 2026 academic CV. Co-creator status is retained as listed; no exclusive ownership is implied.</p>
+        <ul class="profile-records">
+          {publicCv.intellectualProperty.map(item => <li><h3>{item.title}</h3><p>{item.kind} · {item.year}</p></li>)}
+        </ul>
+        <p class="profile-crosslink">Books and chapters are listed in the searchable <a href={localPath('/publications/')}>Publications</a> page rather than repeated here.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
