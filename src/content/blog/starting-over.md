@@ -1,6 +1,7 @@
 ---
 title: "Starting Over"
 description: "Reflections on restarting the blog and balancing life, studies, and family."
+historicalNote: "This article reflects March 2025, when I was completing my master’s degree. I began doctoral study at Kanazawa University in October 2025."
 publishedDate: 2025-03-24T02:35:11Z
 author: "Arif Muamar"
 category: "Blog"

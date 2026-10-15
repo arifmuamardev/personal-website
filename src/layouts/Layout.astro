@@ -27,6 +27,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://arifmuam
 const siteRoot = Astro.site || new URL('https://arifmuamardev.github.io');
 const personSchema = { ...personJsonLd, url: new URL(localPath('/'), siteRoot).toString() };
 const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
+const academicRoutes = ['/about/', '/education/', '/experience/', '/teaching/', '/academic-service/', '/recognition/'];
+const isAcademicPage = academicRoutes.some(route => Astro.url.pathname.startsWith(localPath(route)));
 ---
 
 <!doctype html>
@@ -63,7 +65,7 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
     
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" type="application/rss+xml" title="Arif Muamar Blog" href={localPath('/rss.xml')} />
+    <link rel="alternate" type="application/rss+xml" title="Arif Muamar Writing" href={localPath('/rss.xml')} />
     
     <!-- Temporary Indexing Restrictions (Offline Review/Staging Mode) -->
     <meta name="robots" content={isProduction && !noindex ? 'index, follow' : 'noindex, nofollow'} />
@@ -122,10 +124,10 @@ const isProduction = import.meta.env.PUBLIC_SITE_MODE === 'production';
         
         <nav id="main-nav" aria-label="Main Navigation">
           <ul>
-            <li><a href={localPath('/about/')} class={Astro.url.pathname.startsWith(localPath('/about/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/about/')) ? 'page' : undefined}>About</a></li>
+            <li><a href={localPath('/about/')} class={isAcademicPage ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/about/')) ? 'page' : undefined}>About</a></li>
             <li><a href={localPath('/research/')} class={(Astro.url.pathname.startsWith(localPath('/research/')) || Astro.url.pathname.startsWith(localPath('/projects/'))) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/research/')) ? 'page' : undefined}>Research</a></li>
             <li><a href={localPath('/publications/')} class={Astro.url.pathname.startsWith(localPath('/publications/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/publications/')) ? 'page' : undefined}>Publications</a></li>
-            <li><a href={localPath('/blog/')} class={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'page' : undefined}>Blog</a></li>
+            <li><a href={localPath('/blog/')} class={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'page' : undefined}>Writing</a></li>
             <li><a href={localPath('/contact/')} class={Astro.url.pathname.startsWith(localPath('/contact/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/contact/')) ? 'page' : undefined}>Contact</a></li>
           </ul>
         </nav>

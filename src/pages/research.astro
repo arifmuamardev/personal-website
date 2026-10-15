@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { localPath } from '../lib/urls';
-import { publicCv } from '../data/public-cv';
+import { profile } from '../data/profile';
 import { getCollection } from 'astro:content';
 
 const researchProjects = await getCollection('projects');
@@ -25,19 +25,19 @@ const focusProjects = researchProjects
       <div class="research-layout">
         <!-- Main Research Areas -->
         <div class="research-section">
-          <h2>Primary PhD Research</h2>
+          <h2>Doctoral research focus</h2>
           <div class="research-theme card primary-highlight">
             <span class="theme-label badge">Current doctoral research</span>
-            <h3>Decoding Plant Bioelectric Potentials &amp; Electrophysiology</h3>
+            <h3>Plant bioelectric potentials (BEP)</h3>
             <p>
-              Plants generate electrical signals (bioelectric potentials) in response to environmental stimuli like temperature shifts, light changes, mechanical wounding, and moisture stress. My primary PhD research focuses on developing and evaluating acquisition, signal-processing, and machine-learning approaches to model and classify these signals.
+              {profile.researchFocus} Plant electrical responses can vary with environmental conditions and measurement setups; my current work examines how to acquire and analyze these time series reliably.
             </p>
             <p>
               This involves:
             </p>
             <ul class="styled-list">
               <li><strong>Noise and Drift Management:</strong> Evaluating preprocessing, filtering, and baseline-drift handling for slow, low-voltage biological signals.</li>
-              <li><strong>Multivariate Representation:</strong> Modeling spatial-temporal electrical patterns across multiple measurement sites using multisensor fusion.</li>
+              <li><strong>Multivariate Representation:</strong> Exploring multi-site and environmental context data as possible extensions; these approaches are not presented as completed multi-plant results.</li>
               <li><strong>Time-Series Classification:</strong> Evaluating machine-learning and deep-learning approaches, including Transformer-based models, for noisy biological time-series data.</li>
             </ul>
           </div>
@@ -80,7 +80,7 @@ const focusProjects = researchProjects
             <div class="theme-icon" aria-hidden="true">🌱</div>
             <h3>Plant Bioelectric Signals</h3>
             <p>
-              Focuses on the acquisition, denoising, mathematical modeling, and classification of electrical potential differences in vascular plants. By exploring these bioelectric responses, we seek to build edge-sensing systems that treat plants as natural biosensors for agricultural and environmental monitoring.
+              Investigating acquisition and preprocessing choices for plant electrical potential measurements, with edge sensing as a possible application rather than a deployed system.
             </p>
           </div>
 
@@ -88,7 +88,7 @@ const focusProjects = researchProjects
             <div class="theme-icon" aria-hidden="true">📈</div>
             <h3>Biological Time-Series Machine Learning</h3>
             <p>
-              Studying machine-learning and deep-learning methodologies that can handle the specific difficulties of biological signals. Unlike synthetic or financial time-series, biological signals are slow, non-stationary, and exhibit severe baseline wander and high variance across individuals.
+              Evaluating sequence models and validation strategies for biological recordings, which may exhibit noise, baseline drift, non-stationarity and variation across experiments.
             </p>
           </div>
 
@@ -96,7 +96,7 @@ const focusProjects = researchProjects
             <div class="theme-icon" aria-hidden="true">⛅</div>
             <h3>Multisensor Environmental Monitoring</h3>
             <p>
-              Integrating environmental context data with plant electrophysiology to study how environmental conditions relate to bioelectric responses.
+              Exploring how environmental sensor context might complement plant bioelectric measurements in future analyses.
             </p>
           </div>
 
@@ -104,55 +104,13 @@ const focusProjects = researchProjects
             <div class="theme-icon" aria-hidden="true">🧠</div>
             <h3>Applied Artificial Intelligence</h3>
             <p>
-              Applying computer vision and tabular machine learning to diverse fields including medical diagnostics (such as malaria detection in microscopy smears using GAN-augmented datasets), educational marketing segmentation, landslide susceptibility mapping, and cybersecurity.
+              Past and collaborative work includes microscopy-image classification, education analytics, and landslide susceptibility modeling. See published outputs for specific methods and evidence.
             </p>
           </div>
 
-          <h2>Research Experience and Funded Projects</h2>
-          <p class="research-funding-intro">The following 2024 projects are recorded in my comprehensive academic CV as funded research experience. Participation is listed without assuming a principal-investigator role.</p>
-          <div class="research-funding">
-            {publicCv.fundedResearch.map(item => (
-              <div class="funded-entry">
-                <h3>{item.title}</h3>
-                <p>{item.sponsor} · {item.year}</p>
-              </div>
-            ))}
-          </div>
-          <p class="research-funding-cta"><a href={localPath('/experience/')}>Academic & professional experience →</a></p>
+          <p class="research-funding-cta">For earlier appointments and funded-project participation, see <a href={localPath('/experience/')}>Academic &amp; Professional Experience →</a>.</p>
         </div>
 
-        <!-- Sidebar for distinction of interests -->
-        <div class="research-sidebar">
-          <div class="sidebar-block card">
-            <h3>Research Status</h3>
-            
-            <div class="status-group">
-              <span class="status-indicator active"></span>
-              <h4>Primary Focus (Current)</h4>
-              <p>Plant electrophysiology and time-series modeling (PhD Thesis, Kanazawa University).</p>
-            </div>
-
-            <div class="status-group">
-              <span class="status-indicator supporting"></span>
-              <h4>Supporting Interests</h4>
-              <p>Transfer learning, generative augmentation, applied computer vision, and multisensor environmental logging.</p>
-            </div>
-
-            <div class="status-group">
-              <span class="status-indicator past"></span>
-              <h4>Previous Research</h4>
-              <p>Accreditation database schemas (Zachman Framework), data warehouses, and web theme recommendations using convolutional neural networks.</p>
-            </div>
-          </div>
-          
-          <div class="sidebar-block card">
-            <h3>Current Academic Institutions</h3>
-            <ul class="styled-list">
-              <li>Kanazawa University, Japan</li>
-              <li>Universitas Amikom Purwokerto, Indonesia</li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -191,9 +149,8 @@ const focusProjects = researchProjects
   .funded-entry p {font-size:.86rem;margin:0;color:var(--text-muted);}
   .research-funding-cta {font-size:.9rem;margin:1rem 0 0;}
   .research-layout {
-    display: grid;
-    grid-template-columns: 1.35fr 0.65fr;
-    gap: 3rem;
+    display: block;
+    max-width: 960px;
   }
   
   .research-section h2 {

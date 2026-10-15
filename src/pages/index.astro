@@ -6,7 +6,6 @@ import { localPath } from '../lib/urls';
 import { profile } from '../data/profile';
 
 const publications = await getCollection('publications');
-const researchProjects = await getCollection('projects');
 const posts = await getCollection('blog');
 
 // Curate the homepage around confirmed outputs relevant to the current research focus.
@@ -19,20 +18,12 @@ const featuredPublications = publications
   .filter(pub => homepagePublicationIds.has(pub.id) && pub.data.status === 'Published')
   .sort((a, b) => (a.data.featuredOrder ?? 999) - (b.data.featuredOrder ?? 999) || b.data.year - a.data.year);
 
-const focusProjectIds = [
-  'plant-bioelectrical-potential-edge-sensing',
-  'plant-bioelectric-transformer-classifier',
-];
-const selectedResearch = researchProjects
-  .filter(project => focusProjectIds.includes(project.id))
-  .sort((a, b) => focusProjectIds.indexOf(a.id) - focusProjectIds.indexOf(b.id));
-
 const recentWriting = posts
   .filter(post => !post.data.draft)
   .sort((a, b) => b.data.publishedDate.getTime() - a.data.publishedDate.getTime())
   .slice(0, 3);
 ---
-<Layout title="Home" description="Arif Mu'amar Wahid: PhD student at Kanazawa University, lecturer at Universitas Amikom Purwokerto, and developer working on plant bioelectric signals, machine learning, and software.">
+<Layout title="Home" description="Arif Mu'amar Wahid: PhD student at Kanazawa University and lecturer at Universitas Amikom Purwokerto, researching plant bioelectric potentials and machine learning.">
   <section class="intro container" aria-labelledby="home-name">
     <img class="identity-portrait profile-photo" src={localPath('/images/arif-profile.webp')} width="240" height="300" alt="Profile portrait supplied for this personal website" fetchpriority="high" decoding="async" />
     <div class="identity-copy">
@@ -66,7 +57,7 @@ const recentWriting = posts
         <h2 id="current-research-title">Current doctoral research</h2>
         <a href={localPath('/research/')}>Research overview →</a>
       </div>
-      <p class="focus-lead"><strong>Understanding electrical signaling in plants through careful measurement and machine learning.</strong> My research explores plant bioelectric potentials as biological time-series, connecting acquisition quality, preprocessing choices and reproducible modeling.</p>
+      <p class="focus-lead"><strong>From plant bioelectric measurements to reliable analysis.</strong> {profile.researchFocus}</p>
       <div class="focus-methods" aria-label="Current research themes">
         <div class="focus-method"><span class="method-index">01 / Acquire</span><h3>Bioelectric measurement</h3><p>Review electrodes, recording setups, noise and environmental conditions.</p></div>
         <div class="focus-method"><span class="method-index">02 / Prepare</span><h3>Signal processing</h3><p>Study baseline drift, filtering and how preprocessing affects comparisons.</p></div>
@@ -98,31 +89,17 @@ const recentWriting = posts
       )}
     </section>
 
-    <section class="academic-section" aria-labelledby="research-areas">
+    <section class="academic-section" aria-labelledby="background-heading">
       <div class="section-heading">
-        <h2 id="research-areas">Research interests</h2>
-        <a href={localPath('/research/')}>Research overview →</a>
+        <h2 id="background-heading">Academic background</h2>
+        <a href={localPath('/about/')}>About →</a>
       </div>
-      <p class="section-intro">My work focuses on data-driven analysis of biological and other complex signals, with particular attention to how measurements and models can be validated.</p>
+      <p class="section-intro">Education, academic experience, teaching and scholarly service are documented separately from research publications.</p>
       <div class="interest-list">
-        <div class="interest-row"><strong>Plant bioelectric signals</strong><p>Plant electrophysiology, potential variations, and responses to environmental stimuli.</p></div>
-        <div class="interest-row"><strong>Machine learning for time series</strong><p>Classification, sequence modeling, and reproducible evaluation of biological signal data.</p></div>
-        <div class="interest-row"><strong>Applied intelligent systems</strong><p>Multisensor measurement, data mining, and useful computational tools.</p></div>
+        <div class="interest-row"><strong><a href={localPath('/education/')}>Education →</a></strong><p>Doctoral study in progress and completed degrees.</p></div>
+        <div class="interest-row"><strong><a href={localPath('/experience/')}>Experience →</a></strong><p>Academic appointments and previous research participation.</p></div>
+        <div class="interest-row"><strong><a href={localPath('/academic-service/')}>Academic service →</a></strong><p>Editorial work, peer review and scholarly activities.</p></div>
       </div>
-      {selectedResearch.length > 0 && (
-        <div class="research-projects">
-          <h3>Selected research projects</h3>
-          <ul>
-            {selectedResearch.map(project => (
-              <li>
-                <strong><a href={localPath(`/projects/#${project.id}`)}>{project.data.title}</a></strong>
-                <span>{project.data.summary}</span>
-              </li>
-            ))}
-          </ul>
-          <a href={localPath('/projects/')}>Explore all research projects →</a>
-        </div>
-      )}
     </section>
 
     <section class="academic-section" aria-labelledby="writing-heading">
