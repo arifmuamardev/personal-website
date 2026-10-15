@@ -92,7 +92,7 @@ for(const f of files){
   const clean=x=>x.replace(/^['"]|['"]$/g,'').trim();
   const title=clean(titleMatch[1]);
   titles.push(title.toLowerCase());
-  const item={title,authors:authorsMatch[1].trim().split('\n').map(l=>l.replace(/^\s*-\s*/,'').trim()),type:clean(typeMatch[1]),status:'Published',year:Number(yearMatch[1]),venue:clean(venueMatch[1])};
+  const item={title,authors:authorsMatch[1].trim().split('\n').map(l=>l.replace(/^\s*-\s*/,'').trim().replace(/^['\"]|['\"]$/g,'')),type:clean(typeMatch[1]),status:'Published',year:Number(yearMatch[1]),venue:clean(venueMatch[1])};
   const ref=ieeeReference(item);
   assert(ref.authorText&&ref.container&&ref.formattedPlain, 'invalid reference '+f);
   if(!doiMatch)noDoi++;
