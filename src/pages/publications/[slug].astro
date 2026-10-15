@@ -3,6 +3,7 @@ import { localPath } from '../../lib/urls';
 import Layout from '../../layouts/Layout.astro';
 import PageBreadcrumb from '../../components/PageBreadcrumb.astro';
 import PublicationReference from '../../components/PublicationReference.astro';
+import PublicationAuthors from '../../components/PublicationAuthors.astro';
 import PublicationMeta from '../../components/PublicationMeta.astro';
 import { getCollection } from 'astro:content';
 import { profile } from '../../data/profile';
@@ -46,7 +47,7 @@ const publicationSchema = {
       <header class="publication-header">
         <PublicationMeta type={data.type} status={data.status} year={data.year} researchArea={data.researchArea} tags={data.tags} />
         <h1>{data.title}</h1>
-        <p class="authors">{data.authors.join(' · ')}</p>
+        <p class="authors"><PublicationAuthors authors={data.authors} /></p>
         <PublicationReference publication={data} />
       </header>
 

@@ -1,11 +1,11 @@
 ---
 title: 'Exploring the impact of discount strategies on consumer ratings: An analytical study of Amazon product reviews'
 authors:
-- B Berlilana
-- AM Wahid
-- D Fortuna
-- ANA Saputra
-- G Bagaskoro
+- Berlilana
+- Arif Mu'amar Wahid
+- Dewi Fortuna
+- Alfin Nur Aziz Saputra
+- Galih Bagaskoro
 year: 2024
 venue: "Journal of Applied Data Sciences, 5(1), 158–172"
 publisherUrl: https://www.bright-journal.org/Journal/index.php/JADS/article/view/163

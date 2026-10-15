@@ -1,17 +1,22 @@
 ---
+import { isProfileAuthor } from '../lib/publication-reference';
+
 interface Props {
-  authors: string[];
+  authors: readonly string[];
 }
 
 const { authors } = Astro.props;
-const selfPattern = /(^|\b)(arif|a\.?\s*m\.?\s*wahid|am\s*wahid|a\s*mu[’']?amar)(\b|$)/i;
+
 ---
 
 <span class="publication-authors">
   {authors.map((author, index) => (
     <>
-      {selfPattern.test(author) ? <strong>{author}</strong> : author}
+      {isProfileAuthor(author) ? <strong class="profile-author">{author}</strong> : author}
       {index < authors.length - 1 ? ', ' : ''}
     </>
   ))}
 </span>
+<style>
+  .profile-author {font-weight:750;color:var(--text-primary);}
+</style>

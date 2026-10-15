@@ -1,14 +1,24 @@
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
-import { ieeeAuthor, ieeeAuthors, ieeeReference } from '../src/lib/publication-reference.ts';
+import { ieeeAuthor, ieeeAuthors, ieeeAuthorSegments, ieeeReference, isProfileAuthor } from '../src/lib/publication-reference.ts';
 
 assert.equal(ieeeAuthor("Arif Mu'amar Wahid"), "A. M. Wahid");
 assert.equal(ieeeAuthor('AM Wahid'), 'A. M. Wahid');
 assert.equal(ieeeAuthor('CRA Widiawati'), 'C. R. A. Widiawati');
 assert.equal(ieeeAuthors(['Arif Mu\'amar Wahid', 'Rizky Rahmatullah']), 'A. M. Wahid and R. Rahmatullah');
 assert.equal(ieeeAuthors(['Arif Mu\'amar Wahid']), 'A. M. Wahid');
-assert.equal(ieeeAuthors(['A One','B Two','C Three','D Four','E Five','F Six','G Seven']), 'A. One et al.');
+assert.equal(ieeeAuthors(['A One','B Two','C Three','D Four','E Five','F Six','G Seven']), 'A. One, B. Two, C. Three, D. Four, E. Five, F. Six, and G. Seven');
+for (const alias of ["Arif Mu'amar Wahid", "Arif Mu’amar Wahid", "AM Wahid", "A. M. Wahid", "Arif Mu’amar", "A Mu’amar"]) {
+  assert.equal(isProfileAuthor(alias), true, 'author alias should be highlighted: ' + alias);
+}
+for (const other of ['Dani Arifudin', 'Arif Prasetyo', 'Arif Wahidullah', 'Chyntia Raras Ajeng Widiawati', 'A Hariawan']) {
+  assert.equal(isProfileAuthor(other), false, 'unrelated author should not be highlighted: ' + other);
+}
+const longList = ieeeAuthorSegments(['D Arifudin','RE Saputro','Berlilana','WM Baihaqi','Sarmini','Y Purwati',"Arif Mu'amar Wahid",'ANA Saputra']);
+assert.equal(longList.length, 8, 'profile paper must preserve full author order');
+assert.equal(longList.filter(a => a.isSelf).length, 1);
+assert.equal(longList[6].text, 'A. M. Wahid');
 
 function fixture(venue, type='Journal Article', year=2026) {
   return ieeeReference({title:'Test Title', authors:["Arif Mu'amar Wahid",'Rizky Rahmatullah'], type, status:'Published',year,venue,doi:'10.1234/example'});
@@ -58,6 +68,12 @@ for (const [name,src] of [['index',index],['detail',detail]]) {
   assert.doesNotMatch(src,/<p class="pub-venue">|<p class="pub-authors">/,name+' still uses raw venue or abbreviated author paragraphs');
 }
 assert.match(detail,/includeTitle=\{true\}/, 'detail needs full IEEE-style reference');
+const refComponent = readFileSync('src/components/PublicationReference.astro','utf8');
+const authorComponent = readFileSync('src/components/PublicationAuthors.astro','utf8');
+assert.match(refComponent,/ieeeAuthorSegments\(publication\.authors\)/, 'IEEE list must render authors individually');
+assert.match(refComponent,/<strong class="profile-author">\{author\.text\}<\/strong>/, 'IEEE list must bold profile author');
+assert.match(authorComponent,/isProfileAuthor\(author\)/, 'home and detail bylines must use the same exact profile identity');
+assert.match(detail,/<PublicationAuthors authors=\{data\.authors\}/, 'detail full-name byline should bold the profile author');
 
 const folder='src/content/publications';
 const files=readdirSync(folder).filter(p=>p.endsWith('.md'));
@@ -76,11 +92,12 @@ for(const f of files){
   const clean=x=>x.replace(/^['"]|['"]$/g,'').trim();
   const title=clean(titleMatch[1]);
   titles.push(title.toLowerCase());
-  const item={title,authors:authorsMatch[1].trim().split('\n').map(l=>l.replace(/^\s*-\s*/,'').trim()),type:clean(typeMatch[1]),status:'Published',year:Number(yearMatch[1]),venue:clean(venueMatch[1])};
+  const item={title,authors:authorsMatch[1].trim().split('\n').map(l=>l.replace(/^\s*-\s*/,'').trim().replace(/^['\"]|['\"]$/g,'')),type:clean(typeMatch[1]),status:'Published',year:Number(yearMatch[1]),venue:clean(venueMatch[1])};
   const ref=ieeeReference(item);
   assert(ref.authorText&&ref.container&&ref.formattedPlain, 'invalid reference '+f);
   if(!doiMatch)noDoi++;
   if(/\b[A-Z]{2,4} [A-Z][a-z]/.test(authorsMatch[1]))abbreviated++;
+  assert(item.authors.some(isProfileAuthor), 'All curated profile papers should credit profile owner: ' + f);
   if(ref.needsMetadataReview){noExpandedVenue++;missingVenueIds.push(f);}
   if(/,\s*\d{4}\s*$/.test(item.venue))entriesWithRawYear++;
 }

@@ -2,8 +2,8 @@
 title: 'Predicting Post-Earthquake Building Damage Using Random Forest and Gradient Boosting Algorithms: A Data Mining Approach
   on the 2015 Nepal Earthquake Dataset'
 authors:
-- I Maulita
-- AM Wahid
+- Ika Maulita
+- Arif Mu'amar Wahid
 year: 2024
 type: Conference Paper
 status: Published
