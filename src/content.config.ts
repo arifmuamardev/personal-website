@@ -21,6 +21,7 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     description: optionalText,
+    historicalNote: optionalText,
     publishedDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     author: z.string().default("Arif Muamar"),
