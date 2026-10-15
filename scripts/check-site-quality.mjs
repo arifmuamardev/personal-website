@@ -200,7 +200,7 @@ for (const count of [18, 13, 151]) {
 for (const marker of [
   '182 included studies',
   'not plant-signal measurements',
-  'do not',
+  'BEP-specific effectiveness',
   '10.1016/j.atech.2026.102484',
   'transformer-adaptation-for-plant-bioelectric-potential-classification-scoping-review',
 ]) {
