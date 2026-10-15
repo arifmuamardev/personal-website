@@ -17,9 +17,16 @@
 1. Browser-level responsive review at 320, 375, 768, 1024 and 1440 px in light/dark modes; keyboard navigation and full axe accessibility.
 2. Actual HTTP status and legacy WordPress redirects, especially `/category/blog/`, `/author/arifmuamar/`, `/feed/`. Current HTML refresh pages are **not HTTP 301** redirects.
 3. Search Console indexing, sitemap submission and canonical coverage.
-4. External academic profile/publisher link health and CV download in real browsers.
+4. External academic profile/publisher link health; verify the old CV route and PDF return 404 after the suspension, and check reindexing.
 5. Lighthouse Core Web Vitals and privacy-sensitive analytics decision.
 6. Deliverability tests for email and uptime checks for other subdomains (only DNS was inspected).
+
+## Academic profile restructuring (16 October 2026)
+
+- The academic biography is now an entry point to five independently indexable, topic-specific pages (education, experience, teaching, academic service and recognition).
+- The previously public CV page and its downloadable PDF were removed from generated output, menu, homepage CTAs, and automated PDF generation. The internal curated content data remains.
+- Do not serve an old copy of the CV from a separate static file, design lab, or cache. Verify `/cv/` and `/files/arif-muamar-cv.pdf` in a live browser and monitor their deindexing.
+- No change to research or publication routes, DNS or WordPress backups.
 
 ## Redirect safety
 Cloudflare Redirect Rules run on **proxied** traffic, while production apex and `www` are DNS-only today. Do not switch orange-cloud proxy just to add redirects without separately verifying GitHub certificates, Cloudflare Full (strict) SSL and potential redirect loops. Never introduce a wildcard catch-all that breaks existing routes.
