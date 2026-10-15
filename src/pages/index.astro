@@ -9,14 +9,23 @@ const publications = await getCollection('publications');
 const researchProjects = await getCollection('projects');
 const posts = await getCollection('blog');
 
+// Curate the homepage around confirmed outputs relevant to the current research focus.
+const homepagePublicationIds = new Set([
+  'transformer-adaptation-for-plant-bioelectric-potential-classification-scoping-review',
+  'a-systematic-review-of-plant-bioelectrical-potential-acquisition-systems-for-edg',
+  'transformer-based-models-for-enhanced-plant-bioelectric-signal-classification',
+]);
 const featuredPublications = publications
-  .filter(pub => pub.data.featured)
-  .sort((a, b) => (a.data.featuredOrder ?? 999) - (b.data.featuredOrder ?? 999) || b.data.year - a.data.year)
-  .slice(0, 3);
+  .filter(pub => homepagePublicationIds.has(pub.id) && pub.data.status === 'Published')
+  .sort((a, b) => (a.data.featuredOrder ?? 999) - (b.data.featuredOrder ?? 999) || b.data.year - a.data.year);
 
+const focusProjectIds = [
+  'plant-bioelectrical-potential-edge-sensing',
+  'plant-bioelectric-transformer-classifier',
+];
 const selectedResearch = researchProjects
-  .filter(project => project.data.featured)
-  .slice(0, 3);
+  .filter(project => focusProjectIds.includes(project.id))
+  .sort((a, b) => focusProjectIds.indexOf(a.id) - focusProjectIds.indexOf(b.id));
 
 const recentWriting = posts
   .filter(post => !post.data.draft)
@@ -52,6 +61,19 @@ const recentWriting = posts
   </section>
 
   <div class="container homepage-content">
+    <section class="academic-section current-research" aria-labelledby="current-research-title">
+      <div class="section-heading">
+        <h2 id="current-research-title">Current doctoral research</h2>
+        <a href={localPath('/research/')}>Research overview →</a>
+      </div>
+      <p class="focus-lead"><strong>Understanding electrical signaling in plants through careful measurement and machine learning.</strong> My research explores plant bioelectric potentials as biological time-series, connecting acquisition quality, preprocessing choices and reproducible modeling.</p>
+      <div class="focus-methods" aria-label="Current research themes">
+        <div class="focus-method"><span class="method-index">01 / Acquire</span><h3>Bioelectric measurement</h3><p>Review electrodes, recording setups, noise and environmental conditions.</p></div>
+        <div class="focus-method"><span class="method-index">02 / Prepare</span><h3>Signal processing</h3><p>Study baseline drift, filtering and how preprocessing affects comparisons.</p></div>
+        <div class="focus-method"><span class="method-index">03 / Evaluate</span><h3>Time-series learning</h3><p>Investigate sequence models and validation practices for plant signals.</p></div>
+      </div>
+      <p class="focus-context">These are active research directions, not claims of a deployed biosensing system. <a href={localPath('/projects/')}>Explore research projects →</a></p>
+    </section>
     <section class="academic-section" aria-labelledby="selected-publications">
       <div class="section-heading">
         <h2 id="selected-publications">Selected publications</h2>
@@ -65,7 +87,7 @@ const recentWriting = posts
               <div>
                 <h3><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
                 <p class="row-authors"><PublicationAuthors authors={pub.data.authors} /></p>
-                <p class="row-details">{pub.data.venue}</p>
+                <p class="row-details">{pub.data.type} · {pub.data.venue}</p>
                 {pub.data.doi && <a class="row-extra" href={`https://doi.org/${pub.data.doi}`} target="_blank" rel="noopener noreferrer">DOI ↗</a>}
               </div>
             </li>
@@ -93,7 +115,7 @@ const recentWriting = posts
           <ul>
             {selectedResearch.map(project => (
               <li>
-                <strong>{project.data.title}</strong>
+                <strong><a href={localPath(`/projects/#${project.id}`)}>{project.data.title}</a></strong>
                 <span>{project.data.summary}</span>
               </li>
             ))}
@@ -124,6 +146,18 @@ const recentWriting = posts
 </Layout>
 
 <style>
+  .focus-lead { font-size: 1.03rem; max-width: 75ch; line-height: 1.78; margin: 0 0 1.5rem; }
+  .focus-lead strong { color: var(--text-primary); font-weight: 670; }
+  .focus-methods { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: clamp(14px,2.2vw,26px); margin: 0 0 1rem; }
+  .focus-method { border-top: 2px solid var(--accent-color); padding-top: .75rem; }
+  .method-index { color: var(--accent-color); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .focus-method h3 { font-family: var(--font-sans); font-size: .96rem; margin: .45rem 0 .4rem; }
+  .focus-method p { font-size: .86rem; line-height: 1.65; margin-bottom: .2rem; }
+  .focus-context { color: var(--text-muted); font-size: .84rem; line-height: 1.65; margin-top: 1.3rem; }
+  .focus-context a { font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .research-projects li strong a { color: var(--text-primary); text-decoration: underline; text-underline-offset: 3px; }
+  .research-projects li strong a:hover { color: var(--accent-color); }
+  @media(max-width:700px){ .focus-methods { grid-template-columns: 1fr; gap: 1.1rem; } }
   .intro {
     display: grid;
     grid-template-columns: 174px minmax(0,1fr);

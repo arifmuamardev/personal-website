@@ -1,6 +1,8 @@
 ---
 title: "Plant Bioelectrical Potential Acquisition for Edge Sensing"
 summary: "Research on plant bioelectrical-potential acquisition, signal analysis, and sensing architectures for environmental and edge-sensing applications."
+question: "Which acquisition and signal-processing choices support trustworthy plant bioelectric measurements?"
+approach: "Review electrode placement, recording hardware, measurement environments, and edge-sensing considerations reported in the literature."
 status: "Active"
 role: "Doctoral Researcher"
 collaborators:

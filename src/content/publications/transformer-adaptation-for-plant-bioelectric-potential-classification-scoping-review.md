@@ -10,7 +10,8 @@ type: Journal Article
 status: Published
 doi: 10.1016/j.atech.2026.102484
 publisherUrl: https://www.sciencedirect.com/science/article/pii/S2772375526007094
-featured: false
+featured: true
+featuredOrder: 1
 researchArea: Plant Bioelectric Signals and Machine Learning
 tags:
 - Plant Bioelectric Signals

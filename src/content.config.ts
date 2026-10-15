@@ -61,6 +61,8 @@ const projects = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
+    question: optionalText,
+    approach: optionalText,
     status: z.enum(['Active', 'Completed', 'Paused', 'Archived']),
     startDate: optionalText,
     endDate: optionalText,

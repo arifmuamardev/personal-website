@@ -12,55 +12,67 @@ const statusRank: Record<string, number> = { Active: 0, Completed: 1, Paused: 2,
 const sortedProjects = allProjects.sort((a, b) =>
   (statusRank[a.data.status] ?? 9) - (statusRank[b.data.status] ?? 9) || a.data.title.localeCompare(b.data.title)
 );
+const focusProjectIds = ['plant-bioelectrical-potential-edge-sensing', 'plant-bioelectric-transformer-classifier'];
+const featuredFirst = (a: typeof sortedProjects[number], b: typeof sortedProjects[number]) =>
+  (focusProjectIds.indexOf(a.id) === -1 ? 99 : focusProjectIds.indexOf(a.id)) -
+  (focusProjectIds.indexOf(b.id) === -1 ? 99 : focusProjectIds.indexOf(b.id));
+sortedProjects.sort((a,b) => (statusRank[a.data.status] ?? 9) - (statusRank[b.data.status] ?? 9) || featuredFirst(a,b) || a.data.title.localeCompare(b.data.title));
 ---
 
 <Layout
-  title="Projects"
-  description="Research projects by Arif Mu'amar Wahid, including plant bioelectric signal research, machine learning, medical imaging, and geohazard applications."
+  title="Research Projects"
+  description="Research projects by Arif Mu'amar Wahid, including plant bioelectric signal acquisition, time-series machine learning and selected applied-AI studies, with links to publications."
 >
   <section class="section academic-index">
     <div class="container">
       <PageIntro title="Research Projects">
-        <p slot="description">Selected current and completed research activities, linked to publications where available.</p>
+        <p slot="description">Research questions, approaches and associated outputs. Active projects describe work in progress; publication links indicate recorded scholarly outputs, not additional unverified performance claims.</p>
       </PageIntro>
+      <p class="project-index-note">For a broader overview, visit <a href={localPath('/research/')}>Research Activities</a>. Publication titles and DOI links below are sourced from the site's curated bibliography.</p>
 
       <div class="projects-list">
         {sortedProjects.map(project => {
-          const linkedPubs = project.data.publications
-            .map(id => publicationById.get(id))
-            .filter(Boolean);
+          const linkedPubs = project.data.publications.map(id => publicationById.get(id)).filter(Boolean);
           return (
-            <article class="project-detail-card card">
+            <article id={project.id} class="project-detail-card card" aria-labelledby={`project-${project.id}`}>
               <div class="project-header-row">
-                <h2>{project.data.title}</h2>
-                <span class={`status-badge badge ${project.data.status.toLowerCase()}`}>{project.data.status}</span>
+                <h2 id={`project-${project.id}`}>{project.data.title}</h2>
+                <span class={`status-badge ${project.data.status.toLowerCase()}`}>{project.data.status}</span>
               </div>
-
               <p class="project-meta">
                 {project.data.role && <><strong>Role:</strong> {project.data.role}</>}
-                {project.data.institution && <><span class="meta-sep" aria-hidden="true">•</span><strong>Institution:</strong> {project.data.institution}</>}
+                {project.data.institution && <><span class="meta-sep" aria-hidden="true">·</span><strong>Institution:</strong> {project.data.institution}</>}
               </p>
-
               <p class="project-summary-text">{project.data.summary}</p>
-
-              {project.data.collaborators.length > 0 && (
-                <div class="project-section-detail">
-                  <strong>Collaborators:</strong> {project.data.collaborators.join(', ')}
-                </div>
+              {(project.data.question || project.data.approach) && (
+                <dl class="project-explanation">
+                  {project.data.question && <div><dt>Research question</dt><dd>{project.data.question}</dd></div>}
+                  {project.data.approach && <div><dt>Approach</dt><dd>{project.data.approach}</dd></div>}
+                </dl>
               )}
-
               {linkedPubs.length > 0 && (
-                <div class="project-section-detail">
-                  <strong>Related publication{linkedPubs.length > 1 ? 's' : ''}:</strong>
+                <div class="project-section-detail linked-outputs">
+                  <h3>Related publication{linkedPubs.length !== 1 ? 's' : ''}</h3>
                   <ul class="publication-links">
-                    {linkedPubs.map(pub => pub && <li><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></li>)}
+                    {linkedPubs.map(pub => pub && (
+                      <li>
+                        <a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a>
+                        <span class="output-meta">{pub.data.year} · {pub.data.type} · {pub.data.status}</span>
+                        {pub.data.doi && <a class="output-doi" href={`https://doi.org/${pub.data.doi}`} target="_blank" rel="noopener noreferrer">DOI ↗</a>}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
-
-              <div class="project-tech-row" aria-label="Methods and technologies">
-                {project.data.technologies.map(tech => <span class="tech-badge badge">{tech}</span>)}
-              </div>
+              {project.data.collaborators.length > 0 && (
+                <p class="project-collaborators"><strong>Collaborators:</strong> {project.data.collaborators.join(', ')}</p>
+              )}
+              {project.data.technologies.length > 0 && (
+                <div class="project-tech-row" aria-label="Methods and technologies">
+                  {project.data.technologies.map(tech => <span class="tech-badge">{tech}</span>)}
+                </div>
+              )}
+              <a class="project-permalink" href={localPath(`/projects/#${project.id}`)}>Link to this project →</a>
             </article>
           );
         })}
@@ -70,23 +82,31 @@ const sortedProjects = allProjects.sort((a, b) =>
 </Layout>
 
 <style>
-
-.lead-text { font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3.5rem; color: var(--text-secondary); }
+  .project-index-note { max-width: 73ch; font-size: .91rem; margin: -.5rem 0 2.1rem; color: var(--text-secondary); }
   .projects-list { display: flex; flex-direction: column; gap: 2rem; }
-  .project-detail-card { padding: 2.25rem; }
-  .project-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; margin-bottom: 0.75rem; }
-  .project-header-row h2 { font-size: 1.6rem; margin-bottom: 0; line-height: 1.25; }
-  .project-meta { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem; }
-  .meta-sep { color: var(--text-muted); margin: 0 0.5rem; }
-  .project-summary-text { font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 1.25rem; }
-  .project-section-detail { font-size: 0.95rem; margin-bottom: 1.25rem; color: var(--text-secondary); }
-  .publication-links { margin: 0.5rem 0 0 1.25rem; }
-  .publication-links li { margin-bottom: 0.35rem; }
-  .project-tech-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .status-badge.active { background: hsl(145, 35%, 90%); color: hsl(145, 80%, 25%); }
-  .status-badge.completed { background: hsl(210, 30%, 90%); color: hsl(210, 80%, 28%); }
-  .tech-badge { background: var(--accent-light); color: var(--accent-color); border: 1px solid var(--border-color); }
-  :global(html[data-theme="dark"]) .status-badge.active { background: hsl(145, 30%, 16%); color: hsl(145, 65%, 72%); }
-  :global(html[data-theme="dark"]) .status-badge.completed { background: hsl(210, 28%, 17%); color: hsl(210, 70%, 75%); }
-  @media (max-width: 768px) { .project-header-row { flex-direction: column; gap: 0.5rem; } }
+  .academic-index .project-detail-card { scroll-margin-top: 7rem; border-bottom: 1px solid var(--border-color); padding: 1.5rem 0 2rem; }
+  .project-header-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: .75rem 1.5rem; margin-bottom: .6rem; }
+  .project-header-row h2 { font-size: clamp(1.35rem,2.3vw,1.65rem); flex: 1 1 25ch; margin: 0; }
+  .project-meta { display: flex; flex-wrap: wrap; column-gap: .35rem; color: var(--text-muted); font-size: .84rem; margin: 0 0 .95rem; }
+  .project-summary-text { max-width: 76ch; font-size: .96rem; line-height: 1.75; margin-bottom: 1rem; }
+  .project-explanation { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem 1.4rem; margin: 1.2rem 0 1.5rem; }
+  .project-explanation > div { border-top: 1px solid var(--border-color); padding-top: .65rem; }
+  .project-explanation dt { font-size: .76rem; font-weight: 700; color: var(--accent-color); text-transform: uppercase; letter-spacing: .045em; margin-bottom: .4rem; }
+  .project-explanation dd { color: var(--text-secondary); font-size: .9rem; line-height: 1.65; }
+  .linked-outputs { margin: 1rem 0 1.35rem; }
+  .linked-outputs h3 { font-family: var(--font-sans); font-size: .91rem; margin-bottom: .55rem; }
+  .publication-links { list-style: none; padding: 0; border-top: 1px solid var(--border-color); }
+  .publication-links li { padding: .7rem 0; border-bottom: 1px solid var(--border-color); }
+  .publication-links li > a:first-child { display: block; font-size: .91rem; line-height: 1.5; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .output-meta { display: inline-block; color: var(--text-muted); font-size: .76rem; margin-top: .2rem; }
+  .output-doi { margin-left: .7rem; font-size: .78rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .project-collaborators { font-size: .86rem; margin: 1rem 0; color: var(--text-secondary); }
+  .project-tech-row { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: 1rem; }
+  .tech-badge { border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-secondary); padding: .2rem .55rem; border-radius: 5px; font-size: .76rem; }
+  .status-badge { flex: 0 0 auto; border: 1px solid var(--border-color); border-radius: 99px; padding: .25rem .65rem; font-size: .76rem; color: var(--text-secondary); }
+  .status-badge.active { background: var(--accent-light); color: var(--accent-color); }
+  :global(html[data-theme="dark"]) .status-badge.active { background: #253f42; color: #b9ebe3; }
+  :global(html[data-theme="dark"]) .status-badge.completed { background: #25363b; color: #cad9d6; }
+  .project-permalink { display: inline-block; font-size: .81rem; margin-top: 1.2rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 700px) { .project-explanation { grid-template-columns: 1fr; } .project-header-row { flex-direction: column; } }
 </style>
