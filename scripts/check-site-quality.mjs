@@ -76,7 +76,7 @@ for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
 }
 
 for (const [route, marker] of [
-  ...['about','research','projects','publications','blog','cv','contact','privacy'].map(route => [route, 'academic-page-intro']),
+  ...['about','research','projects','publications','blog','education','experience','teaching','academic-service','recognition','contact','privacy'].map(route => [route, 'academic-page-intro']),
 ]) {
   const htmlPath = path.join(root, route, 'index.html');
   try {
@@ -124,7 +124,6 @@ if (!/<strong\b[^>]*class="profile-author"[^>]*>[^<]*Wahid<\/strong>/.test(mainH
 for (const required of [
   'images/arif-profile.webp',
   'robots.txt', 'rss.xml', 'feed.xml', 'sitemap-index.xml', 'favicon.svg',
-  'files/arif-muamar-cv.pdf',
   'category/blog/index.html', 'author/arifmuamar/index.html', 'feed/index.html',
 ]) {
   try { await fs.access(path.join(root, required)); } catch { fail('dist', `missing required artifact: ${required}`); }
