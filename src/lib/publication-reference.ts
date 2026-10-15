@@ -53,8 +53,8 @@ export function ieeeAuthor(name: string): string {
 export function isProfileAuthor(name: string): boolean {
   const normalized = cleanup(name).toLowerCase()
     .replace(/[’‘`']/g, '')
-    .replace(/\\./g, ' ')
-    .replace(/\\s+/g, ' ')
+    .replace(/\./g, ' ')
+    .replace(/\s+/g, ' ')
     .trim();
   return new Set([
     'arif muamar wahid', 'arif muamar', 'a muamar',
