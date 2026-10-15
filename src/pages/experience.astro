@@ -5,6 +5,10 @@ import AcademicProfileNav from '../components/AcademicProfileNav.astro';
 import { profile } from '../data/profile';
 import { publicCv } from '../data/public-cv';
 import { localPath } from '../lib/urls';
+
+const rolesListedAsCurrent = profile.experience.filter(item => item.period.includes('present'));
+const earlierRoles = profile.experience.filter(item => !item.period.includes('present'));
+
 ---
 <Layout title="Academic & Professional Experience" description="Selected academic, teaching, research and higher-education quality assurance experience of Arif Mu'amar Wahid.">
   <section class="section academic-index academic-profile-page">
@@ -14,9 +18,10 @@ import { localPath } from '../lib/urls';
       </PageIntro>
       <AcademicProfileNav current="/experience/" />
       <div class="academic-profile-content">
-        <h2>Appointments and responsibilities</h2>
+        <h2>Academic and professional appointments</h2>
+        <p class="profile-disclaimer">Roles marked “present” are reported in the curated CV snapshot dated 14 August 2026, not independently reconfirmed for October 2026. Doctoral study in Japan is noted alongside the lecturer appointment.</p>
         <ol class="profile-chronology">
-          {profile.experience.map(item => (
+          {rolesListedAsCurrent.map(item => (
             <li>
               <span class="profile-period">{item.period}</span>
               <div>
@@ -27,7 +32,20 @@ import { localPath } from '../lib/urls';
             </li>
           ))}
         </ol>
-        <h2>Selected funded research participation</h2>
+        <h2>Earlier teaching and research support</h2>
+        <ol class="profile-chronology">
+          {earlierRoles.map(item => (
+            <li>
+              <span class="profile-period">{item.period}</span>
+              <div>
+                <h3>{item.role}</h3>
+                <p class="profile-organization">{item.institution}</p>
+                <p>{item.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <h2>Selected funded research participation (2024)</h2>
         <p class="profile-disclaimer">The following entries are recorded in a curated academic CV dated 14 August 2026. Participation does not imply a principal-investigator or grant-recipient role.</p>
         <ul class="profile-records">
           {publicCv.fundedResearch.map(item => <li><h3>{item.title}</h3><p>{item.sponsor} · {item.year}</p></li>)}
