@@ -144,6 +144,33 @@ if (!publicationIndex.includes('id="publication-search"') || !publicationIndex.i
 }
 const noLinks = await fs.readFile(path.join(root, 'publications/village-administration-services-information-system/index.html'), 'utf8');
 if (noLinks.includes('>Publication Links</h2>')) fail('village-administration-services-information-system', 'empty publication links rendered');
+// Research page/link integration must survive builds in preview and production.
+const researchHtml = await fs.readFile(path.join(root, 'research/index.html'), 'utf8');
+const projectsHtml = await fs.readFile(path.join(root, 'projects/index.html'), 'utf8');
+if (!mainHome.includes('Current doctoral research') || !mainHome.includes('Selected publications')) {
+  fail('index.html', 'research-first homepage sections missing');
+}
+if (mainHome.indexOf('Current doctoral research') > mainHome.indexOf('Selected publications')) {
+  fail('index.html', 'current research must precede selected publications');
+}
+for (const [paper, project] of [
+  ['transformer-adaptation-for-plant-bioelectric-potential-classification-scoping-review', 'plant-bioelectric-transformer-classifier'],
+  ['transformer-based-models-for-enhanced-plant-bioelectric-signal-classification', 'plant-bioelectric-transformer-classifier'],
+  ['a-systematic-review-of-plant-bioelectrical-potential-acquisition-systems-for-edg', 'plant-bioelectrical-potential-edge-sensing'],
+]) {
+  const paperPath = path.join(root, 'publications', paper, 'index.html');
+  const paperHtml = await fs.readFile(paperPath, 'utf8');
+  if (!mainHome.includes(`/publications/${paper}/`)) fail('index.html', `selected paper missing: ${paper}`);
+  if (!projectsHtml.includes(`id="${project}"`)) fail('projects/index.html', `project anchor missing: ${project}`);
+  if (!projectsHtml.includes(`/publications/${paper}/`)) fail('projects/index.html', `related paper missing: ${paper}`);
+  if (!researchHtml.includes(`/publications/${paper}/`)) fail('research/index.html', `selected research output missing: ${paper}`);
+  if (!paperHtml.includes('Related research projects') || !paperHtml.includes(`/projects/#${project}`)) {
+    fail(`publications/${paper}`, 'reverse project link missing');
+  }
+}
+if (!projectsHtml.includes('Research question') || !projectsHtml.includes('Approach')) {
+  fail('projects/index.html', 'evidence-oriented project details missing');
+}
 const robots = await fs.readFile(path.join(root, 'robots.txt'), 'utf8');
 if (production ? !robots.includes('Sitemap:') : !robots.includes(`Disallow: ${base}`)) fail('robots.txt', 'unexpected robots policy');
 if (failures.length) {
