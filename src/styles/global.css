@@ -422,3 +422,28 @@ code {
     transform: none;
   }
 }
+
+/* Focused academic background pages: shared editorial system, no CV-style wall of text. */
+.academic-profile-page .academic-profile-content { max-width: 790px; margin: 0 0 2rem; }
+.academic-profile-content h2 { font-family:var(--font-serif); font-size:clamp(1.3rem,2.2vw,1.65rem); line-height:1.3; margin:2.25rem 0 1rem; border-bottom:1px solid var(--border-color); padding-bottom:.5rem; }
+.academic-profile-content h2:first-child { margin-top:0; }
+.profile-chronology { list-style:none; margin:0; padding:0; border-top:1px solid var(--border-color); }
+.profile-chronology > li { display:grid; grid-template-columns:minmax(110px,170px) minmax(0,1fr); gap:1rem; padding:1.2rem 0; border-bottom:1px solid var(--border-color); }
+.profile-period { display:block; font-size:.8rem; font-weight:650; color:var(--text-muted); line-height:1.5; }
+.academic-profile-content h3 { font-family:var(--font-sans); font-size:1rem; line-height:1.5; margin:0 0 .3rem; }
+.academic-profile-content p { color:var(--text-secondary); font-size:.92rem; line-height:1.75; margin:.25rem 0 .55rem; }
+.academic-profile-content .profile-organization { color:var(--text-primary); font-weight:550; }
+.academic-profile-content .profile-disclaimer { color:var(--text-muted); font-size:.83rem; max-width:72ch; margin:0 0 1rem; }
+.profile-records { padding:0; margin:0; list-style:none; border-top:1px solid var(--border-color); }
+.profile-records > li { border-bottom:1px solid var(--border-color); padding:.85rem 0; }
+.profile-records h3 { font-size:.97rem; }
+.profile-records p { margin:0; color:var(--text-muted); font-size:.84rem; }
+.profile-topics { list-style:none; padding:0; margin:0; border-top:1px solid var(--border-color); }
+.profile-topics li { padding:.8rem 0 .8rem 1.05rem; border-bottom:1px solid var(--border-color); color:var(--text-secondary); font-size:.92rem; line-height:1.65; position:relative; }
+.profile-topics li::before { content:'•'; position:absolute; left:.15rem; color:var(--accent-color); }
+.academic-profile-content .profile-crosslink { margin:2rem 0 0; font-size:.9rem; color:var(--text-muted); }
+.profile-crosslink a { color:var(--accent-color); text-decoration:underline; text-underline-offset:3px; }
+@media (max-width:650px) {
+  .profile-chronology > li { display:block; padding:1rem 0; }
+  .profile-chronology .profile-period { margin-bottom:.45rem; }
+}
