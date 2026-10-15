@@ -106,6 +106,22 @@ for (const [route, marker] of [
   const html = await fs.readFile(path.join(root, route), 'utf8');
   if (!html.includes(marker)) fail(route, `IEEE-inspired bibliography marker ${marker} is missing`);
 }
+// The website highlights only the owner's credit in authored bibliography.
+// Test normal entries, the shortened publisher credit and an eight-author book.
+for (const [route, authorText] of [
+  ['publications/dynamic-knowledge-intelligence-for-human-ai-collaborative-operational-decision-making/index.html', 'A. M. Wahid'],
+  ['publications/economic-decentralization-through-blockchain-opportunities-challenges-and-new-bu/index.html', 'A. Mu’amar'],
+  ['publications/multimedia-interaktif/index.html', 'A. M. Wahid'],
+]) {
+  const html = await fs.readFile(path.join(root, route), 'utf8');
+  const boldCredit = /<strong\b[^>]*class="profile-author"[^>]*>(.*?)<\/strong>/g;
+  const matched = [...html.matchAll(boldCredit)].some(([, name]) => name === authorText);
+  if (!matched) fail(route, 'profile owner byline should be bold: ' + authorText);
+}
+const mainHome = await fs.readFile(path.join(root, 'index.html'), 'utf8');
+if (!/<strong\b[^>]*class="profile-author"[^>]*>Arif Mu[’']amar Wahid<\/strong>/.test(mainHome)) {
+  fail('index.html', 'featured publication author's name should be bold');
+}
 for (const required of [
   'images/arif-profile.webp',
   'robots.txt', 'rss.xml', 'feed.xml', 'sitemap-index.xml', 'favicon.svg',
