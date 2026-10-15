@@ -226,6 +226,27 @@ for (const marker of [
   if (!projectsHtml.includes(marker)) fail('projects/index.html', 'published evidence missing source/caveat: ' + marker);
 }
 
+// Public-facing profile must never expose grades or contradictory doctoral statuses.
+for (const file of (await walk(root)).filter(file => file.endsWith('.html'))) {
+  const html = await fs.readFile(file, 'utf8');
+  if (/(GPA|4[.]00\\/4[.]00|3[.]44\\/4[.]00)/i.test(html)) {
+    fail(path.relative(root, file), 'public academic grades detected');
+  }
+}
+const educationHtml = await fs.readFile(path.join(root, 'education/index.html'), 'utf8');
+if (!educationHtml.includes('Current doctoral study') || !educationHtml.includes('Completed degrees')) {
+  fail('education/index.html', 'degree completion status unclear');
+}
+const historicalBlog = await fs.readFile(path.join(root, 'starting-over/index.html'), 'utf8');
+if (!historicalBlog.includes('From the archive') || !historicalBlog.includes('October 2025')) {
+  fail('starting-over/index.html', 'historical master study needs dated context');
+}
+if (!researchHtml.includes('Doctoral research focus') || researchHtml.includes('PhD Thesis')) {
+  fail('research/index.html', 'current doctoral description must be accurate and non-finalized');
+}
+if (!mainHome.includes('Academic background') || !mainHome.includes('Selected publications')) {
+  fail('index.html', 'homepage editorial hierarchy missing');
+}
 const robots = await fs.readFile(path.join(root, 'robots.txt'), 'utf8');
 if (production ? !robots.includes('Sitemap:') : !robots.includes(`Disallow: ${base}`)) fail('robots.txt', 'unexpected robots policy');
 if (failures.length) {
