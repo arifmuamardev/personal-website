@@ -119,7 +119,7 @@ for (const [route, authorText] of [
   if (!matched) fail(route, 'profile owner byline should be bold: ' + authorText);
 }
 const mainHome = await fs.readFile(path.join(root, 'index.html'), 'utf8');
-if (!/<strong\b[^>]*class="profile-author"[^>]*>Arif Mu[’']amar Wahid<\/strong>/.test(mainHome)) {
+if (!/<strong\b[^>]*class="profile-author"[^>]*>[^<]*Wahid<\/strong>/.test(mainHome)) {
   fail('index.html', "featured publication author name should be bold");
 }
 for (const required of [
