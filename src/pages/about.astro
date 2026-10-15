@@ -1,150 +1,68 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import AcademicProfileNav from '../components/AcademicProfileNav.astro';
 import { localPath } from '../lib/urls';
 import { profile } from '../data/profile';
-import { publicCv } from '../data/public-cv';
 ---
-
 <Layout
   title="About"
-  description="Biography, academic background, current positions, and research focus of Arif Mu'amar Wahid."
+  description="Academic biography of Arif Mu'amar Wahid, with dedicated pages for education, experience, teaching, academic service and recognition."
 >
   <section class="section academic-index">
     <div class="container">
       <PageIntro title={`About ${profile.displayName}`}>
-        <p slot="description">{profile.phd.role} at {profile.phd.institution} and {profile.lecturer.role} at {profile.lecturer.institution}.</p>
+        <p slot="description">{profile.phd.role} at {profile.phd.institution}, Japan, and {profile.lecturer.role} at {profile.lecturer.institution}, Indonesia.</p>
       </PageIntro>
 
       <div class="about-photo-intro">
         <img class="profile-photo" src={localPath('/images/arif-profile.webp')} width="240" height="300" alt="Profile portrait supplied for this personal website" loading="lazy" decoding="async" />
-        <p>My work connects biological signal analysis, machine learning, teaching, and practical software development. For research outputs, see the <a href={localPath('/research/')}>Research</a> and <a href={localPath('/publications/')}>Publications</a> pages.</p>
+        <div>
+          <p>I am a doctoral researcher and university lecturer working across machine learning, data mining, and applied artificial intelligence. My current work centers on plant bioelectric potential signals and reliable evaluation of biological time-series models.</p>
+          <p>My background spans mathematics education, computer science, software development, teaching, institutional quality assurance, and academic research.</p>
+          <p>Explore <a href={localPath('/research/')}>Research</a>, <a href={localPath('/projects/')}>Research Projects</a> and <a href={localPath('/publications/')}>Publications</a> for the scholarly work itself.</p>
+        </div>
       </div>
 
-      <div class="about-grid">
-        <div class="about-content">
-          <h2>Professional Biography</h2>
-          <p>
-            I am a computer science researcher, lecturer, and doctoral student working across machine learning, data mining, and applied artificial intelligence. My current doctoral research centers on plant bioelectric potential signals and machine-learning methods for biological time-series data.
-          </p>
-          <p>
-            At {profile.phd.institution}, I study within the {profile.phd.school}, {profile.phd.division}. Alongside my doctoral study, I serve as a lecturer in the {profile.lecturer.department}, {profile.lecturer.faculty}, {profile.lecturer.institution}.
-          </p>
-          <p>
-            My broader academic experience includes research, teaching, curriculum and accreditation support, institutional quality assurance, and data-driven higher-education development.
-          </p>
+      <section aria-labelledby="about-background" class="about-directory">
+        <h2 id="about-background">Academic background and activities</h2>
+        <p>Explore each subject on its own page, rather than in a single long curriculum vitae.</p>
+        <AcademicProfileNav />
+      </section>
 
-          <h2>Education</h2>
-          <div class="timeline">
-            {profile.education.map(item => (
-              <div class="timeline-item">
-                <span class="timeline-year">{item.period}</span>
-                <div class="timeline-detail">
-                  <h3>{item.degree}</h3>
-                  <p>{item.institution}</p>
-                  <p>{item.detail}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <h2>Academic &amp; Professional Experience</h2>
-          <div class="timeline">
-            {profile.experience.map(item => (
-              <div class="timeline-item">
-                <span class="timeline-year">{item.period}</span>
-                <div class="timeline-detail">
-                  <h3>{item.role}</h3>
-                  <p>{item.institution}</p>
-                  <p>{item.detail}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <h2>Teaching and Research Support</h2>
-          <p>My teaching and student project experience includes {publicCv.teachingAreas.join(', ')}. Beyond teaching, I have worked on curriculum and accreditation support, internal quality assurance, and institutional analytics.</p>
-
-          <h2>Selected Academic Leadership</h2>
-          <div class="about-list">
-            {publicCv.academicLeadership.map(item => (
-              <div class="about-list-row">
-                <h3>{item.title}</h3>
-                <p>{item.organization} · {item.period}</p>
-              </div>
-            ))}
-          </div>
-
-          <h2>Scholarly Service</h2>
-          <p class="about-context">Selected editorial, reviewing, and conference roles listed in my August 2026 CV. Appointments may have changed since that date.</p>
-          <div class="about-list">
-            {publicCv.scholarlyService.map(item => (
-              <div class="about-list-row">
-                <h3>{item.title}</h3>
-                <p>{item.organization} · {item.period}</p>
-              </div>
-            ))}
-          </div>
-          <p><a href={localPath('/cv/')}>View the public academic CV →</a></p>
-        </div>
-
-        <aside class="about-sidebar" aria-label="Academic profile summary">
-          <div class="sidebar-block card">
-            <h2>Current Research Areas</h2>
-            <ul class="styled-list">
-              {profile.researchAreas.map(area => <li>{area}</li>)}
-            </ul>
-          </div>
-
-          <div class="sidebar-block card">
-            <h2>Selected Academic Strengths</h2>
-            <ul class="styled-list">
-              <li>Machine learning and data mining</li>
-              <li>Biological time-series analysis</li>
-              <li>Computer vision and transfer learning</li>
-              <li>Academic quality assurance and curriculum support</li>
-            </ul>
-          </div>
-
-          <div class="sidebar-block card">
-            <h2>Awards &amp; Scholarships</h2>
-            <ul class="styled-list">
-              {profile.awards.map(award => <li>{award}</li>)}
-            </ul>
-          </div>
+      <div class="about-bottom">
+        <section aria-labelledby="about-focus">
+          <h2 id="about-focus">Current research interests</h2>
+          <ul>
+            {profile.researchAreas.map(area => <li>{area}</li>)}
+          </ul>
+        </section>
+        <aside aria-labelledby="about-profiles">
+          <h2 id="about-profiles">Academic profiles</h2>
+          <ul>
+            <li><a href={profile.profiles.scholar} target="_blank" rel="noopener noreferrer">Google Scholar ↗</a></li>
+            <li><a href={profile.profiles.orcid} target="_blank" rel="noopener noreferrer">ORCID ↗</a></li>
+            <li><a href={profile.profiles.researchGate} target="_blank" rel="noopener noreferrer">ResearchGate ↗</a></li>
+          </ul>
+          <p><a href={localPath('/contact/')}>Contact →</a></p>
         </aside>
       </div>
     </div>
   </section>
 </Layout>
-
 <style>
-  .about-list {border-top:1px solid var(--border-color);}
-  .about-list-row {padding:.8rem 0;border-bottom:1px solid var(--border-color);}
-  .about-list-row h3 {font-family:var(--font-sans);font-size:1rem;margin:0 0 .2rem;line-height:1.5;}
-  .about-list-row p {font-size:.9rem!important;color:var(--text-muted);margin:0!important;}
-  .about-context {font-size:.85rem!important;color:var(--text-muted);}
-  .about-photo-intro { display:flex;align-items:flex-start;gap:1.5rem;border-bottom:1px solid var(--border-color);padding-bottom:2rem;margin-bottom:2.5rem; }
-  .about-photo-intro img {width:138px;height:138px;}
-  .about-photo-intro p {max-width:67ch;font-size:.98rem;line-height:1.8;margin:.15rem 0 0;}
-  @media(max-width:500px){.about-photo-intro{flex-direction:column;gap:1rem;}.about-photo-intro img{width:112px;height:112px;}}
-
-
-.lead-text { font-size: 1.15rem; text-align: center; max-width: 800px; margin: 0 auto 3.5rem; color: var(--text-secondary); }
-  .about-grid { display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 3rem; }
-  .about-content h2 { margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
-  .about-content h2:first-child { margin-top: 0; }
-  .about-content p { font-size: 1.05rem; margin-bottom: 1.25rem; }
-  .timeline { position: relative; border-left: 2px solid var(--border-color); padding-left: 1.5rem; margin: 1.5rem 0 2rem; }
-  .timeline-item { position: relative; margin-bottom: 2rem; }
-  .timeline-item::before { content: ''; position: absolute; left: calc(-1.5rem - 6px); top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-color); border: 2px solid var(--bg-primary); }
-  .timeline-year { font-size: 0.85rem; font-weight: 700; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 0.25rem; }
-  .timeline-detail h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
-  .timeline-detail p { font-size: 0.95rem; margin-bottom: 0.4rem; color: var(--text-secondary); }
-  .about-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
-  .sidebar-block h2 { font-size: 1.1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
-  .styled-list { list-style: none; }
-  .styled-list li { font-size: 0.95rem; margin-bottom: 0.75rem; color: var(--text-secondary); position: relative; padding-left: 1.25rem; }
-  .styled-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent-color); }
-  @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2rem; } }
+  .about-photo-intro { display:flex; align-items:flex-start; gap:1.5rem; padding-bottom:1.8rem; border-bottom:1px solid var(--border-color); }
+  .about-photo-intro img { width:138px; height:138px; }
+  .about-photo-intro > div { max-width:72ch; min-width:0; }
+  .about-photo-intro p { font-size:.98rem; line-height:1.8; margin:0 0 .85rem; }
+  .about-photo-intro p:last-child { margin-bottom:0; }
+  .about-directory { margin:2.2rem 0; }
+  .about-directory h2, .about-bottom h2 { font-size:clamp(1.3rem,2.1vw,1.6rem); margin:0 0 .7rem; }
+  .about-directory > p { font-size:.93rem; color:var(--text-secondary); margin:0 0 1rem; }
+  .about-bottom { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(230px,.6fr); gap:2.5rem; padding-top:1.8rem; border-top:1px solid var(--border-color); }
+  .about-bottom ul { margin:.7rem 0 0; padding-left:1.2rem; }
+  .about-bottom li { color:var(--text-secondary); font-size:.9rem; line-height:1.65; margin:.45rem 0; }
+  .about-bottom aside p { margin:1rem 0; font-size:.9rem; }
+  @media(max-width:700px) { .about-bottom { grid-template-columns:1fr; gap:1.5rem; } }
+  @media(max-width:500px) { .about-photo-intro { flex-direction:column; gap:1rem; } .about-photo-intro img { width:112px; height:112px; } }
 </style>
