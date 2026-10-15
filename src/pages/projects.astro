@@ -3,6 +3,7 @@ import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import ResearchWorkflow from '../components/ResearchWorkflow.astro';
+import ScopingReviewEvidence from '../components/ScopingReviewEvidence.astro';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
@@ -52,6 +53,7 @@ sortedProjects.sort((a,b) => (statusRank[a.data.status] ?? 9) - (statusRank[b.da
                 </dl>
               )}
               <ResearchWorkflow projectId={project.id} />
+              {project.id === 'plant-bioelectric-transformer-classifier' && <ScopingReviewEvidence />}
 
               {linkedPubs.length > 0 && (
                 <div class="project-section-detail linked-outputs">
