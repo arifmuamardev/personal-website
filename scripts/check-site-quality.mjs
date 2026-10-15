@@ -188,6 +188,25 @@ if ((projectsHtml.match(/Conceptual research workflow/g) || []).length !== 4) {
 }
 if (!projectsHtml.includes('data-visual-kind="conceptual"')) fail('projects/index.html', 'research diagram identification missing');
 
+// The literature evidence figure must be traceable to a published paper,
+// distinct from hypothetical workflows and never described as a BEP signal.
+if ((projectsHtml.match(/data-evidence-kind="published-review"/g) || []).length !== 1) {
+  fail('projects/index.html', 'expected one published-review evidence chart');
+}
+for (const count of [18, 13, 151]) {
+  const value = new RegExp('class="bar-count"[^>]*>' + count + '<\\/strong>');
+  if (!value.test(projectsHtml)) fail('projects/index.html', 'scoping corpus count missing: ' + count);
+}
+for (const marker of [
+  '182 included studies',
+  'not plant-signal measurements',
+  'do not',
+  '10.1016/j.atech.2026.102484',
+  'transformer-adaptation-for-plant-bioelectric-potential-classification-scoping-review',
+]) {
+  if (!projectsHtml.includes(marker)) fail('projects/index.html', 'published evidence missing source/caveat: ' + marker);
+}
+
 const robots = await fs.readFile(path.join(root, 'robots.txt'), 'utf8');
 if (production ? !robots.includes('Sitemap:') : !robots.includes(`Disallow: ${base}`)) fail('robots.txt', 'unexpected robots policy');
 if (failures.length) {
