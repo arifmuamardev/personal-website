@@ -10,7 +10,7 @@ status: Published
 doi: 10.1109/icitisee68184.2025.11355133
 scholarUrl: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=A6fWmZ8AAAAJ&pagesize=100&citation_for_view=A6fWmZ8AAAAJ:QIV2ME_5wuYC
 featured: true
-featuredOrder: 2
+featuredOrder: 3
 researchArea: Plant Bioelectric Signals
 tags: []
 ---
