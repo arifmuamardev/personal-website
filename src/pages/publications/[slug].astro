@@ -18,6 +18,10 @@ export async function getStaticPaths() {
 
 const { publication } = Astro.props;
 const data = publication.data;
+// Reverse lookup: the project collection remains the single source of truth
+// for which publications are associated with each research project.
+const researchProjects = await getCollection('projects');
+const relatedProjects = researchProjects.filter(project => project.data.publications.includes(publication.id));
 const hasExternalLinks = Boolean(data.doi || data.publisherUrl || data.scholarUrl || data.pdf || data.code || data.dataset);
 const pageUrl = new URL(Astro.url.pathname, Astro.site || 'https://arifmuamardev.github.io').toString();
 const creativeType = data.type === 'Book' ? 'Book' : data.type === 'Book Chapter' ? 'Chapter' : 'ScholarlyArticle';
@@ -65,6 +69,21 @@ const publicationSchema = {
         </section>
       )}
 
+      {relatedProjects.length > 0 && (
+        <section class="detail-section related-research" aria-labelledby="related-research-heading">
+          <h2 id="related-research-heading">Related research projects</h2>
+          <p class="related-research-note">These projects reference this work as a related publication.</p>
+          <ul>
+            {relatedProjects.map(project => (
+              <li>
+                <a href={localPath(`/projects/#${project.id}`)}>{project.data.title} →</a>
+                <span>{project.data.status} · {project.data.role || 'Research contributor'}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {hasExternalLinks && (<section class="detail-section" aria-labelledby="links-heading">
         <h2 id="links-heading">Publication Links</h2>
         <div class="links">
@@ -90,6 +109,11 @@ const publicationSchema = {
 </Layout>
 
 <style>
+  .related-research-note { font-size: .87rem; color: var(--text-muted); margin: .35rem 0 .7rem; }
+  .related-research ul { padding: 0; list-style: none; border-top: 1px solid var(--border-color); }
+  .related-research li { padding: .75rem 0; border-bottom: 1px solid var(--border-color); }
+  .related-research li a { display: block; font-size: .95rem; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+  .related-research li span { display: block; margin-top: .25rem; color: var(--text-muted); font-size: .79rem; }
   .container-narrow { max-width: 760px; }
   .publication-header { border-bottom: 1px solid var(--border-color); padding-bottom: 2rem; margin-bottom: 2.5rem; }
   .publication-header h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
