@@ -4,7 +4,6 @@ import PublicationAuthors from '../components/PublicationAuthors.astro';
 import { getCollection } from 'astro:content';
 import { localPath } from '../lib/urls';
 import { profile } from '../data/profile';
-import { softwareProjects } from '../data/software-projects';
 
 const publications = await getCollection('publications');
 const researchProjects = await getCollection('projects');
@@ -40,7 +39,6 @@ const recentWriting = posts
       <nav class="identity-links" aria-label="Key profile links">
         <a href={localPath('/research/')}>Research</a>
         <a href={localPath('/publications/')}>Publications</a>
-        <a href={localPath('/portfolio/')}>Software</a>
         <a href={localPath('/blog/')}>Writing</a>
         <a href={localPath('/cv/')}>CV</a>
         <a href={localPath('/contact/')}>Contact</a>
@@ -103,27 +101,6 @@ const recentWriting = posts
           <a href={localPath('/projects/')}>Explore all research projects →</a>
         </div>
       )}
-    </section>
-
-    <section class="academic-section" aria-labelledby="software-heading">
-      <div class="section-heading">
-        <h2 id="software-heading">Software projects</h2>
-        <a href={localPath('/portfolio/')}>Software portfolio →</a>
-      </div>
-      <p class="section-intro">Alongside academic research, I build practical web applications. Case studies distinguish implemented source code from features that have not yet been independently verified.</p>
-      <ul class="editorial-list">
-        {softwareProjects.map(project => (
-          <li class="software-row">
-            <div>
-              <h3><a href={localPath(project.caseStudy)}>{project.title} — {project.subtitle}</a></h3>
-              <p>{project.summary}</p>
-              <p class="row-details">{project.technologies.join(' · ')} · {project.status}</p>
-              <p class="row-caution">Public live demo not currently enabled.</p>
-            </div>
-            <a class="row-extra" href={project.repository} target="_blank" rel="noopener noreferrer">Source ↗</a>
-          </li>
-        ))}
-      </ul>
     </section>
 
     <section class="academic-section" aria-labelledby="writing-heading">
