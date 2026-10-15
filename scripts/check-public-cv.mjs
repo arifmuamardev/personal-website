@@ -49,7 +49,7 @@ check(data.includes("sourceAsOf: '2026-08-14'"), 'Source snapshot date missing')
 check(profile.includes('researchFocus:') && home.includes('profile.researchFocus') && about.includes('profile.researchFocus') && research.includes('profile.researchFocus'), 'Current research focus must be shared rather than manually inconsistent');
 check(profile.includes("school: 'Graduate School of Natural Science and Technology'") && profile.includes("division: 'Division of Electrical, Information and Communication Engineering'"), 'Canonical doctoral program identification missing');
 check(pages.get('education').includes('researchLabel') && pages.get('education').includes('research'), 'Education should separate thesis/research topic from qualification');
-check(!/GPA|4\\.00\\s*\\/\\s*4\\.00|3\\.44\\s*\\/\\s*4\\.00/i.test(profile), 'GPA details remain in the public profile source');
+check(!/(GPA|4[.]00|3[.]44)/i.test(profile), 'Academic grades must not appear in public profile data');
 check(pages.get('academic-service').includes('14 August 2026'), 'Editorial-service snapshot disclaimer missing');
 check(pages.get('experience').includes('14 August 2026'), 'Funded research snapshot disclaimer missing');
 
