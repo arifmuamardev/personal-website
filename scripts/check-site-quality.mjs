@@ -171,6 +171,23 @@ for (const [paper, project] of [
 if (!projectsHtml.includes('Research question') || !projectsHtml.includes('Approach')) {
   fail('projects/index.html', 'evidence-oriented project details missing');
 }
+const conceptualDiagrams = [...projectsHtml.matchAll(/<figure\b[^>]*data-visual-kind="conceptual"/g)];
+if (conceptualDiagrams.length !== 4) {
+  fail('projects/index.html', `expected four conceptual workflow figures, received ${conceptualDiagrams.length}`);
+}
+for (const title of [
+  'Acquisition and signal quality',
+  'Time-series classification',
+  'Microscopy image analysis',
+  'Geospatial modeling',
+]) {
+  if (!projectsHtml.includes(title)) fail('projects/index.html', `missing project workflow: ${title}`);
+}
+if ((projectsHtml.match(/Conceptual research workflow/g) || []).length !== 4) {
+  fail('projects/index.html', 'each project workflow needs an explicit non-empirical caption');
+}
+if (!projectsHtml.includes('data-visual-kind="conceptual"')) fail('projects/index.html', 'research diagram identification missing');
+
 const robots = await fs.readFile(path.join(root, 'robots.txt'), 'utf8');
 if (production ? !robots.includes('Sitemap:') : !robots.includes(`Disallow: ${base}`)) fail('robots.txt', 'unexpected robots policy');
 if (failures.length) {
