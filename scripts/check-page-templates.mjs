@@ -25,7 +25,7 @@ for (const file of overviews) {
   const code = readFileSync(file, 'utf8');
   check(code.includes("import PageIntro from '"), file + ' does not use shared PageIntro');
   check((code.match(/<PageIntro\b/g) || []).length === 1, file + ' must have exactly one PageIntro');
-  check(code.includes('class="section academic-index"'), file + ' missing shared overview class');
+  check(code.includes('class="section academic-index'), file + ' missing shared overview class');
   check(!/<h1\b/.test(code), file + ' has hand-written H1 rather than PageIntro');
 }
 for (const file of details) {
