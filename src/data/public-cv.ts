@@ -37,26 +37,31 @@ export const publicCv = {
   scholarlyService: [
     {
       title: 'National Editorial Board Member',
+      serviceType: 'Editorial',
       organization: 'TIERS Information Technology Journal',
       period: 'Listed in CV, Aug 2026',
     },
     {
       title: 'Executive Manager / Principal Contact',
+      serviceType: 'Journal operations',
       organization: 'International Journal for Applied Information Management (IJAIM)',
       period: 'Listed in CV, Aug 2026',
     },
     {
       title: 'Reviewer',
+      serviceType: 'Peer review',
       organization: 'Jurnal Pendidikan dan Teknologi Indonesia (JPTI)',
       period: 'Listed in CV, Aug 2026',
     },
     {
       title: 'Support Contact',
+      serviceType: 'Journal operations',
       organization: 'Artificial Intelligence in Learning',
       period: 'Listed in CV, Aug 2026',
     },
     {
       title: 'Conference organizing and peer-review support',
+      serviceType: 'Conference service',
       organization: 'ICCRAIDS 2026, Purwokerto',
       period: '10–11 Apr 2026',
     },
