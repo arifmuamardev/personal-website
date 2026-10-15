@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import AcademicProfileNav from '../components/AcademicProfileNav.astro';
 import { profile } from '../data/profile';
-import { publicCv } from '../data/public-cv';
 
 const [doctoralStudy, ...completedDegrees] = profile.education;
 import { localPath } from '../lib/urls';
@@ -16,15 +15,16 @@ import { localPath } from '../lib/urls';
       </PageIntro>
       <AcademicProfileNav current="/education/" />
       <div class="academic-profile-content">
-        <h2>Doctoral study (in progress)</h2>
-        <p class="profile-disclaimer">Doctoral studies began in October 2025; this is an ongoing program, not a completed PhD degree.</p>
+        <h2>Current doctoral study</h2>
+        <p class="profile-disclaimer">Enrolled in October 2025. The PhD is in progress; no doctoral degree is claimed.</p>
         <ol class="profile-chronology">
           <li>
             <span class="profile-period">{doctoralStudy.period}</span>
             <div>
-              <h3>{doctoralStudy.degree} — degree not yet conferred</h3>
+              <h3>{doctoralStudy.degree}</h3>
               <p class="profile-organization">{doctoralStudy.institution}</p>
               <p>{doctoralStudy.detail}</p>
+                <p class="profile-research"><strong>{doctoralStudy.researchLabel}:</strong> {doctoralStudy.research}</p>
             </div>
           </li>
         </ol>
@@ -37,11 +37,11 @@ import { localPath } from '../lib/urls';
                 <h3>{item.degree}</h3>
                 <p class="profile-organization">{item.institution}</p>
                 <p>{item.detail}</p>
+                <p class="profile-research"><strong>{item.researchLabel}:</strong> {item.research}</p>
               </div>
             </li>
           ))}
         </ol>
-        <p class="profile-source">Education details originate from the curated academic profile (snapshot: {publicCv.sourceAsOf}).</p>
         <p class="profile-crosslink">Read more about my <a href={localPath('/research/')}>current research</a> or <a href={localPath('/recognition/')}>awards and scholarships</a>.</p>
       </div>
     </div>
