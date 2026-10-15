@@ -3,13 +3,22 @@ import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { localPath } from '../lib/urls';
 import { publicCv } from '../data/public-cv';
+import { getCollection } from 'astro:content';
+
+const researchProjects = await getCollection('projects');
+const publications = await getCollection('publications');
+const publicationById = new Map(publications.map(publication => [publication.id, publication]));
+const focusProjectIds = ['plant-bioelectrical-potential-edge-sensing', 'plant-bioelectric-transformer-classifier'];
+const focusProjects = researchProjects
+  .filter(project => focusProjectIds.includes(project.id))
+  .sort((a, b) => focusProjectIds.indexOf(a.id) - focusProjectIds.indexOf(b.id));
 ---
 
 <Layout title="Research" description="Current doctoral research and supporting research themes of Arif Mu'amar Wahid, centered on plant bioelectric signals and machine learning.">
   <section class="section academic-index">
     <div class="container">
       <PageIntro title="Research Activities">
-        <p slot="description">Bridging machine learning and plant electrophysiology to decipher biological signaling and create applied intelligent systems.</p>
+        <p slot="description">Investigating plant bioelectric measurements, signal processing, and machine-learning methods, with selected applied AI research.</p>
       </PageIntro>
       <p class="research-jump"><a href={localPath('/projects/')}>Explore research projects &rarr;</a> <span aria-hidden="true">·</span> <a href={localPath('/publications/')}>Browse publications &rarr;</a></p>
 
@@ -18,7 +27,7 @@ import { publicCv } from '../data/public-cv';
         <div class="research-section">
           <h2>Primary PhD Research</h2>
           <div class="research-theme card primary-highlight">
-            <span class="theme-label badge">PhD Thesis Project</span>
+            <span class="theme-label badge">Current doctoral research</span>
             <h3>Decoding Plant Bioelectric Potentials &amp; Electrophysiology</h3>
             <p>
               Plants generate electrical signals (bioelectric potentials) in response to environmental stimuli like temperature shifts, light changes, mechanical wounding, and moisture stress. My primary PhD research focuses on developing and evaluating acquisition, signal-processing, and machine-learning approaches to model and classify these signals.
@@ -32,6 +41,38 @@ import { publicCv } from '../data/public-cv';
               <li><strong>Time-Series Classification:</strong> Evaluating machine-learning and deep-learning approaches, including Transformer-based models, for noisy biological time-series data.</li>
             </ul>
           </div>
+
+          <section class="focus-evidence" aria-labelledby="focus-evidence-heading">
+            <h2 id="focus-evidence-heading">Research projects and published work</h2>
+            <p class="research-evidence-intro">The research questions and approaches below come from the curated project records. Linked papers identify publications associated with each project; they do not imply that every proposed sensing component has been deployed or validated.</p>
+            <div class="focus-project-list">
+              {focusProjects.map(project => {
+                const outputs = project.data.publications
+                  .map(id => publicationById.get(id))
+                  .filter(Boolean)
+                  .sort((a,b) => (b?.data.year ?? 0) - (a?.data.year ?? 0));
+                return (
+                  <article class="focus-project" aria-labelledby={`focus-${project.id}`}>
+                    <p class="focus-project-status">Active research · {project.data.institution}</p>
+                    <h3 id={`focus-${project.id}`}><a href={localPath(`/projects/#${project.id}`)}>{project.data.title} ↗</a></h3>
+                    {project.data.question && <p><strong>Question:</strong> {project.data.question}</p>}
+                    {project.data.approach && <p><strong>Approach:</strong> {project.data.approach}</p>}
+                    {outputs.length > 0 && (
+                      <div class="focus-outputs">
+                        <h4>Related publications</h4>
+                        <ul>
+                          {outputs.map(pub => pub && (
+                            <li><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a> <span>({pub.data.year}, {pub.data.status})</span></li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+            <p class="research-funding-cta"><a href={localPath('/projects/')}>View all research projects →</a></p>
+          </section>
 
           <h2>Core Research Themes</h2>
           
@@ -118,6 +159,21 @@ import { publicCv } from '../data/public-cv';
 </Layout>
 
 <style>
+  .focus-evidence { margin-top: 2.1rem; }
+  .research-evidence-intro { max-width: 70ch; font-size: .93rem !important; line-height: 1.75; }
+  .focus-project-list { border-top: 1px solid var(--border-color); }
+  .focus-project { padding: 1.3rem 0; border-bottom: 1px solid var(--border-color); }
+  .focus-project-status { color: var(--text-muted); font-size: .74rem !important; font-weight: 650; text-transform: uppercase; letter-spacing: .045em; margin: 0 0 .5rem !important; }
+  .focus-project h3 { font-family: var(--font-sans); font-size: 1.07rem; margin-bottom: .65rem; line-height: 1.5; }
+  .focus-project h3 a { color: var(--text-primary); text-decoration: underline; text-decoration-color: var(--border-color); text-underline-offset: 3px; }
+  .focus-project h3 a:hover { color: var(--accent-color); text-decoration-color: var(--accent-color); }
+  .focus-project p { font-size: .88rem !important; line-height: 1.7; margin-bottom: .5rem !important; }
+  .focus-outputs { margin: .85rem 0 0; }
+  .focus-outputs h4 { font-size: .8rem; color: var(--text-muted); margin-bottom: .35rem; }
+  .focus-outputs ul { padding-left: 1.1rem; }
+  .focus-outputs li { color: var(--text-secondary); line-height: 1.6; font-size: .86rem; margin: .35rem 0; }
+  .focus-outputs a { text-decoration: underline; text-underline-offset: 3px; }
+  .focus-outputs span { font-size: .76rem; color: var(--text-muted); }
   .research-jump { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin:-2.3rem auto 2.5rem; font-weight:600; }
 
 .lead-text {
