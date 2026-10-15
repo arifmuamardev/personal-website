@@ -3,6 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import AcademicProfileNav from '../components/AcademicProfileNav.astro';
 import { profile } from '../data/profile';
+import { publicCv } from '../data/public-cv';
+
+const [doctoralStudy, ...completedDegrees] = profile.education;
 import { localPath } from '../lib/urls';
 ---
 <Layout title="Education" description="Academic education and qualifications of Arif Mu'amar Wahid, from mathematics education to doctoral research at Kanazawa University.">
@@ -13,9 +16,21 @@ import { localPath } from '../lib/urls';
       </PageIntro>
       <AcademicProfileNav current="/education/" />
       <div class="academic-profile-content">
-        <h2>Academic qualifications</h2>
+        <h2>Doctoral study (in progress)</h2>
+        <p class="profile-disclaimer">Doctoral studies began in October 2025; this is an ongoing program, not a completed PhD degree.</p>
         <ol class="profile-chronology">
-          {profile.education.map(item => (
+          <li>
+            <span class="profile-period">{doctoralStudy.period}</span>
+            <div>
+              <h3>{doctoralStudy.degree} — degree not yet conferred</h3>
+              <p class="profile-organization">{doctoralStudy.institution}</p>
+              <p>{doctoralStudy.detail}</p>
+            </div>
+          </li>
+        </ol>
+        <h2>Completed degrees</h2>
+        <ol class="profile-chronology">
+          {completedDegrees.map(item => (
             <li>
               <span class="profile-period">{item.period}</span>
               <div>
@@ -26,6 +41,7 @@ import { localPath } from '../lib/urls';
             </li>
           ))}
         </ol>
+        <p class="profile-source">Education details originate from the curated academic profile (snapshot: {publicCv.sourceAsOf}).</p>
         <p class="profile-crosslink">Read more about my <a href={localPath('/research/')}>current research</a> or <a href={localPath('/recognition/')}>awards and scholarships</a>.</p>
       </div>
     </div>

@@ -4,6 +4,17 @@ import PageIntro from '../components/PageIntro.astro';
 import AcademicProfileNav from '../components/AcademicProfileNav.astro';
 import { publicCv } from '../data/public-cv';
 import { localPath } from '../lib/urls';
+import { getCollection } from 'astro:content';
+
+const publications = await getCollection('publications');
+const publicationByTitle = new Map(publications.map(pub => [pub.data.title.trim().toLocaleLowerCase(), pub]));
+const serviceGroups = [
+  { type: 'Editorial', heading: 'Editorial service' },
+  { type: 'Peer review', heading: 'Peer review' },
+  { type: 'Journal operations', heading: 'Journal operations and support' },
+  { type: 'Conference service', heading: 'Conference organization and reviewing' },
+] as const;
+
 ---
 <Layout title="Academic Service" description="Editorial, reviewing, conference and academic leadership activities and selected presentations by Arif Mu'amar Wahid.">
   <section class="section academic-index academic-profile-page">
@@ -13,18 +24,33 @@ import { localPath } from '../lib/urls';
       </PageIntro>
       <AcademicProfileNav current="/academic-service/" />
       <div class="academic-profile-content">
-        <p class="profile-disclaimer">Editorial and membership appointments are based on the CV snapshot of 14 August 2026; their current status has not been independently reconfirmed.</p>
-        <h2>Editorial, reviewing and conference service</h2>
-        <ul class="profile-records">
-          {publicCv.scholarlyService.map(item => <li><h3>{item.title}</h3><p>{item.organization} · {item.period}</p></li>)}
-        </ul>
+        <p class="profile-disclaimer">Service and membership records are drawn from the curated CV snapshot of 14 August 2026. Roles without a fixed end date are historical listings, not independent confirmation of current appointments in October 2026. Journal support is distinguished from editorial and peer-review roles.</p>
+        {serviceGroups.map(group => {
+          const entries = publicCv.scholarlyService.filter(item => item.serviceType === group.type);
+          return entries.length > 0 && (
+            <section aria-label={group.heading}>
+              <h2>{group.heading}</h2>
+              <ul class="profile-records">
+                {entries.map(item => <li><h3>{item.title}</h3><p>{item.organization} · {item.period}</p></li>)}
+              </ul>
+            </section>
+          );
+        })}
         <h2>Academic leadership</h2>
         <ul class="profile-records">
           {publicCv.academicLeadership.map(item => <li><h3>{item.title}</h3><p>{item.organization} · {item.period}</p></li>)}
         </ul>
         <h2>Selected presentations and workshops</h2>
         <ul class="profile-records">
-          {publicCv.presentations.map(item => <li><span class="profile-period">{item.date} · {item.kind}</span><h3>{item.title}</h3><p>{item.event}</p></li>)}
+          {publicCv.presentations.map(item => {
+            const linkedPaper = publicationByTitle.get(item.title.trim().toLocaleLowerCase());
+            return <li>
+              <span class="profile-period">{item.date} · {item.kind}</span>
+              <h3>{item.title}</h3>
+              <p>{item.event}</p>
+              {linkedPaper && <p class="presentation-publication"><a href={localPath(`/publications/${linkedPaper.id}/`)}>Related publication →</a></p>}
+            </li>;
+          })}
         </ul>
         <h2>Professional society memberships</h2>
         <ul class="profile-records">
