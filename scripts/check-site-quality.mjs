@@ -129,6 +129,26 @@ for (const required of [
   try { await fs.access(path.join(root, required)); } catch { fail('dist', `missing required artifact: ${required}`); }
 }
 
+// The combined CV and PDF are paused: no route, downloaded file or link may leak into public output.
+for (const hidden of ['cv/index.html', 'files/arif-muamar-cv.pdf']) {
+  try { await fs.access(path.join(root, hidden)); fail(hidden, 'paused CV asset generated'); }
+  catch (error) { if (error?.code !== 'ENOENT') fail(hidden, 'could not inspect paused CV artifact'); }
+}
+const publicDocuments = (await walk(root)).filter(file => file.endsWith('.html') || file.endsWith('.txt'));
+for (const file of publicDocuments) {
+  const source = await fs.readFile(file, 'utf8');
+  if (/(?:href=["'][^"']*\\/cv\\/|\\/files\\/arif-muamar-cv\\.pdf|[- ]CV: https?:\\/\\/[^\\s]+\\/cv\\/)/i.test(source)) {
+    fail(path.relative(root, file), 'public content links to paused CV');
+  }
+}
+const academicHome = await fs.readFile(path.join(root, 'about/index.html'), 'utf8');
+for (const route of ['education', 'experience', 'teaching', 'academic-service', 'recognition']) {
+  if (!academicHome.includes(`/${route}/`)) fail('about/index.html', `academic section not linked: ${route}`);
+  const page = await fs.readFile(path.join(root, route, 'index.html'), 'utf8');
+  if (!page.includes('academic-profile-nav') || !page.includes('aria-current="page"')) {
+    fail(route + '/index.html', 'section navigation or active state missing');
+  }
+}
 // Paused software portfolio must not be published, even in static design labs.
 for (const retired of ['portfolio/index.html', 'portfolio/pilketos/index.html']) {
   try { await fs.access(path.join(root, retired)); fail(retired, 'retired route generated'); }
