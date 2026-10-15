@@ -4,7 +4,7 @@ summary: "Research on machine-learning approaches for classifying plant bioelect
 question: "How can noisy plant bioelectric time-series be classified and evaluated reliably?"
 approach: "Study sequence classifiers, including Transformer-based models, with attention to preprocessing and validation."
 status: "Active"
-role: "Doctoral Researcher"
+role: "PhD Student"
 collaborators:
   - "Hidetaka Nambo"
 institution: "Kanazawa University"
