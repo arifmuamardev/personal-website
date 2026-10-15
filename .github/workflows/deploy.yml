@@ -39,7 +39,8 @@ jobs:
         run: node --experimental-strip-types scripts/check-ieee-bibliography.mjs
       - name: Validate researcher design comparison lab
         run: node scripts/check-researcher-design-lab.mjs
-      # Combined CV and public PDF are paused; no PDF should be generated.\n      - name: Build Astro site and upload artifact
+      # Combined CV and public PDF are paused; no PDF should be generated.
+      - name: Build Astro site and upload artifact
         uses: withastro/action@v6
         with:
           node-version: 24
