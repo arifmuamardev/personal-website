@@ -39,20 +39,7 @@ jobs:
         run: node --experimental-strip-types scripts/check-ieee-bibliography.mjs
       - name: Validate researcher design comparison lab
         run: node scripts/check-researcher-design-lab.mjs
-      # Generate the public PDF from the same curated data and publications
-      # that power the website BEFORE the Pages artifact is uploaded.
-      - name: Set up Node 24 for CV source export
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-      - name: Generate and audit updated public CV PDF
-        run: |
-          python3 -m pip install --disable-pip-version-check reportlab==4.4.9 PyYAML==6.0.3 pypdf==5.9.0
-          node --experimental-strip-types scripts/export-public-cv-data.mjs /tmp/personal-public-cv.json
-          python3 scripts/generate-public-cv-pdf.py /tmp/personal-public-cv.json public/files/arif-muamar-cv.pdf
-          python3 scripts/check-generated-public-cv.py public/files/arif-muamar-cv.pdf
-
-      - name: Build Astro site and upload artifact
+      # Combined CV and public PDF are paused; no PDF should be generated.\n      - name: Build Astro site and upload artifact
         uses: withastro/action@v6
         with:
           node-version: 24
