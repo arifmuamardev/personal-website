@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import AcademicProfileNav from '../components/AcademicProfileNav.astro';
+import { profile } from '../data/profile';
+import { publicCv } from '../data/public-cv';
+import { localPath } from '../lib/urls';
+---
+<Layout title="Academic & Professional Experience" description="Selected academic, teaching, research and higher-education quality assurance experience of Arif Mu'amar Wahid.">
+  <section class="section academic-index academic-profile-page">
+    <div class="container">
+      <PageIntro title="Academic &amp; Professional Experience" eyebrow="Academic background">
+        <p slot="description">Teaching, research and university quality-assurance experience, presented with dates and institutional context.</p>
+      </PageIntro>
+      <AcademicProfileNav current="/experience/" />
+      <div class="academic-profile-content">
+        <h2>Appointments and responsibilities</h2>
+        <ol class="profile-chronology">
+          {profile.experience.map(item => (
+            <li>
+              <span class="profile-period">{item.period}</span>
+              <div>
+                <h3>{item.role}</h3>
+                <p class="profile-organization">{item.institution}</p>
+                <p>{item.detail}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <h2>Selected funded research participation</h2>
+        <p class="profile-disclaimer">The following entries are recorded in a curated academic CV dated 14 August 2026. Participation does not imply a principal-investigator or grant-recipient role.</p>
+        <ul class="profile-records">
+          {publicCv.fundedResearch.map(item => <li><h3>{item.title}</h3><p>{item.sponsor} · {item.year}</p></li>)}
+        </ul>
+        <p class="profile-crosslink">See <a href={localPath('/projects/')}>research projects</a> and <a href={localPath('/teaching/')}>teaching experience</a>.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
