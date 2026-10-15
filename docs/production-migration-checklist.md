@@ -1,5 +1,10 @@
 # Production cutover checklist — STOP until manually approved
 
+> **Current domain-specific cutover runbook:** [arifmuamar.com — 15 October 2026](./production-arifmuamar-cutover-2026-10.md).
+> Cloudflare DNS has been audited. Apex still serves WordPress. The owner
+> must confirm old-site backup, configure GitHub Pages custom domain, and
+> authorize live DNS changes before the final switch.
+
 The repository builds in `preview` mode by default. Never change DNS as part of
 staging publication. The old `arifmuamardev.github.io` repo and its `/finance/`
 app are deliberately NOT modified by this project.
