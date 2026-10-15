@@ -20,8 +20,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Preview is the safe default until domain migration is approved.
-      PUBLIC_SITE_MODE: ${{ vars.PERSONAL_SITE_MODE == 'production' && 'production' || 'preview' }}
+      # Domain launch approved on 2026-10-15. Only deployments from main
+      # are public, indexable, and built for https://arifmuamar.com/.
+      # Pull-request builds remain staging/noindex, with a prod dry-run gate.
+      PUBLIC_SITE_MODE: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && 'production' || 'preview' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -58,9 +60,13 @@ jobs:
         run: npm run test:links
       - name: Audit generated HTML, SEO and migration routes
         run: npm run test:quality
-      - name: Enforce safe crawl policy in preview
+      - name: Enforce crawl policy for this deployment
         run: |
-          if [ "$PUBLIC_SITE_MODE" != 'production' ]; then
+          if [ "$PUBLIC_SITE_MODE" = 'production' ]; then
+            grep -q 'content="index, follow"' dist/index.html
+            grep -q 'https://arifmuamar.com' dist/sitemap-index.xml
+            grep -q 'Sitemap:' dist/robots.txt
+          else
             grep -q 'noindex, nofollow' dist/index.html
             grep -q 'Disallow: /personal-website/' dist/robots.txt
           fi
