@@ -47,13 +47,43 @@ export function ieeeAuthor(name: string): string {
   return [...first, last].join(' ');
 }
 
+/** Canonical author identity, shared by bibliographies and the homepage.
+ * Avoid generic "Arif" matching: other real authors can share that name.
+ */
+export function isProfileAuthor(name: string): boolean {
+  const normalized = cleanup(name).toLowerCase()
+    .replace(/[’‘`']/g, '')
+    .replace(/\\./g, ' ')
+    .replace(/\\s+/g, ' ')
+    .trim();
+  return new Set([
+    'arif muamar wahid', 'arif muamar', 'a muamar',
+    'a m wahid', 'am wahid',
+  ]).has(normalized);
+}
+
+export interface AuthorSegment {
+  text: string;
+  isSelf: boolean;
+  separator: string;
+}
+
+export function ieeeAuthorSegments(authors: readonly string[]): AuthorSegment[] {
+  // An academic owner's name can occur anywhere in a long author list.
+  // Do not shorten 7+ author lists to "et al." on the personal website.
+  return authors.map((name, index) => ({
+    text: ieeeAuthor(name),
+    isSelf: isProfileAuthor(name),
+    separator: index === authors.length - 1
+      ? ''
+      : index === authors.length - 2
+        ? (authors.length === 2 ? ' and ' : ', and ')
+        : ', ',
+  }));
+}
+
 export function ieeeAuthors(authors: readonly string[]): string {
-  const formatted = authors.map(ieeeAuthor);
-  if (formatted.length === 0) return '';
-  if (formatted.length > 6) return formatted[0] + ' et al.';
-  if (formatted.length === 1) return formatted[0];
-  if (formatted.length === 2) return formatted.join(' and ');
-  return formatted.slice(0, -1).join(', ') + ', and ' + formatted.at(-1);
+  return ieeeAuthorSegments(authors).map(segment => segment.text + segment.separator).join('');
 }
 
 interface VenueParts {
