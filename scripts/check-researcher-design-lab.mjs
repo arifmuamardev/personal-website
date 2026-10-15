@@ -4,6 +4,7 @@ import { Script } from 'node:vm';
 const filename = 'public/design-lab/researcher-directions/index.html';
 const html = readFileSync(filename, 'utf8');
 const errors = [];
+if (/pilketos/i.test(html)) errors.push('Paused project shown in design lab');
 const must = (condition, message) => { if (!condition) errors.push(message); };
 
 must(/<meta\s+name="robots"\s+content="noindex/i.test(html), 'Design Lab must be noindex.');
