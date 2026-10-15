@@ -10,7 +10,7 @@ status: Published
 doi: 10.1109/iccraids67816.2026.11519637
 scholarUrl: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=A6fWmZ8AAAAJ&pagesize=100&citation_for_view=A6fWmZ8AAAAJ:hC7cP41nSMkC
 featured: true
-featuredOrder: 1
+featuredOrder: 2
 researchArea: Plant Bioelectric Signals
 tags: []
 ---
