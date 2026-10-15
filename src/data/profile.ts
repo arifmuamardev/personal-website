@@ -9,6 +9,8 @@ export const profile = {
     location: 'Kanazawa, Japan',
     school: 'Graduate School of Natural Science and Technology',
     division: 'Division of Electrical, Information and Communication Engineering',
+    started: 'October 2025',
+    status: 'In progress',
   },
   lecturer: {
     role: 'Lecturer',
@@ -35,8 +37,10 @@ export const profile = {
     hIndex: { all: 10, since2021: 10 },
     i10Index: { all: 10, since2021: 10 },
   },
+  researchFocus:
+    'Plant bioelectric potentials (BEP), from signal acquisition and preprocessing to time-series machine learning and reproducible evaluation.',
   researchSummary:
-    'I study plant bioelectric signals, biological time-series representation learning, reliable machine-learning evaluation, and edge/IoT sensing. My broader work spans data mining, educational analytics, and applied intelligent systems.',
+    'I study plant bioelectric potentials (BEP), signal processing, and machine learning for biological time series, with an emphasis on reliable evaluation. My broader work includes data mining, educational analytics, and applied intelligent systems.',
   researchAreas: [
     'Plant bioelectric potentials and plant electrophysiology',
     'Machine learning for biological time-series data',
@@ -47,25 +51,29 @@ export const profile = {
   ],
   education: [
     {
-      degree: 'PhD Student',
+      degree: 'Doctoral studies (PhD in progress)',
       institution: 'Kanazawa University, Japan',
       period: 'Oct 2025–present',
       detail:
-        'Graduate School of Natural Science and Technology; Division of Electrical, Information and Communication Engineering. MEXT Scholarship awardee.',
+        'Graduate School of Natural Science and Technology; Division of Electrical, Information and Communication Engineering.',
+      researchLabel: 'Research focus',
+      research: 'Plant bioelectric potentials (BEP), signal processing, and time-series machine learning.',
     },
     {
       degree: 'Master of Computer Science',
       institution: 'Universitas Amikom Purwokerto, Indonesia',
       period: '2023–2025',
-      detail:
-        'GPA 4.00/4.00. Thesis: Optimization of Feature Extraction Algorithm and Visual-Based Recommendation in Image-Based Website Theme Recommendation System with Transfer Learning.',
+      detail: 'Completed master’s degree in computer science.',
+      researchLabel: 'Thesis',
+      research: 'Optimization of Feature Extraction Algorithm and Visual-Based Recommendation in Image-Based Website Theme Recommendation System with Transfer Learning.',
     },
     {
       degree: 'Bachelor of Mathematics Education',
       institution: 'Universitas Negeri Semarang, Indonesia',
       period: '2011–2016',
-      detail:
-        'GPA 3.44/4.00. Undergraduate thesis on the effectiveness of probing-prompting learning with question cards for students’ problem-solving ability.',
+      detail: 'Completed undergraduate degree in mathematics education.',
+      researchLabel: 'Undergraduate research',
+      research: 'Effectiveness of probing-prompting learning with question cards for mathematical problem-solving ability.',
     },
   ],
   experience: [
