@@ -171,7 +171,7 @@ for (const [paper, project] of [
 if (!projectsHtml.includes('Research question') || !projectsHtml.includes('Approach')) {
   fail('projects/index.html', 'evidence-oriented project details missing');
 }
-const conceptualDiagrams = [...projectsHtml.matchAll(/<figure\\b[^>]*data-visual-kind="conceptual"/g)];
+const conceptualDiagrams = [...projectsHtml.matchAll(/<figure\b[^>]*data-visual-kind="conceptual"/g)];
 if (conceptualDiagrams.length !== 4) {
   fail('projects/index.html', `expected four conceptual workflow figures, received ${conceptualDiagrams.length}`);
 }
