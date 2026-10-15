@@ -5,6 +5,9 @@ import AcademicProfileNav from '../components/AcademicProfileNav.astro';
 import { profile } from '../data/profile';
 import { publicCv } from '../data/public-cv';
 import { localPath } from '../lib/urls';
+
+const scholarships = profile.awards.filter(item => /Scholarship/i.test(item));
+const awards = profile.awards.filter(item => !/Scholarship/i.test(item));
 ---
 <Layout title="Recognition & Creative Works" description="Awards, scholarships, registered creative works and professional recognition of Arif Mu'amar Wahid.">
   <section class="section academic-index academic-profile-page">
@@ -14,10 +17,12 @@ import { localPath } from '../lib/urls';
       </PageIntro>
       <AcademicProfileNav current="/recognition/" />
       <div class="academic-profile-content">
-        <h2>Awards and scholarships</h2>
-        <ul class="profile-topics">{profile.awards.map(award => <li>{award}</li>)}</ul>
+        <h2>Scholarships</h2>
+        <ul class="profile-topics">{scholarships.map(award => <li>{award}</li>)}</ul>
+        <h2>Awards and distinctions</h2>
+        <ul class="profile-topics">{awards.map(award => <li>{award}</li>)}</ul>
         <h2>Registered and institutional creative works</h2>
-        <p class="profile-disclaimer">Descriptions are based on the curated August 2026 academic CV. Co-creator status is retained as listed; no exclusive ownership is implied.</p>
+        <p class="profile-disclaimer">These listings are drawn from the curated academic records as of 14 August 2026. Co-creator status is retained as listed; no exclusive ownership is implied.</p>
         <ul class="profile-records">
           {publicCv.intellectualProperty.map(item => <li><h3>{item.title}</h3><p>{item.kind} · {item.year}</p></li>)}
         </ul>
