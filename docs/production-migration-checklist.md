@@ -18,9 +18,10 @@ app are deliberately NOT modified by this project.
    301s require Cloudflare Redirect Rules or other edge redirects.
 5. Set the GitHub Pages **custom domain on the new personal-website repository**
    to `arifmuamar.com` before touching DNS (GitHub Settings > Pages).
-6. Set GitHub Actions repository variable `PERSONAL_SITE_MODE` to `production`
-   and redeploy `main` (after final review). Confirm canonical, sitemap, RSS,
-   robots, and all site links use `https://arifmuamar.com` with no subpath.
+6. Deploy the version-controlled production release workflow to `main`.
+   Only `main` push builds have `PUBLIC_SITE_MODE=production`, while PR
+   previews remain noindex. Confirm canonical, sitemap, RSS, robots, and all
+   site links use `https://arifmuamar.com` with no subpath.
 7. Change **only the apex A/AAAA or ALIAS/ANAME records and www as needed** in
    Cloudflare. Keep MX, TXT, email records, conference, iot-bep, and other
    unrelated DNS entries untouched. Follow current GitHub Pages IP documentation.
