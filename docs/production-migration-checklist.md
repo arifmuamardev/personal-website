@@ -1,9 +1,7 @@
-# Production cutover checklist — STOP until manually approved
+# Production cutover checklist — historical migration runbook
 
 > **Current domain-specific cutover runbook:** [arifmuamar.com — 15 October 2026](./production-arifmuamar-cutover-2026-10.md).
-> Cloudflare DNS has been audited. Apex still serves WordPress. The owner
-> must confirm old-site backup, configure GitHub Pages custom domain, and
-> authorize live DNS changes before the final switch.
+> The cutover to GitHub Pages was carried out on 15 October 2026 and the owner confirmed HTTPS works on 16 October. The steps below remain as a historical checklist and rollback reference. See [post-launch verification](./POST-LAUNCH-2026-10-16.md) for tasks still outstanding.
 
 The repository builds in `preview` mode by default. Never change DNS as part of
 staging publication. The old `arifmuamardev.github.io` repo and its `/finance/`
