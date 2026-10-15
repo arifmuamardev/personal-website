@@ -43,9 +43,13 @@ check(pages.get('academic-service').includes('publicationByTitle') && pages.get(
 check(pages.get('recognition').includes('scholarships') && pages.get('recognition').includes('awards'), 'Scholarships and distinctions must be distinct');
 check(pages.get('teaching').includes('current-semester') && pages.get('teaching').includes('certifications'), 'Teaching source and competency caveats missing');
 check(about.includes('AcademicProfileNav'), 'About must link to the section directory');
-check(research.includes('publicCv.fundedResearch'), 'Research funding context missing');
+check(!research.includes('publicCv.fundedResearch') && research.includes("localPath('/experience/')"), 'Funded research must be presented once on Experience, not repeated on Research');
 check(home.includes('MEXT Scholarship recipient'), 'Home missing brief recognition');
 check(data.includes("sourceAsOf: '2026-08-14'"), 'Source snapshot date missing');
+check(profile.includes('researchFocus:') && home.includes('profile.researchFocus') && about.includes('profile.researchFocus') && research.includes('profile.researchFocus'), 'Current research focus must be shared rather than manually inconsistent');
+check(profile.includes("school: 'Graduate School of Natural Science and Technology'") && profile.includes("division: 'Division of Electrical, Information and Communication Engineering'"), 'Canonical doctoral program identification missing');
+check(pages.get('education').includes('researchLabel') && pages.get('education').includes('research'), 'Education should separate thesis/research topic from qualification');
+check(!/GPA|4\\.00\\s*\\/\\s*4\\.00|3\\.44\\s*\\/\\s*4\\.00/i.test(profile), 'GPA details remain in the public profile source');
 check(pages.get('academic-service').includes('14 August 2026'), 'Editorial-service snapshot disclaimer missing');
 check(pages.get('experience').includes('14 August 2026'), 'Funded research snapshot disclaimer missing');
 
