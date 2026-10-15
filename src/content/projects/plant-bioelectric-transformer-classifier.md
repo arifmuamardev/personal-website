@@ -15,5 +15,6 @@ technologies:
   - "Deep Learning"
 publications:
   - "transformer-based-models-for-enhanced-plant-bioelectric-signal-classification"
+  - "transformer-adaptation-for-plant-bioelectric-potential-classification-scoping-review"
 featured: true
 ---
