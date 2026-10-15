@@ -1,0 +1,45 @@
+---
+import { localPath } from '../lib/urls';
+
+interface Props { current?: string; }
+const { current = '' } = Astro.props;
+const sections = [
+  { path: '/education/', title: 'Education', description: 'Degrees and academic background' },
+  { path: '/experience/', title: 'Experience', description: 'Academic appointments and research experience' },
+  { path: '/teaching/', title: 'Teaching & Skills', description: 'Teaching areas and technical competencies' },
+  { path: '/academic-service/', title: 'Academic Service', description: 'Reviewing, conferences and leadership' },
+  { path: '/recognition/', title: 'Recognition', description: 'Awards, scholarships and registered works' },
+];
+---
+<nav class="academic-profile-nav" aria-label="Academic profile sections">
+  <ul>
+    {sections.map(section => (
+      <li>
+        {current === section.path ? (
+          <span class="nav-current" aria-current="page">
+            <strong>{section.title}</strong>
+            <small>{section.description}</small>
+          </span>
+        ) : (
+          <a href={localPath(section.path)}>
+            <strong>{section.title} <span aria-hidden="true">→</span></strong>
+            <small>{section.description}</small>
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
+<style>
+  .academic-profile-nav { margin: 1.5rem 0 2.5rem; }
+  .academic-profile-nav ul { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); list-style:none; margin:0; padding:0; gap:.65rem; }
+  .academic-profile-nav li { min-width:0; margin:0; }
+  .academic-profile-nav a, .nav-current { display:block; height:100%; min-height:88px; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:6px; padding:.8rem .9rem; text-decoration:none; }
+  .academic-profile-nav a:hover, .academic-profile-nav a:focus-visible { border-color:var(--accent-color); background:var(--accent-light); }
+  .academic-profile-nav strong { display:block; font-family:var(--font-sans); font-size:.88rem; color:var(--text-primary); line-height:1.4; }
+  .academic-profile-nav strong span { color:var(--accent-color); }
+  .academic-profile-nav small { display:block; font-size:.75rem; line-height:1.45; color:var(--text-muted); margin-top:.3rem; }
+  .nav-current { border-top:3px solid var(--accent-color); padding-top:calc(.8rem - 2px); }
+  @media(max-width:490px) { .academic-profile-nav ul { grid-template-columns:1fr 1fr; } .academic-profile-nav a, .nav-current { padding:.65rem; min-height:94px; } }
+  @media(max-width:350px) { .academic-profile-nav ul { grid-template-columns:1fr; } }
+</style>
