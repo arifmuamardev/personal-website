@@ -2,6 +2,7 @@
 import { localPath } from '../lib/urls';
 import Layout from '../layouts/Layout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import ResearchWorkflow from '../components/ResearchWorkflow.astro';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
@@ -26,7 +27,7 @@ sortedProjects.sort((a,b) => (statusRank[a.data.status] ?? 9) - (statusRank[b.da
   <section class="section academic-index">
     <div class="container">
       <PageIntro title="Research Projects">
-        <p slot="description">Research questions, approaches and associated outputs. Active projects describe work in progress; publication links indicate recorded scholarly outputs, not additional unverified performance claims.</p>
+        <p slot="description">Research questions, illustrated method overviews, and associated publications. The diagrams show conceptual workflows rather than recordings or measured results.</p>
       </PageIntro>
       <p class="project-index-note">For a broader overview, visit <a href={localPath('/research/')}>Research Activities</a>. Publication titles and DOI links below are sourced from the site's curated bibliography.</p>
 
@@ -50,6 +51,8 @@ sortedProjects.sort((a,b) => (statusRank[a.data.status] ?? 9) - (statusRank[b.da
                   {project.data.approach && <div><dt>Approach</dt><dd>{project.data.approach}</dd></div>}
                 </dl>
               )}
+              <ResearchWorkflow projectId={project.id} />
+
               {linkedPubs.length > 0 && (
                 <div class="project-section-detail linked-outputs">
                   <h3>Related publication{linkedPubs.length !== 1 ? 's' : ''}</h3>
