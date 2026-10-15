@@ -1,0 +1,100 @@
+---
+import { localPath } from '../lib/urls';
+
+// Counts are taken from the published article's abstract, not local drafts,
+// unpublished experiments or the author's private Drive.
+const source = {
+  title: 'Transformer Adaptation for Plant Bioelectric Potential Classification: A Scoping Review and Analogical Transfer Framework',
+  doi: '10.1016/j.atech.2026.102484',
+  year: 2026,
+  localId: 'transformer-adaptation-for-plant-bioelectric-potential-classification-scoping-review',
+};
+const groups = [
+  { label: 'Direct BEP and plant-domain studies', count: 18, note: 'Plant bioelectric / domain evidence' },
+  { label: 'Transformer / time-series bottleneck studies', count: 13, note: 'Model limitation evidence' },
+  { label: 'Analogical adaptation-source studies', count: 151, note: 'Adjacent-domain methods; not BEP validation' },
+] as const;
+const total = groups.reduce((count, group) => count + group.count, 0);
+---
+
+<section class="study-evidence" aria-labelledby="review-evidence-title" data-evidence-kind="published-review">
+  <div class="evidence-heading">
+    <p class="evidence-eyebrow">Published research evidence · {source.year}</p>
+    <h3 id="review-evidence-title">Evidence base of the BEP Transformer scoping review</h3>
+    <p>How the <strong>{total} included studies</strong> are categorized in the published review. This is a chart of reviewed literature, not plant-signal measurements or classifier performance.</p>
+  </div>
+
+  <figure class="review-figure">
+    <dl class="evidence-groups">
+      {groups.map(group => (
+        <div class="evidence-group">
+          <dt>
+            <span>{group.label}</span>
+            <small>{group.note}</small>
+          </dt>
+          <dd>
+            <span class="bar-track" aria-hidden="true">
+              <span class="bar-value" style={`width: ${(group.count / total * 100).toFixed(2)}%;`}></span>
+            </span>
+            <strong class="bar-count">{group.count}</strong>
+          </dd>
+        </div>
+      ))}
+    </dl>
+    <figcaption>
+      Original visualization of counts reported in the scoping review abstract (18 + 13 + 151 = 182).
+      The 151 analogical-source studies do <strong>not</strong> demonstrate BEP-specific effectiveness.
+      <a href={localPath(`/publications/${source.localId}/`)}>Article details</a>
+      <span aria-hidden="true"> · </span>
+      <a href={`https://doi.org/${source.doi}`} target="_blank" rel="noopener noreferrer">Publisher DOI ↗</a>
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .study-evidence {
+    padding: 1.35rem clamp(1rem, 3vw, 1.65rem);
+    margin: 1.3rem 0 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: var(--bg-secondary);
+  }
+  .evidence-eyebrow {
+    font-size: .72rem;
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+    margin-bottom: .35rem;
+  }
+  .evidence-heading h3 {
+    font-family: var(--font-sans);
+    font-size: clamp(1.03rem, 2.2vw, 1.22rem);
+    line-height: 1.4;
+    margin: 0 0 .45rem;
+    color: var(--text-primary);
+  }
+  .evidence-heading > p:last-child {
+    max-width: 68ch;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    font-size: .87rem;
+    margin-bottom: 1.35rem;
+  }
+  .review-figure { margin: 0; }
+  .evidence-groups { display: grid; gap: 1.05rem; margin: 0 0 1.05rem; }
+  .evidence-group { min-width: 0; }
+  .evidence-group dt { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .15rem 1rem; font-weight: 650; font-size: .85rem; line-height: 1.45; }
+  .evidence-group dt small { color: var(--text-muted); font-size: .73rem; font-weight: 400; }
+  .evidence-group dd { display: grid; grid-template-columns: minmax(0,1fr) 3rem; gap: .7rem; align-items: center; margin: .45rem 0 0; }
+  .bar-track { display: block; height: 12px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 99px; overflow: hidden; }
+  .bar-value { display: block; height: 100%; background: var(--accent-color); border-radius: 99px; }
+  .bar-count { color: var(--text-primary); text-align: right; font-size: .85rem; font-variant-numeric: tabular-nums; }
+  .review-figure figcaption { border-top: 1px solid var(--border-color); padding-top: .85rem; color: var(--text-muted); font-size: .78rem; line-height: 1.65; }
+  .review-figure figcaption strong { color: var(--text-primary); }
+  .review-figure figcaption a { color: var(--accent-color); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 520px) {
+    .evidence-group dt { display: block; }
+    .evidence-group dt small { display: block; margin-top: .15rem; }
+  }
+</style>
