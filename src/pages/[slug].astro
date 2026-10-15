@@ -91,6 +91,13 @@ const articleSchema = {
         </div>
       </header>
 
+      {post.data.historicalNote && (
+        <aside class="historical-note" aria-label="Historical context for this article">
+          <strong>From the archive</strong>
+          <p>{post.data.historicalNote}</p>
+        </aside>
+      )}
+
       <!-- Main Body Markdown Content -->
       <div class="post-body">
         <Content />
@@ -146,6 +153,9 @@ const articleSchema = {
 </Layout>
 
 <style>
+  .historical-note { border-left: 3px solid var(--accent-color); background: var(--bg-secondary); padding: .85rem 1.1rem; margin: 0 0 1.5rem; }
+  .historical-note strong { font-size: .81rem; color: var(--accent-color); }
+  .historical-note p { font-size: .86rem; color: var(--text-secondary); line-height: 1.65; margin: .25rem 0 0; }
   .post-detail-section {
     padding: 4.5rem 0;
   }
