@@ -1,5 +1,5 @@
 ---
-import { ieeeReference } from '../lib/publication-reference';
+import { ieeeReference, ieeeAuthorSegments } from '../lib/publication-reference';
 
 interface Props {
   publication: {
@@ -16,11 +16,12 @@ interface Props {
 
 const { publication, includeTitle = false } = Astro.props;
 const reference = ieeeReference(publication);
+const authorSegments = ieeeAuthorSegments(publication.authors);
 const isBook = publication.type === 'Book';
 ---
 
 <p class="ieee-reference">
-  {reference.authorText}{reference.authorText && ', '}
+  {authorSegments.map(author => <>{author.isSelf ? <strong class="profile-author">{author.text}</strong> : author.text}{author.separator}</>)}{authorSegments.length > 0 && ', '}
   {includeTitle && (
     isBook
       ? <><cite>{publication.title}</cite>, </>
@@ -47,6 +48,7 @@ const isBook = publication.type === 'Book';
     overflow-wrap: anywhere;
   }
   .ieee-reference cite {font-style: italic;color:var(--text-primary);}
+  .ieee-reference .profile-author {font-weight:750;color:var(--text-primary);}
   .ieee-reference a {font-weight: 550;text-decoration: underline;text-underline-offset: 3px;}
   .ieee-reference a:hover {color:var(--accent-hover);}
 </style>
