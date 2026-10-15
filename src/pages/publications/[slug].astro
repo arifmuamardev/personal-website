@@ -18,6 +18,7 @@ export async function getStaticPaths() {
 
 const { publication } = Astro.props;
 const data = publication.data;
+const hasExternalLinks = Boolean(data.doi || data.publisherUrl || data.scholarUrl || data.pdf || data.code || data.dataset);
 const pageUrl = new URL(Astro.url.pathname, Astro.site || 'https://arifmuamardev.github.io').toString();
 const creativeType = data.type === 'Book' ? 'Book' : data.type === 'Book Chapter' ? 'Chapter' : 'ScholarlyArticle';
 const publicationSchema = {
@@ -64,7 +65,7 @@ const publicationSchema = {
         </section>
       )}
 
-      <section class="detail-section" aria-labelledby="links-heading">
+      {hasExternalLinks && (<section class="detail-section" aria-labelledby="links-heading">
         <h2 id="links-heading">Publication Links</h2>
         <div class="links">
           {data.doi && <a class="btn btn-primary" href={`https://doi.org/${data.doi}`} target="_blank" rel="noopener">Open DOI</a>}
@@ -74,7 +75,7 @@ const publicationSchema = {
           {data.code && <a class="btn btn-secondary" href={data.code} target="_blank" rel="noopener">Code</a>}
           {data.dataset && <a class="btn btn-secondary" href={data.dataset} target="_blank" rel="noopener">Dataset</a>}
         </div>
-      </section>
+      </section>)}
 
       {data.doi && (
         <section class="detail-section citation-box" aria-labelledby="doi-heading">

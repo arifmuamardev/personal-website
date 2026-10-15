@@ -51,16 +51,33 @@ const counts = {
         </dl>
       </aside>
 
-      <div class="filter-container" aria-label="Publication filters">
-        <span class="filter-label">Filter:</span>
-        <div class="filter-buttons" role="group" aria-label="Filter publications by type">
-          <button class="filter-btn active" data-filter="all" type="button" aria-pressed="true">All ({counts.all})</button>
-          <button class="filter-btn" data-filter="journal" type="button" aria-pressed="false">Journals ({counts.journal})</button>
-          <button class="filter-btn" data-filter="conference" type="button" aria-pressed="false">Conferences ({counts.conference})</button>
-          <button class="filter-btn" data-filter="book" type="button" aria-pressed="false">Books &amp; Chapters ({counts.book})</button>
+      <div class="publication-discovery" role="search" aria-label="Search and filter publications">
+        <div class="discovery-fields">
+          <div class="discovery-search">
+            <label for="publication-search">Search publications</label>
+            <input id="publication-search" type="search" placeholder="Title, author, venue, or keyword" autocomplete="off" />
+          </div>
+          <div class="discovery-year">
+            <label for="publication-year">Publication year</label>
+            <select id="publication-year">
+              <option value="all">All years</option>
+              {years.map(year => <option value={String(year)}>{year}</option>)}
+            </select>
+          </div>
+          <button id="publication-reset" type="button" class="discovery-reset">Clear filters</button>
         </div>
+        <div class="filter-container" aria-label="Publication type filters">
+          <span class="filter-label">Type</span>
+          <div class="filter-buttons" role="group" aria-label="Filter publications by type">
+            <button class="filter-btn active" data-filter="all" type="button" aria-pressed="true">All ({counts.all})</button>
+            <button class="filter-btn" data-filter="journal" type="button" aria-pressed="false">Journals ({counts.journal})</button>
+            <button class="filter-btn" data-filter="conference" type="button" aria-pressed="false">Conferences ({counts.conference})</button>
+            <button class="filter-btn" data-filter="book" type="button" aria-pressed="false">Books &amp; Chapters ({counts.book})</button>
+          </div>
+        </div>
+        <p id="filter-status" class="discovery-status" role="status" aria-live="polite" aria-atomic="true">{counts.all} publications shown.</p>
       </div>
-      <p id="filter-status" class="sr-only" aria-live="polite"></p>
+      <p id="publication-no-results" class="discovery-empty" hidden>No publications match these filters. Try another search or clear the filters.</p>
 
       <div class="publications-list">
         {years.map(year => {
@@ -70,7 +87,7 @@ const counts = {
               <h2 class="year-heading" id={`year-${year}`}>{year}</h2>
               <div class="pubs-grid">
                 {yearPubs.map(pub => (
-                  <article class="pub-card card" data-type={typeGroup(pub.data.type)}>
+                  <article class="pub-card card" data-type={typeGroup(pub.data.type)} data-year={year} data-search={[pub.data.title, pub.data.authors.join(' '), pub.data.venue, pub.data.researchArea, ...pub.data.tags].filter(Boolean).join(' ')}>
                     <PublicationMeta type={pub.data.type} status={pub.data.status} researchArea={pub.data.researchArea} tags={pub.data.tags} />
                     <h3 class="pub-title"><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a></h3>
                     <PublicationReference publication={pub.data} />
@@ -98,35 +115,73 @@ const counts = {
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-btn'));
   const cards = Array.from(document.querySelectorAll<HTMLElement>('.pub-card'));
   const yearGroups = Array.from(document.querySelectorAll<HTMLElement>('.year-group'));
+  const search = document.querySelector<HTMLInputElement>('#publication-search');
+  const yearSelect = document.querySelector<HTMLSelectElement>('#publication-year');
+  const reset = document.querySelector<HTMLButtonElement>('#publication-reset');
   const status = document.getElementById('filter-status');
+  const noResults = document.getElementById('publication-no-results');
+
+  const normalize = (value: string) => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase().trim();
+  let selectedType = 'all';
+
+  const applyFilters = () => {
+    const query = normalize(search?.value ?? '');
+    const selectedYear = yearSelect?.value ?? 'all';
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const matchesType = selectedType === 'all' || card.dataset.type === selectedType;
+      const matchesYear = selectedYear === 'all' || card.dataset.year === selectedYear;
+      const matchesQuery = !query || normalize(card.dataset.search ?? '').includes(query);
+      const visible = matchesType && matchesYear && matchesQuery;
+      card.hidden = !visible;
+      if (visible) visibleCount++;
+    });
+
+    yearGroups.forEach(group => {
+      group.hidden = !Array.from(group.querySelectorAll<HTMLElement>('.pub-card')).some(card => !card.hidden);
+    });
+
+    if (status) status.textContent = visibleCount + (visibleCount === 1 ? ' publication shown.' : ' publications shown.');
+    if (noResults) noResults.hidden = visibleCount !== 0;
+  };
 
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-      const filter = button.dataset.filter || 'all';
+      selectedType = button.dataset.filter ?? 'all';
       buttons.forEach(item => {
         const active = item === button;
         item.classList.toggle('active', active);
         item.setAttribute('aria-pressed', String(active));
       });
-
-      let visibleCount = 0;
-      cards.forEach(card => {
-        const visible = filter === 'all' || card.dataset.type === filter;
-        card.hidden = !visible;
-        if (visible) visibleCount += 1;
-      });
-
-      yearGroups.forEach(group => {
-        const visibleCards = Array.from(group.querySelectorAll<HTMLElement>('.pub-card')).some(card => !card.hidden);
-        group.hidden = !visibleCards;
-      });
-
-      if (status) status.textContent = `${visibleCount} publications shown.`;
+      applyFilters();
     });
   });
+  search?.addEventListener('input', applyFilters);
+  yearSelect?.addEventListener('change', applyFilters);
+  reset?.addEventListener('click', () => {
+    if (search) search.value = '';
+    if (yearSelect) yearSelect.value = 'all';
+    buttons.find(button => button.dataset.filter === 'all')?.click();
+    search?.focus();
+  });
+  applyFilters();
 </script>
 
 <style>
+  .publication-discovery { margin: 0 0 2rem; padding: 1rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius); }
+  .discovery-fields { display: grid; grid-template-columns: minmax(0, 1fr) 160px auto; gap: .8rem; align-items: end; }
+  .discovery-search, .discovery-year { min-width: 0; display: flex; flex-direction: column; gap: .35rem; }
+  .discovery-fields label { font-size: .8rem; font-weight: 650; color: var(--text-primary); }
+  .discovery-fields input, .discovery-fields select { display: block; width: 100%; min-height: 44px; border: 1px solid var(--border-color); border-radius: 6px; padding: .65rem .75rem; background: var(--bg-primary); color: var(--text-primary); font: inherit; font-size: .88rem; }
+  .discovery-fields input::placeholder { color: var(--text-muted); opacity: 1; }
+  .discovery-reset { min-height: 44px; padding: .55rem .8rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--accent-color); font: inherit; font-size: .85rem; font-weight: 650; cursor: pointer; }
+  .discovery-reset:hover { border-color: var(--accent-color); }
+  .publication-discovery .filter-container { justify-content: flex-start; margin: 1rem 0 .55rem; }
+  .discovery-status { font-size: .82rem; color: var(--text-muted); margin: .4rem 0 0; }
+  .discovery-empty { padding: 1.5rem 0; color: var(--text-secondary); }
+  @media (max-width: 700px) { .discovery-fields { grid-template-columns: minmax(0,1fr) minmax(105px,.45fr); } .discovery-reset { grid-column: 1 / -1; justify-self: start; } }
+  @media (max-width: 430px) { .discovery-fields { grid-template-columns: 1fr; } .discovery-reset { grid-column: auto; } .publication-discovery { padding: .85rem; } }
 
 .lead-text { font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3rem; color: var(--text-secondary); }
   .scholar-profile-link {color:var(--accent-color);font-size:.88rem;font-weight:650;text-decoration:underline;text-underline-offset:3px;}

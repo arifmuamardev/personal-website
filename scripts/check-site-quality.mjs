@@ -76,8 +76,7 @@ for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
 }
 
 for (const [route, marker] of [
-  ...['about','research','projects','publications','portfolio','blog','cv','contact','privacy'].map(route => [route, 'academic-page-intro']),
-  ...['portfolio/pilketos'].map(route => [route, 'academic-breadcrumb']),
+  ...['about','research','projects','publications','blog','cv','contact','privacy'].map(route => [route, 'academic-page-intro']),
 ]) {
   const htmlPath = path.join(root, route, 'index.html');
   try {
@@ -125,12 +124,26 @@ if (!/<strong\b[^>]*class="profile-author"[^>]*>[^<]*Wahid<\/strong>/.test(mainH
 for (const required of [
   'images/arif-profile.webp',
   'robots.txt', 'rss.xml', 'feed.xml', 'sitemap-index.xml', 'favicon.svg',
-  'files/arif-muamar-cv.pdf', 'portfolio/index.html', 'portfolio/pilketos/index.html',
+  'files/arif-muamar-cv.pdf',
   'category/blog/index.html', 'author/arifmuamar/index.html', 'feed/index.html',
 ]) {
   try { await fs.access(path.join(root, required)); } catch { fail('dist', `missing required artifact: ${required}`); }
 }
 
+// Paused software portfolio must not be published, even in static design labs.
+for (const retired of ['portfolio/index.html', 'portfolio/pilketos/index.html']) {
+  try { await fs.access(path.join(root, retired)); fail(retired, 'retired route generated'); }
+  catch (error) { if (error?.code !== 'ENOENT') fail(retired, 'cannot check retired route'); }
+}
+for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
+  if (/pilketos/i.test(await fs.readFile(file, 'utf8'))) fail(path.relative(root, file), 'retired project name found in public HTML');
+}
+const publicationIndex = await fs.readFile(path.join(root, 'publications/index.html'), 'utf8');
+if (!publicationIndex.includes('id="publication-search"') || !publicationIndex.includes('id="publication-year"') || !publicationIndex.includes('id="publication-reset"')) {
+  fail('publications/index.html', 'discovery controls missing');
+}
+const noLinks = await fs.readFile(path.join(root, 'publications/village-administration-services-information-system/index.html'), 'utf8');
+if (noLinks.includes('>Publication Links</h2>')) fail('village-administration-services-information-system', 'empty publication links rendered');
 const robots = await fs.readFile(path.join(root, 'robots.txt'), 'utf8');
 if (production ? !robots.includes('Sitemap:') : !robots.includes(`Disallow: ${base}`)) fail('robots.txt', 'unexpected robots policy');
 if (failures.length) {

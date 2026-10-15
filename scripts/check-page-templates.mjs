@@ -5,7 +5,6 @@ const overviews = [
   'src/pages/research.astro',
   'src/pages/projects.astro',
   'src/pages/publications.astro',
-  'src/pages/portfolio/index.astro',
   'src/pages/blog.astro',
   'src/pages/cv.astro',
   'src/pages/contact.astro',
@@ -14,7 +13,6 @@ const overviews = [
 const details = [
   'src/pages/[slug].astro',
   'src/pages/publications/[slug].astro',
-  'src/pages/portfolio/pilketos/index.astro',
 ];
 const errors = [];
 const check = (condition, message) => { if (!condition) errors.push(message); };
