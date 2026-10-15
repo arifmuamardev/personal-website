@@ -51,15 +51,14 @@ features; back them up instead of assuming full parity.
    This is a repository administration action not exposed through the
    connected GitHub file/PR tools. Do not put `www` or
    `/personal-website` in that field.
-3. In GitHub repository **Settings → Secrets and variables → Actions →
-   Variables**, set `PERSONAL_SITE_MODE` = `production`.
-   Do this together with the coordinated DNS cutover, as it changes the
-   deployment from `/personal-website/` with `noindex` to the apex
-   with `index, follow`. Trigger workflow
-   [Validate and deploy personal website](../../.github/workflows/deploy.yml)
-   via Actions → Run workflow on `main`.
-   **Wait for a successful production build**, including the
-   `test:links` and `test:quality` gates, before changing the DNS.
+3. **Production release PR (15 October 2026):**
+   `.github/workflows/deploy.yml` now sets `PUBLIC_SITE_MODE=production`
+   automatically for `push` runs on `main`, while pull-request builds
+   remain in safe `preview` mode. This removes the need to change a
+   repository Actions variable. **Wait until the main production run has
+   successfully built and deployed the root-based, indexable artifact**
+   before switching the live DNS. To roll back deployment mode, revert
+   the release workflow commit in a new PR and redeploy `main`.
 4. Ensure GitHub Pages custom domain shows `arifmuamar.com`.
    GitHub's HTTPS certificate may not become available until DNS is
    pointed to GitHub Pages. Do not force DNS cutover if deployment fails.
@@ -131,18 +130,20 @@ website records:
 - Restore **one** apex A `202.10.43.46` with Cloudflare proxy **on**.
 - Restore `www` CNAME `arifmuamar.com`, DNS-only.
 - Leave all email and subdomain records unchanged.
-- Restore GitHub repository variable `PERSONAL_SITE_MODE` = `preview`,
-  redeploy `main`, and remove/customize GitHub Pages domain setting as
-  appropriate only after domain is back on WordPress.
+- Revert the production activation in
+  `.github/workflows/deploy.yml` so `main` uses `PUBLIC_SITE_MODE=preview`,
+  redeploy `main`, and remove the custom domain from Pages as appropriate
+  after domain is back on WordPress. No repository variable is required.
 - Verify WordPress response, HTTPS and redirects. Because DNS propagation
   is not instantaneous, rollback may take time to take effect globally.
 
 ## Limitations and guardrails
 
 - The connected Cloudflare tool can read/write DNS; the connected
-  GitHub plugin handles repository files, branches, CI and PRs, but
-  **does not expose repository Settings → Pages or Actions variables**.
-  The owner must complete those two administrative settings.
+  GitHub plugin handles repository files, branches, CI and PRs but
+  **does not expose repository Settings → Pages**. The owner has confirmed
+  saving the custom domain. Production mode is activated by a versioned
+  workflow release rather than an Actions repository variable.
 - No live DNS was modified when writing this checklist.
 - No full WordPress/database backup was accessible through these tools.
   Owner confirmation is required before traffic moves away from WordPress.
