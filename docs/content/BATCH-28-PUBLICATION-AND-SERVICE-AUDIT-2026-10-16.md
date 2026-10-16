@@ -11,6 +11,10 @@
 3. Additional authoritative publisher pages were checked for the cases below. All have links to their source; this is **not** a claim that other untouched records were individually authenticated against their publishers.
 4. Journal-editorial, peer-review, and journal-contact listings were checked against **current** official pages; older roles are qualified rather than presumed to continue unchanged.
 
+## Automated traceability results
+
+The green pull-request audit reports **43 records**, **10 without a recorded DOI**, **18 without a direct publisher-page URL** (some have DOI links), and **9 without either field**. Those nine include books/chapters with ISBNs, older conference items, and journal/community-engagement articles. These counts describe fields in the site's repository, **not** DOI resolution or independent publisher authentication. The complete named list is in the CI audit output and can be regenerated with `npm run audit:publications -- --ledger`.
+
 ## Publisher-verified decisions in this batch
 
 | Record | Decision | Source |
