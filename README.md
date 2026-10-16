@@ -19,6 +19,7 @@ npm run check
 npm run build
 npm run test:links
 npm run test:quality
+npm run audit:publications
 ```
 
 `npm run test:links` and `npm run test:quality` require a built `dist/` directory. For a local production check, run `PUBLIC_SITE_MODE=production npm run build` before the tests. CI additionally verifies the bibliography formatter, theme behavior, academic-profile privacy, page templates and the design labs.
@@ -49,6 +50,10 @@ Research projects and publications retain their own existing routes. The former 
 ## Software showcase paused
 
 At the owner's request on 16 October 2026, the public Pilketos route and the empty software portfolio index were removed from deployment, navigation, and public design labs. The source and previous case-study work remain recoverable in Git history, not in generated public pages. Software-related professional experience can still be described in the biography; do not restore Pilketos publicly without a new request.
+
+## Bibliographic source audit
+
+Run `npm run audit:publications` to check structural provenance across **all** published records, or `npm run audit:publications -- --ledger` to print the complete per-record DOI/publisher-link inventory. The audit runs in CI and deliberately makes **no online publisher requests**; a valid DOI-shaped string or recorded URL is not itself proof of authoritative bibliographic accuracy. The dated record-by-record follow-ups are in `docs/content/BATCH-28-PUBLICATION-AND-SERVICE-AUDIT-2026-10-16.md`. Publication detail pages disclose verified issue-year versus first-online-date exceptions.
 
 ## Outstanding post-launch verification
 
