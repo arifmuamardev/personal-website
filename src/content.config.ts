@@ -50,6 +50,7 @@ const publications = defineCollection({
     code: optionalUrl,
     dataset: optionalUrl,
     abstract: optionalText,
+    publicationDateNote: optionalText,
     featured: z.boolean().default(false),
     featuredOrder: z.coerce.number().int().positive().optional(),
     researchArea: optionalText,
