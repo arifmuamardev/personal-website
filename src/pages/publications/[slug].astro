@@ -60,6 +60,9 @@ const publicationSchema = {
         <h2 id="ieee-heading">Recommended IEEE-style citation</h2>
         <PublicationReference publication={data} includeTitle={true} />
         <p class="citation-note">Only available bibliographic fields are shown. Missing volume, issue, page or article number details are not inferred from the title or DOI.</p>
+        {data.publicationDateNote && (
+          <p class="publication-date-note"><strong>Publication date clarification:</strong> {data.publicationDateNote}</p>
+        )}
       </section>
 
       {data.abstract && (
@@ -119,6 +122,8 @@ const publicationSchema = {
   .publication-header h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.15; }
   .authors { font-size: .88rem; color: var(--text-muted); margin: 1rem 0 .35rem; line-height: 1.7; }
   .citation-note {font-size:.79rem;color:var(--text-muted);line-height:1.65;margin-top:.65rem;}
+  .publication-date-note { font-size:.82rem; line-height:1.65; color:var(--text-secondary); border-top:1px solid var(--border-color); padding-top:.7rem; margin-top:1rem; }
+  .publication-date-note strong { color:var(--text-primary); }
   .ieee-citation-section {padding:1rem 1.2rem;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;}
   .venue { font-style: italic; color: var(--text-muted); margin-bottom: 0; }
   .detail-section { margin: 2.5rem 0; }
