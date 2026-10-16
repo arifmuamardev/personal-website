@@ -157,6 +157,23 @@ for (const retired of ['portfolio/index.html', 'portfolio/pilketos/index.html'])
 for (const file of (await walk(root)).filter(f => f.endsWith('.html'))) {
   if (/pilketos/i.test(await fs.readFile(file, 'utf8'))) fail(path.relative(root, file), 'retired project name found in public HTML');
 }
+// Clarify publisher issue year versus online release date on source-backed detail pages.
+for (const [slug, expected] of [
+  ['optimizing-higher-education-performance-through-data-integration-using-the-zachm', '11 January 2025'],
+  ['peningkatan-kapasitas-digital-berkelanjutan-pada-pac-gp-ansor-kroya', '28 January 2025'],
+]) {
+  const html = await fs.readFile(path.join(root, 'publications', slug, 'index.html'), 'utf8');
+  if (!html.includes('Publication date clarification') || !html.includes(expected)) {
+    fail('publications/'+slug, 'publisher date/issue conflict note missing');
+  }
+}
+const serviceHtml = await fs.readFile(path.join(root, 'academic-service/index.html'), 'utf8');
+for (const source of ['tiers/about/editorialTeam', 'jpti/reviewers', 'ijaim/contact']) {
+  if (!serviceHtml.includes(source)) fail('academic-service/index.html', 'missing official role listing: '+source);
+}
+if (!serviceHtml.includes('historical') || !serviceHtml.includes('Support Contact')) {
+  fail('academic-service/index.html', 'journal role status disagreement not disclosed');
+}
 const publicationIndex = await fs.readFile(path.join(root, 'publications/index.html'), 'utf8');
 if (!publicationIndex.includes('id="publication-search"') || !publicationIndex.includes('id="publication-year"') || !publicationIndex.includes('id="publication-reset"')) {
   fail('publications/index.html', 'discovery controls missing');

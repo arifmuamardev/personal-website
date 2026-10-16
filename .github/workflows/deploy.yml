@@ -37,6 +37,8 @@ jobs:
         run: node scripts/check-public-cv.mjs
       - name: Verify IEEE-style bibliography formatting and metadata completeness
         run: node --experimental-strip-types scripts/check-ieee-bibliography.mjs
+      - name: Check complete publication collection provenance and date exceptions
+        run: npm run audit:publications
       - name: Validate researcher design comparison lab
         run: node scripts/check-researcher-design-lab.mjs
       # Combined CV and public PDF are paused; no PDF should be generated.

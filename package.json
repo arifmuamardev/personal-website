@@ -13,7 +13,8 @@
     "test:links": "node scripts/check-links.mjs",
     "test:quality": "node scripts/check-site-quality.mjs",
     "astro": "astro",
-    "check:source": "node scripts/audit-source.mjs"
+    "check:source": "node scripts/audit-source.mjs",
+    "audit:publications": "node --experimental-strip-types scripts/audit-publication-provenance.mjs"
   },
   "dependencies": {
     "astro": "^6.4.7",

@@ -31,7 +31,12 @@ const serviceGroups = [
             <section aria-label={group.heading}>
               <h2>{group.heading}</h2>
               <ul class="profile-records">
-                {entries.map(item => <li><h3>{item.title}</h3><p>{item.organization} · {item.period}</p></li>)}
+                {entries.map(item => <li>
+                  <h3>{item.title}</h3>
+                  <p>{item.organization} · {item.period}</p>
+                  {'sourceNote' in item && item.sourceNote && <p class="service-source-note">{item.sourceNote}</p>}
+                  {'sourceUrl' in item && item.sourceUrl && <p class="service-source-link"><a href={item.sourceUrl} target="_blank" rel="noopener noreferrer">Official listing ↗</a></p>}
+                </li>)}
               </ul>
             </section>
           );
@@ -61,3 +66,9 @@ const serviceGroups = [
     </div>
   </section>
 </Layout>
+
+<style>
+  .academic-profile-content .service-source-note { font-size:.78rem; line-height:1.55; color:var(--text-secondary); margin:.35rem 0 .15rem; max-width:70ch; }
+  .academic-profile-content .service-source-link { font-size:.78rem; margin:.3rem 0 0; }
+  .service-source-link a { color:var(--accent-color); text-decoration:underline; text-underline-offset:3px; }
+</style>
