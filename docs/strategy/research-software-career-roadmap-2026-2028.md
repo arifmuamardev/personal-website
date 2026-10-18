@@ -4,6 +4,8 @@
 > **Last updated:** 18 October 2026  
 > **Scope:** Public-safe summary of ideas. No private compensation, confidential collaborator, or institutional agreement details.
 
+For project-level portfolio priorities and the small customer-discovery experiment, see [Software Portfolio Evidence and Specialization Experiments](software-portfolio-evidence-plan-2026.md).
+
 ## Executive decision
 
 Develop two complementary but distinct professional tracks:
