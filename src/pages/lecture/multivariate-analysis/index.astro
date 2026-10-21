@@ -24,12 +24,13 @@ const course = lectureCourse;
                 <h3><a href={localPath('/lecture/' + course.slug + '/' + lesson.slug + '/')}>{lesson.title}</a></h3>
                 <p>{lesson.summary}</p>
                 <small>{lesson.slideCount} slides in the original lecture · Web notes available</small>
+                {lesson.slidesPdf && <p class="lecture-document-links"><a href={localPath(lesson.slidesPdf)} target="_blank" rel="noopener noreferrer">View PDF ↗</a> <span aria-hidden="true">·</span> <a href={localPath(lesson.slidesPdf)} download>Download PDF ↓</a></p>}
               </div>
             </li>
           ))}
         </ul>
         <div class="lecture-source-note" lang="id">
-          <p>Catatan web ini diringkas dari materi perkuliahan asli untuk memudahkan belajar mandiri. Berkas presentasi PDF akan ditautkan setelah tersedia pada situs.</p>
+          <p>Catatan web ini diringkas dari materi perkuliahan asli untuk memudahkan belajar mandiri. Slide PDF asli tersedia untuk dibaca atau diunduh pada setiap pertemuan.</p>
         </div>
       </div>
     </div>
