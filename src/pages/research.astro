@@ -5,268 +5,160 @@ import { localPath } from '../lib/urls';
 import { profile } from '../data/profile';
 import { getCollection } from 'astro:content';
 
-const researchProjects = await getCollection('projects');
+const projects = await getCollection('projects');
 const publications = await getCollection('publications');
 const publicationById = new Map(publications.map(publication => [publication.id, publication]));
 const focusProjectIds = ['plant-bioelectrical-potential-edge-sensing', 'plant-bioelectric-transformer-classifier'];
-const focusProjects = researchProjects
-  .filter(project => focusProjectIds.includes(project.id))
-  .sort((a, b) => focusProjectIds.indexOf(a.id) - focusProjectIds.indexOf(b.id));
+const focusProjects = focusProjectIds
+  .map(id => projects.find(project => project.id === id))
+  .filter((project): project is (typeof projects)[number] => Boolean(project));
+const completedProjects = projects
+  .filter(project => project.data.status === 'Completed')
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
 
-<Layout title="Research" description="Current doctoral research and supporting research themes of Arif Mu'amar Wahid, centered on plant bioelectric signals and machine learning.">
-  <section class="section academic-index">
+<Layout title="Research" description="Current doctoral research by Arif Mu'amar Wahid on plant bioelectric potentials, signal acquisition, time-series learning and reproducible evaluation, with linked published work.">
+  <section class="section academic-index research-page">
     <div class="container">
-      <PageIntro title="Research Activities">
-        <p slot="description">Investigating plant bioelectric measurements, signal processing, and machine-learning methods, with selected applied AI research.</p>
+      <PageIntro title="Research">
+        <p slot="description">Plant bioelectric potentials, signal analysis, and reliable machine learning—alongside earlier applied-AI collaborations.</p>
       </PageIntro>
-      <p class="research-jump"><a href={localPath('/projects/')}>Explore research projects &rarr;</a> <span aria-hidden="true">·</span> <a href={localPath('/publications/')}>Browse publications &rarr;</a></p>
 
-      <div class="research-layout">
-        <!-- Main Research Areas -->
-        <div class="research-section">
-          <h2>Doctoral research focus</h2>
-          <div class="research-theme card primary-highlight">
-            <span class="theme-label badge">Current doctoral research</span>
-            <h3>Plant bioelectric potentials (BEP)</h3>
-            <p>
-              {profile.researchFocus} Plant electrical responses can vary with environmental conditions and measurement setups; my current work examines how to acquire and analyze these time series reliably.
-            </p>
-            <p>
-              This involves:
-            </p>
-            <ul class="styled-list">
-              <li><strong>Noise and Drift Management:</strong> Evaluating preprocessing, filtering, and baseline-drift handling for slow, low-voltage biological signals.</li>
-              <li><strong>Multivariate Representation:</strong> Exploring multi-site and environmental context data as possible extensions; these approaches are not presented as completed multi-plant results.</li>
-              <li><strong>Time-Series Classification:</strong> Evaluating machine-learning and deep-learning approaches, including Transformer-based models, for noisy biological time-series data.</li>
+      <nav class="research-navigation" aria-label="Research page sections">
+        <a href="#doctoral-focus">Doctoral focus</a>
+        <a href="#research-outputs">Projects &amp; outputs</a>
+        <a href="#previous-studies">Earlier studies</a>
+        <a href={localPath('/publications/')}>All publications ↗</a>
+      </nav>
+
+      <div class="research-content">
+        <section id="doctoral-focus" class="research-block" aria-labelledby="doctoral-focus-heading">
+          <p class="research-kicker">Current work · Kanazawa University</p>
+          <h2 id="doctoral-focus-heading">Doctoral research focus</h2>
+          <p class="research-lead">{profile.researchFocus}</p>
+          <p>My research examines how plant electrical recordings can be acquired, processed, and evaluated consistently. Biological signals are affected by electrode placement, experimental conditions, baseline drift, and noise; these issues shape what machine-learning results can reliably tell us.</p>
+
+          <ol class="research-steps" aria-label="Research workflow">
+            <li>
+              <span class="step-number" aria-hidden="true">01</span>
+              <div><h3>Measurement &amp; acquisition</h3><p>Examine recording configurations, electrodes, reference placement, and experimental context.</p></div>
+            </li>
+            <li>
+              <span class="step-number" aria-hidden="true">02</span>
+              <div><h3>Preprocessing &amp; representation</h3><p>Study drift and noise management, signal preparation, and representations for biological time series.</p></div>
+            </li>
+            <li>
+              <span class="step-number" aria-hidden="true">03</span>
+              <div><h3>Learning &amp; evaluation</h3><p>Investigate sequence models, transfer learning, and reproducible validation without overstating generalization.</p></div>
+            </li>
+          </ol>
+          <p class="scope-note"><strong>Research scope:</strong> Multisite sensing, environmental context, and edge applications are directions under investigation—not claims of a completed multi-plant deployment or validated real-world system.</p>
+        </section>
+
+        <section id="research-outputs" class="research-block" aria-labelledby="research-outputs-heading">
+          <div class="research-block-heading">
+            <h2 id="research-outputs-heading">Projects &amp; published evidence</h2>
+            <a href={localPath('/projects/')}>All projects →</a>
+          </div>
+          <p>These ongoing research projects connect questions and methods to their associated publications. A paper link identifies a documented research output; it does not imply that every proposed system component has been built.</p>
+          <div class="research-projects">
+            {focusProjects.map(project => {
+              const outputs = project.data.publications
+                .map(id => publicationById.get(id))
+                .filter((publication): publication is (typeof publications)[number] => Boolean(publication))
+                .sort((a, b) => b.data.year - a.data.year);
+              return (
+                <article class="research-project" aria-labelledby={'research-project-' + project.id}>
+                  <p class="research-project-meta">{project.data.status} · {project.data.institution}</p>
+                  <h3 id={'research-project-' + project.id}>
+                    <a href={localPath('/projects/#' + project.id)}>{project.data.title} →</a>
+                  </h3>
+                  {project.data.question && <p><strong>Research question:</strong> {project.data.question}</p>}
+                  {project.data.approach && <p><strong>Approach:</strong> {project.data.approach}</p>}
+                  {outputs.length > 0 && (
+                    <div class="research-outputs">
+                      <h4>Associated publications</h4>
+                      <ul>
+                        {outputs.map(pub => (
+                          <li>
+                            <a href={localPath('/publications/' + pub.id + '/')}>{pub.data.title}</a>
+                            <span class="output-metadata">{pub.data.year} · {pub.data.status}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        {completedProjects.length > 0 && (
+          <section id="previous-studies" class="research-block" aria-labelledby="previous-studies-heading">
+            <h2 id="previous-studies-heading">Earlier &amp; collaborative studies</h2>
+            <p>My wider research has also involved applied machine learning in other domains. These are distinct from my current doctoral focus.</p>
+            <ul class="previous-projects">
+              {completedProjects.map(project => (
+                <li>
+                  <h3><a href={localPath('/projects/#' + project.id)}>{project.data.title} →</a></h3>
+                  <p>{project.data.summary}</p>
+                </li>
+              ))}
             </ul>
-          </div>
-
-          <section class="focus-evidence" aria-labelledby="focus-evidence-heading">
-            <h2 id="focus-evidence-heading">Research projects and published work</h2>
-            <p class="research-evidence-intro">The research questions and approaches below come from the curated project records. Linked papers identify publications associated with each project; they do not imply that every proposed sensing component has been deployed or validated.</p>
-            <div class="focus-project-list">
-              {focusProjects.map(project => {
-                const outputs = project.data.publications
-                  .map(id => publicationById.get(id))
-                  .filter(Boolean)
-                  .sort((a,b) => (b?.data.year ?? 0) - (a?.data.year ?? 0));
-                return (
-                  <article class="focus-project" aria-labelledby={`focus-${project.id}`}>
-                    <p class="focus-project-status">Active research · {project.data.institution}</p>
-                    <h3 id={`focus-${project.id}`}><a href={localPath(`/projects/#${project.id}`)}>{project.data.title} ↗</a></h3>
-                    {project.data.question && <p><strong>Question:</strong> {project.data.question}</p>}
-                    {project.data.approach && <p><strong>Approach:</strong> {project.data.approach}</p>}
-                    {outputs.length > 0 && (
-                      <div class="focus-outputs">
-                        <h4>Related publications</h4>
-                        <ul>
-                          {outputs.map(pub => pub && (
-                            <li><a href={localPath(`/publications/${pub.id}/`)}>{pub.data.title}</a> <span>({pub.data.year}, {pub.data.status})</span></li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </article>
-                );
-              })}
-            </div>
-            <p class="research-funding-cta"><a href={localPath('/projects/')}>View all research projects →</a></p>
           </section>
+        )}
 
-          <h2>Core Research Themes</h2>
-          
-          <div class="research-theme card">
-            <div class="theme-icon" aria-hidden="true">🌱</div>
-            <h3>Plant Bioelectric Signals</h3>
-            <p>
-              Investigating acquisition and preprocessing choices for plant electrical potential measurements, with edge sensing as a possible application rather than a deployed system.
-            </p>
-          </div>
-
-          <div class="research-theme card">
-            <div class="theme-icon" aria-hidden="true">📈</div>
-            <h3>Biological Time-Series Machine Learning</h3>
-            <p>
-              Evaluating sequence models and validation strategies for biological recordings, which may exhibit noise, baseline drift, non-stationarity and variation across experiments.
-            </p>
-          </div>
-
-          <div class="research-theme card">
-            <div class="theme-icon" aria-hidden="true">⛅</div>
-            <h3>Multisensor Environmental Monitoring</h3>
-            <p>
-              Exploring how environmental sensor context might complement plant bioelectric measurements in future analyses.
-            </p>
-          </div>
-
-          <div class="research-theme card">
-            <div class="theme-icon" aria-hidden="true">🧠</div>
-            <h3>Applied Artificial Intelligence</h3>
-            <p>
-              Past and collaborative work includes microscopy-image classification, education analytics, and landslide susceptibility modeling. See published outputs for specific methods and evidence.
-            </p>
-          </div>
-
-          <p class="research-funding-cta">For earlier appointments and funded-project participation, see <a href={localPath('/experience/')}>Academic &amp; Professional Experience →</a>.</p>
-        </div>
-
+        <p class="research-next">For a complete bibliography, see <a href={localPath('/publications/')}>Publications</a>. For appointments and earlier funded-project participation, see <a href={localPath('/experience/')}>Experience</a>. <a href={localPath('/contact/')}>Get in touch →</a></p>
       </div>
     </div>
   </section>
 </Layout>
 
 <style>
-  .focus-evidence { margin-top: 2.1rem; }
-  .research-evidence-intro { max-width: 70ch; font-size: .93rem !important; line-height: 1.75; }
-  .focus-project-list { border-top: 1px solid var(--border-color); }
-  .focus-project { padding: 1.3rem 0; border-bottom: 1px solid var(--border-color); }
-  .focus-project-status { color: var(--text-muted); font-size: .74rem !important; font-weight: 650; text-transform: uppercase; letter-spacing: .045em; margin: 0 0 .5rem !important; }
-  .focus-project h3 { font-family: var(--font-sans); font-size: 1.07rem; margin-bottom: .65rem; line-height: 1.5; }
-  .focus-project h3 a { color: var(--text-primary); text-decoration: underline; text-decoration-color: var(--border-color); text-underline-offset: 3px; }
-  .focus-project h3 a:hover { color: var(--accent-color); text-decoration-color: var(--accent-color); }
-  .focus-project p { font-size: .88rem !important; line-height: 1.7; margin-bottom: .5rem !important; }
-  .focus-outputs { margin: .85rem 0 0; }
-  .focus-outputs h4 { font-size: .8rem; color: var(--text-muted); margin-bottom: .35rem; }
-  .focus-outputs ul { padding-left: 1.1rem; }
-  .focus-outputs li { color: var(--text-secondary); line-height: 1.6; font-size: .86rem; margin: .35rem 0; }
-  .focus-outputs a { text-decoration: underline; text-underline-offset: 3px; }
-  .focus-outputs span { font-size: .76rem; color: var(--text-muted); }
-  .research-jump { display:flex; justify-content:center; gap:1rem; flex-wrap:wrap; margin:-2.3rem auto 2.5rem; font-weight:600; }
-
-.lead-text {
-    font-size: 1.15rem;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 3.5rem auto;
-    color: var(--text-secondary);
-  }
-  
-  .research-funding-intro {font-size:.95rem;line-height:1.75;color:var(--text-secondary);}
-  .research-funding {border-top:1px solid var(--border-color);}
-  .funded-entry {padding:.9rem 0;border-bottom:1px solid var(--border-color);}
-  .funded-entry h3 {font-family:var(--font-sans);font-size:1rem;margin:0 0 .3rem;line-height:1.5;}
-  .funded-entry p {font-size:.86rem;margin:0;color:var(--text-muted);}
-  .research-funding-cta {font-size:.9rem;margin:1rem 0 0;}
-  .research-layout {
-    display: block;
-    max-width: 960px;
-  }
-  
-  .research-section h2 {
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.5rem;
-  }
-  
-  .primary-highlight {
-    border-left: 4px solid var(--accent-color);
-    background: var(--accent-light);
-  }
-  
-  .theme-label {
-    background-color: var(--accent-color);
-    color: var(--accent-foreground);
-    margin-bottom: 1rem;
-  }
-  
-  .research-theme {
-    margin-bottom: 1.5rem;
-  }
-  
-  .research-theme h3 {
-    font-size: 1.35rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .research-theme p {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    color: var(--text-secondary);
-  }
-  
-  .theme-icon {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .research-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .sidebar-block h3 {
-    font-size: 1.15rem;
-    margin-bottom: 1.25rem;
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
-  }
-  
-  .status-group {
-    margin-bottom: 1.5rem;
-    padding-left: 1.25rem;
-    position: relative;
-  }
-  
-  .status-indicator {
-    position: absolute;
-    left: 0;
-    top: 6px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-  
-  .status-indicator.active {
-    background-color: hsl(145, 80%, 40%);
-    box-shadow: 0 0 8px hsl(145, 80%, 40%);
-  }
-  
-  .status-indicator.supporting {
-    background-color: var(--accent-color);
-  }
-  
-  .status-indicator.past {
-    background-color: var(--text-muted);
-  }
-  
-  .status-group h4 {
-    font-size: 0.95rem;
-    margin-bottom: 0.25rem;
-  }
-  
-  .status-group p {
-    font-size: 0.85rem;
-    margin-bottom: 0;
-    color: var(--text-secondary);
-  }
-  
-  .styled-list {
-    list-style: none;
-  }
-  
-  .styled-list li {
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-secondary);
-    position: relative;
-    padding-left: 1.25rem;
-  }
-  
-  .styled-list li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--accent-color);
-    font-weight: bold;
-  }
-  
-  @media (max-width: 768px) {
-    .research-layout {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
+  .research-navigation { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: .7rem 1.35rem; margin: -2.1rem 0 2.7rem; font-size: .85rem; font-weight: 600; }
+  .research-navigation a { text-decoration: underline; text-decoration-color: var(--border-color); text-underline-offset: 4px; }
+  .research-navigation a:hover { color: var(--accent-color); text-decoration-color: currentColor; }
+  .research-content { max-width: 860px; margin: 0 auto; }
+  .research-block { padding: 0 0 2.7rem; margin-bottom: 2.8rem; border-bottom: 1px solid var(--border-color); scroll-margin-top: 6rem; }
+  .research-block h2 { font-size: clamp(1.3rem, 2.4vw, 1.85rem); line-height: 1.3; margin: 0 0 1rem; }
+  .research-block > p { max-width: 74ch; line-height: 1.75; color: var(--text-secondary); font-size: .96rem; }
+  .research-kicker { text-transform: uppercase; font-size: .74rem !important; font-weight: 700; letter-spacing: .07em; color: var(--accent-color) !important; margin-bottom: .65rem; }
+  .research-lead { color: var(--text-primary) !important; font-size: 1.08rem !important; font-weight: 550; }
+  .research-steps { list-style: none; padding: 0; margin: 1.5rem 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; }
+  .research-steps li { border-top: 2px solid var(--border-color); padding: 1rem .25rem 0 0; }
+  .step-number { color: var(--accent-color); font-size: .75rem; font-weight: 700; }
+  .research-steps h3 { font-family: var(--font-sans); font-size: .96rem; line-height: 1.45; margin: .35rem 0 .35rem; }
+  .research-steps p { color: var(--text-secondary); font-size: .85rem; line-height: 1.65; margin: 0; }
+  .scope-note { padding: .9rem 1rem; border-left: 3px solid var(--accent-color); background: var(--accent-light); font-size: .87rem !important; }
+  .research-block-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .6rem 1.5rem; }
+  .research-block-heading a { font-size: .86rem; font-weight: 600; }
+  .research-project { padding: 1.35rem 0; border-bottom: 1px solid var(--border-color); }
+  .research-project:last-child { border-bottom: 0; }
+  .research-project-meta { text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); font-size: .74rem !important; font-weight: 650; margin: 0 0 .5rem !important; }
+  .research-project h3, .previous-projects h3 { font-family: var(--font-sans); font-size: 1.06rem; line-height: 1.45; margin: 0 0 .8rem; }
+  .research-project h3 a, .previous-projects h3 a { text-decoration: underline; text-decoration-color: var(--border-color); text-underline-offset: 4px; }
+  .research-project h3 a:hover, .previous-projects h3 a:hover { color: var(--accent-color); text-decoration-color: currentColor; }
+  .research-project > p { font-size: .91rem; line-height: 1.7; margin: 0 0 .55rem; color: var(--text-secondary); }
+  .research-project > p strong { color: var(--text-primary); }
+  .research-outputs { margin-top: 1rem; }
+  .research-outputs h4 { font-size: .8rem; color: var(--text-muted); margin: 0 0 .5rem; }
+  .research-outputs ul { padding-left: 1.2rem; margin: 0; }
+  .research-outputs li { margin: .5rem 0; line-height: 1.6; font-size: .87rem; }
+  .research-outputs li a { text-decoration: underline; text-underline-offset: 3px; }
+  .output-metadata { display: block; color: var(--text-muted); font-size: .77rem; margin-top: .08rem; }
+  .previous-projects { list-style: none; padding: 0; margin: 1rem 0 0; }
+  .previous-projects li { padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
+  .previous-projects li:last-child { border-bottom: 0; }
+  .previous-projects h3 { margin-bottom: .4rem; }
+  .previous-projects p { color: var(--text-secondary); font-size: .89rem; line-height: 1.65; margin: 0; }
+  .research-next { font-size: .9rem; line-height: 1.75; color: var(--text-secondary); margin: -.5rem 0 2rem; }
+  .research-next a { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 700px) {
+    .research-navigation { justify-content: flex-start; margin-top: -1.25rem; margin-bottom: 2rem; gap: .75rem 1.15rem; }
+    .research-steps { grid-template-columns: 1fr; gap: .65rem; }
+    .research-steps li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .45rem; padding-top: .75rem; }
+    .research-steps h3 { margin-top: 0; }
+    .research-block { margin-bottom: 2rem; padding-bottom: 2rem; }
   }
 </style>
