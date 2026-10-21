@@ -1,0 +1,33 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import { lectureCourses } from '../../data/lecture-courses';
+import { localPath } from '../../lib/urls';
+import '../../styles/lecture.css';
+---
+<Layout title="Lecture Notes" description="Public course notes and learning materials by Arif Mu'amar Wahid, including Multivariate Analysis and PLS-SEM.">
+  <section class="section academic-index">
+    <div class="container">
+      <PageIntro title="Lecture Notes">
+        <p slot="description">Course materials and concise reading notes from my teaching activities. Lessons are organized by course and meeting.</p>
+      </PageIntro>
+      <div class="lecture-main">
+        <p class="lecture-muted">These resources are intended for study and review. They are separate from my <a href={localPath('/research/')}>research publications</a> and <a href={localPath('/teaching/')}>academic teaching profile</a>.</p>
+        <h2>Courses</h2>
+        <ul class="lecture-index">
+          {lectureCourses.map(course => (
+            <li>
+              <span class="lecture-number" aria-hidden="true"><span aria-hidden="true">↗</span></span>
+              <div>
+                <h3><a href={localPath('/lecture/' + course.slug + '/')}>{course.title}</a></h3>
+                <p>{course.description}</p>
+                <small>{course.program} · {course.institution} · {course.lessons.length} available meetings · {course.language}</small>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p class="lecture-muted">New materials will be added as additional lessons become ready for public sharing.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
