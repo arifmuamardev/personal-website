@@ -1,0 +1,82 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { lectureCourse, type LectureLesson } from '../../../data/lecture-courses';
+import { localPath } from '../../../lib/urls';
+import '../../../styles/lecture.css';
+
+export function getStaticPaths() {
+  return lectureCourse.lessons.map(lesson => ({
+    params: { lesson: lesson.slug },
+    props: { lesson },
+  }));
+}
+interface Props { lesson: LectureLesson }
+const { lesson } = Astro.props;
+const course = lectureCourse;
+const currentIndex = course.lessons.findIndex(item => item.slug === lesson.slug);
+const previous = currentIndex > 0 ? course.lessons[currentIndex - 1] : undefined;
+const next = currentIndex + 1 < course.lessons.length ? course.lessons[currentIndex + 1] : undefined;
+const lessonPath = (value: string) => localPath('/lecture/' + course.slug + '/' + value + '/');
+---
+<Layout title={'Meeting ' + lesson.number + ' — ' + course.title} description={lesson.summary}>
+  <section class="section academic-index">
+    <div class="container">
+      <div class="lecture-main">
+        <nav class="lecture-back" aria-label="Lecture breadcrumbs">
+          <a href={localPath('/lecture/')}>Lecture Notes</a> /
+          <a href={localPath('/lecture/' + course.slug + '/')}>{course.title}</a> /
+          <span aria-current="page">Meeting {lesson.number}</span>
+        </nav>
+        <article lang="id">
+          <p class="lecture-kicker">Multivariate Analysis · Pertemuan {lesson.number}</p>
+          <h1>{lesson.title}</h1>
+          <p class="lecture-lesson-meta">{course.program} · {course.institution} · {lesson.slideCount} slide pada presentasi asli</p>
+          <div class="lecture-intro"><p>{lesson.summary}</p></div>
+          <section class="lecture-panel" aria-labelledby="lesson-objectives">
+            <h2 id="lesson-objectives">Capaian pembelajaran</h2>
+            <ul>{lesson.objectives.map(objective => <li>{objective}</li>)}</ul>
+          </section>
+          <nav class="lecture-toc" aria-label="Daftar bagian materi">
+            {lesson.sections.map((section, index) => (
+              <a href={'#section-' + (index + 1)}>{index + 1}. {section.title}</a>
+            ))}
+          </nav>
+          <div class="lecture-notes">
+            {lesson.sections.map((section, index) => (
+              <section id={'section-' + (index + 1)} aria-labelledby={'section-heading-' + (index + 1)}>
+                <p class="lecture-kicker">{section.slideRange}</p>
+                <h2 id={'section-heading-' + (index + 1)}>{index + 1}. {section.title}</h2>
+                {section.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+                <h3>Pokok pembahasan</h3>
+                <ul>{section.points.map(point => <li>{point}</li>)}</ul>
+              </section>
+            ))}
+          </div>
+          <section class="lecture-panel" aria-labelledby="lesson-review">
+            <h2 id="lesson-review">Pertanyaan untuk refleksi</h2>
+            <ol>{lesson.reviewQuestions.map(question => <li>{question}</li>)}</ol>
+          </section>
+          <section class="lecture-panel" aria-labelledby="lesson-reading">
+            <h2 id="lesson-reading">Bacaan dan sumber</h2>
+            <ul>
+              {lesson.reading.map(reading => (
+                <li>{reading.url ? <a href={reading.url} target="_blank" rel="noopener noreferrer">{reading.label} ↗</a> : reading.label}</li>
+              ))}
+            </ul>
+          </section>
+          {lesson.slidesPdf && (
+            <div class="lecture-panel">
+              <a class="lecture-link" href={localPath(lesson.slidesPdf)} download>Unduh slide PDF (pertemuan {lesson.number}) ↓</a>
+            </div>
+          )}
+        </article>
+        <footer class="lecture-lesson-footer">
+          <nav class="lecture-pager" aria-label="Navigasi antarpertemuan">
+            {previous ? <a href={lessonPath(previous.slug)}>← Pertemuan {previous.number}</a> : <a href={localPath('/lecture/' + course.slug + '/')}>← Seluruh pertemuan</a>}
+            {next && <a href={lessonPath(next.slug)}>Pertemuan {next.number} →</a>}
+          </nav>
+        </footer>
+      </div>
+    </div>
+  </section>
+</Layout>
