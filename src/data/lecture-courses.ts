@@ -44,6 +44,7 @@ export const lectureCourses: LectureCourse[] = [{
       title: 'Pengantar Structural Equation Modeling (SEM) dan PLS-SEM',
       summary: 'Dari fenomena AI dalam e-commerce menuju pemahaman konstruk, indikator, model pengukuran, dan model struktural.',
       slideCount: 43,
+      slidesPdf: '/lecture/multivariate-analysis/MVA_Pertemuan_01.pdf',
       objectives: [
         'Menjelaskan perbedaan analisis univariat, bivariat, multivariat, SEM, dan PLS-SEM.',
         'Membedakan konstruk dan indikator serta fungsi model pengukuran dan model struktural.',
@@ -119,6 +120,7 @@ export const lectureCourses: LectureCourse[] = [{
       title: 'Konstruk, Indikator, Hipotesis, dan Model Konseptual',
       summary: 'Menurunkan model penelitian dari research gap, teori, operasionalisasi konstruk, dan argumen hipotesis.',
       slideCount: 46,
+      slidesPdf: '/lecture/multivariate-analysis/MVA_Pertemuan_02.pdf',
       objectives: [
         'Memperjelas masalah penelitian, pertanyaan riset, dan research gap.',
         'Membedakan konstruk laten, dimensi, indikator, dan item pertanyaan.',
