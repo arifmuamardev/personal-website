@@ -32,6 +32,12 @@ const lessonPath = (value: string) => localPath('/lecture/' + course.slug + '/' 
           <h1>{lesson.title}</h1>
           <p class="lecture-lesson-meta">{course.program} · {course.institution} · {lesson.slideCount} slide pada presentasi asli</p>
           <div class="lecture-intro"><p>{lesson.summary}</p></div>
+          {lesson.slidesPdf && (
+            <div class="lecture-document-links lecture-materials" aria-label="Slide presentasi asli">
+              <a href={localPath(lesson.slidesPdf)} target="_blank" rel="noopener noreferrer">Lihat slide PDF ↗</a>
+              <a href={localPath(lesson.slidesPdf)} download>Unduh slide PDF ↓</a>
+            </div>
+          )}
           <section class="lecture-panel" aria-labelledby="lesson-objectives">
             <h2 id="lesson-objectives">Capaian pembelajaran</h2>
             <ul>{lesson.objectives.map(objective => <li>{objective}</li>)}</ul>
@@ -64,11 +70,6 @@ const lessonPath = (value: string) => localPath('/lecture/' + course.slug + '/' 
               ))}
             </ul>
           </section>
-          {lesson.slidesPdf && (
-            <div class="lecture-panel">
-              <a class="lecture-link" href={localPath(lesson.slidesPdf)} download>Unduh slide PDF (pertemuan {lesson.number}) ↓</a>
-            </div>
-          )}
         </article>
         <footer class="lecture-lesson-footer">
           <nav class="lecture-pager" aria-label="Navigasi antarpertemuan">
