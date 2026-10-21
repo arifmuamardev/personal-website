@@ -1,5 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 
 const root = path.resolve('dist');
 const production = process.env.PUBLIC_SITE_MODE === 'production';
@@ -263,6 +264,31 @@ if (!researchHtml.includes('Doctoral research focus') || researchHtml.includes('
 }
 if (!mainHome.includes('Academic background') || !mainHome.includes('Selected publications')) {
   fail('index.html', 'homepage editorial hierarchy missing');
+}
+// Verify that both original slide PDFs are copied unchanged into GitHub Pages output,
+// and that the lesson/course pages expose their download links.
+for (const [meeting, name, expectedSha256] of [
+  ['01', 'MVA_Pertemuan_01.pdf', '798d07f4aa3b6ca41dab38adadc569146a33b3a25f4b6c5f4763c9dc3132938e'],
+  ['02', 'MVA_Pertemuan_02.pdf', '863c2a37cda864d011d20e98de72fa551a3c113fcb30cc078c898bebd1e76f16'],
+]) {
+  const relativePdf = 'lecture/multivariate-analysis/' + name;
+  const expectedLink = base + relativePdf;
+  try {
+    const bytes = await fs.readFile(path.join(root, relativePdf));
+    const actualSha256 = createHash('sha256').update(bytes).digest('hex');
+    if (actualSha256 !== expectedSha256) fail(relativePdf, 'original lecture PDF checksum mismatch');
+    if (!bytes.subarray(0, 5).equals(Buffer.from('%PDF-'))) fail(relativePdf, 'missing PDF signature');
+  } catch {
+    fail(relativePdf, 'original lecture PDF absent from generated site');
+  }
+  for (const page of ['lecture/multivariate-analysis/index.html', 'lecture/multivariate-analysis/' + meeting + '/index.html']) {
+    try {
+      const html = await fs.readFile(path.join(root, page), 'utf8');
+      if (!html.includes(expectedLink)) fail(page, 'missing lecture PDF link: ' + name);
+    } catch {
+      fail(page, 'missing lecture index or lesson HTML');
+    }
+  }
 }
 const robots = await fs.readFile(path.join(root, 'robots.txt'), 'utf8');
 if (production ? !robots.includes('Sitemap:') : !robots.includes(`Disallow: ${base}`)) fail('robots.txt', 'unexpected robots policy');
