@@ -1,0 +1,37 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PageIntro from '../../../components/PageIntro.astro';
+import { lectureCourse } from '../../../data/lecture-courses';
+import { localPath } from '../../../lib/urls';
+import '../../../styles/lecture.css';
+const course = lectureCourse;
+---
+<Layout title={course.title + ' — Lecture Notes'} description={course.description}>
+  <section class="section academic-index">
+    <div class="container">
+      <PageIntro title={course.title} eyebrow="Lecture notes">
+        <p slot="description">{course.description}</p>
+      </PageIntro>
+      <div class="lecture-main">
+        <p class="lecture-back"><a href={localPath('/lecture/')}>← All lecture notes</a></p>
+        <p class="lecture-muted">{course.program} · {course.institution} · {course.language}</p>
+        <h2>Lecture materials</h2>
+        <ul class="lecture-index" lang="id">
+          {course.lessons.map(lesson => (
+            <li>
+              <span class="lecture-number">{lesson.number}</span>
+              <div>
+                <h3><a href={localPath('/lecture/' + course.slug + '/' + lesson.slug + '/')}>{lesson.title}</a></h3>
+                <p>{lesson.summary}</p>
+                <small>{lesson.slideCount} slides in the original lecture · Web notes available</small>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div class="lecture-source-note" lang="id">
+          <p>Catatan web ini diringkas dari materi perkuliahan asli untuk memudahkan belajar mandiri. Berkas presentasi PDF akan ditautkan setelah tersedia pada situs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
