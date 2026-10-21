@@ -55,7 +55,7 @@ const about = readFileSync('src/pages/about.astro', 'utf8');
 for (const [name, source] of [['homepage', homepage], ['about', about]]) {
   check(source.includes("localPath('/images/arif-profile.webp')"), name + ' not showing optimized owner-provided portrait');
   check(source.includes('profile-photo'), name + ' missing shared circular portrait class');
-  check(/alt="Profile portrait supplied for this personal website"/.test(source), name + ' lacks appropriate portrait alt text');
+  check(/alt="Portrait of Arif Mu[’\u0027]amar Wahid"/.test(source), name + ' lacks a descriptive person-specific portrait alt text');
 }
 const photo = 'public/images/arif-profile.webp';
 check(existsSync(photo), 'optimized profile image missing');

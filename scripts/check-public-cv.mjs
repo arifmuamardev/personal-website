@@ -46,7 +46,7 @@ check(about.includes('AcademicProfileNav'), 'About must link to the section dire
 check(!research.includes('publicCv.fundedResearch') && research.includes("localPath('/experience/')"), 'Funded research must be presented once on Experience, not repeated on Research');
 check(home.includes('MEXT Scholarship recipient'), 'Home missing brief recognition');
 check(data.includes("sourceAsOf: '2026-08-14'"), 'Source snapshot date missing');
-check(profile.includes('researchFocus:') && home.includes('profile.researchFocus') && about.includes('profile.researchFocus') && research.includes('profile.researchFocus'), 'Current research focus must be shared rather than manually inconsistent');
+check(profile.includes('researchFocus:') && profile.includes('researchSummary:') && (home.includes('profile.researchFocus') || home.includes('profile.researchSummary')) && about.includes('profile.researchFocus') && research.includes('profile.researchFocus'), 'Current research focus must be shared rather than manually inconsistent');
 check(profile.includes("school: 'Graduate School of Natural Science and Technology'") && profile.includes("division: 'Division of Electrical, Information and Communication Engineering'"), 'Canonical doctoral program identification missing');
 check(pages.get('education').includes('researchLabel') && pages.get('education').includes('research'), 'Education should separate thesis/research topic from qualification');
 check(!/(GPA|4[.]00|3[.]44)/i.test(profile), 'Academic grades must not appear in public profile data');
