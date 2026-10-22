@@ -127,6 +127,7 @@ const isAcademicPage = academicRoutes.some(route => Astro.url.pathname.startsWit
             <li><a href={localPath('/about/')} class={isAcademicPage ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/about/')) ? 'page' : undefined}>About</a></li>
             <li><a href={localPath('/research/')} class={(Astro.url.pathname.startsWith(localPath('/research/')) || Astro.url.pathname.startsWith(localPath('/projects/'))) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/research/')) ? 'page' : undefined}>Research</a></li>
             <li><a href={localPath('/publications/')} class={Astro.url.pathname.startsWith(localPath('/publications/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/publications/')) ? 'page' : undefined}>Publications</a></li>
+            <li><a href={localPath('/lecture/')} class={Astro.url.pathname.startsWith(localPath('/lecture/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/lecture/')) ? 'page' : undefined}>Lecture Notes</a></li>
             <li><a href={localPath('/blog/')} class={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/blog/')) ? 'page' : undefined}>Writing</a></li>
             <li><a href={localPath('/contact/')} class={Astro.url.pathname.startsWith(localPath('/contact/')) ? 'active' : ''} aria-current={Astro.url.pathname.startsWith(localPath('/contact/')) ? 'page' : undefined}>Contact</a></li>
           </ul>
